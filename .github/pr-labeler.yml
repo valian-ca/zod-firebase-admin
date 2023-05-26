@@ -1,0 +1,10 @@
+bug:
+  - bugfix/*
+  - fix/*
+chore: chore/*
+documentation:
+  - documentation/*
+  - docs/*
+  - doc/*
+feature: feature/*
+release: release/*
