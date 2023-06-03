@@ -21,7 +21,7 @@
   "main": "./lib/cjs/index.js",
   "module": "./lib/esm/index.js",
   "license": "MIT",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "scripts": {
     "prettier": "prettier --check .",
     "eslint": "eslint --ext .ts,.tsx .",
