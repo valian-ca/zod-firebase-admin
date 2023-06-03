@@ -1,11 +1,7 @@
 {
   "extends": "@tsconfig/node18/tsconfig.json",
   "compilerOptions": {
-    "rootDir": "src",
-    "outDir": "lib"
+    "noEmit": true
   },
-  "include": [
-    "src/**/*.ts"
-  ],
-  "exclude": []
+  "include": ["src", "example"]
 }

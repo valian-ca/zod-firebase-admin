@@ -5,9 +5,8 @@ junit.xml
 permissions-backup.acl
 /dist/changelog.md
 /dist/version.txt
-/.mergify.yml
 /test/
-/tsconfig.dev.json
+/tsconfig.types.json
 /src/
 !/lib/
 !/lib/**/*.js
@@ -20,3 +19,5 @@ dist
 /.projenrc.js
 tsconfig.tsbuildinfo
 /.eslintrc.json
+/.editorconfig
+/.eslintignore
