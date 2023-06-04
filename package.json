@@ -22,7 +22,7 @@
   "module": "./lib/esm/index.js",
   "types": "./lib/esm/index.d.ts",
   "license": "MIT",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "scripts": {
     "prettier": "prettier --check .",
     "eslint": "eslint --ext .ts,.tsx .",
@@ -70,7 +70,9 @@
     "zod": "^3.21.4"
   },
   "keywords": [
-    "zod", "firebase", "firebase-admin"
+    "zod",
+    "firebase",
+    "firebase-admin"
   ],
   "engines": {
     "node": ">= 18.0.0"
