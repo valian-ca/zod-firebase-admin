@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.0.6](https://github.com/valian-ca/zod-firebase-admin/compare/v0.0.5...v0.0.6) (2023-06-05)
+
+
+### Features
+
+* provide default collectionsBuilder options ([#21](https://github.com/valian-ca/zod-firebase-admin/issues/21)) ([e24c0fa](https://github.com/valian-ca/zod-firebase-admin/commit/e24c0fa7cbde2128920bba26a323009bae5be200))
+
 ## [0.0.5](https://github.com/valian-ca/zod-firebase-admin/compare/v0.0.4...v0.0.5) (2023-06-05)
 
 
