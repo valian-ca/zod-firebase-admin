@@ -49,3 +49,12 @@ jobs:
         run: npm ci
       - name: type-check
         run: npm test
+
+  markdown:
+    name: Markdown lint
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: DavidAnson/markdownlint-cli2-action@v10
+        with:
+          globs: '**/*.md'
