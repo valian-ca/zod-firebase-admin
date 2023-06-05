@@ -8,9 +8,9 @@ tsconfig.tsbuildinfo
 /.github/
 /.vscode/
 /.idea/
-/.commitlint.config.js
+/commitlint.config.cjs
 /.editorconfig
-/.eslintrc.js
+/.eslintrc.cjs
 /.eslintignore
 /.prettierrc.json
 /.prettierignore

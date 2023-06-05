@@ -49,11 +49,11 @@ branches:
       required_status_checks:
         strict: true
         contexts:
-          - lint
-          - type-check
-          - test
-          - markdown
-          - validate
+          - eslint & prettier
+          - type check
+          - tests
+          - markdown lint
+          - commitlint
       enforce_admins: true
       required_linear_history: true
       required_signatures: true
