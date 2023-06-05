@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.0.5](https://github.com/valian-ca/zod-firebase-admin/compare/v0.0.4...v0.0.5) (2023-06-05)
+
+
+### Miscellaneous Chores
+
+* release 0.0.5 ([#19](https://github.com/valian-ca/zod-firebase-admin/issues/19)) ([c660961](https://github.com/valian-ca/zod-firebase-admin/commit/c6609618c7cd5edb22953e695c84dae69e3377d6))
+
 ## [0.0.4](https://github.com/valian-ca/zod-firebase-admin/compare/v0.0.3...v0.0.4) (2023-06-05)
 
 

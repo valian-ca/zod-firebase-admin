@@ -32,7 +32,7 @@
   "module": "./lib/esm/index.js",
   "types": "./lib/esm/index.d.ts",
   "license": "MIT",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "scripts": {
     "prettier": "prettier --check .",
     "eslint": "eslint --ext .ts,.tsx .",
