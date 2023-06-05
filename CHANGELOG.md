@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.0.4](https://github.com/valian-ca/zod-firebase-admin/compare/v0.0.3...v0.0.4) (2023-06-05)
+
+
+### Bug Fixes
+
+* npm pulish ([#16](https://github.com/valian-ca/zod-firebase-admin/issues/16)) ([fdc9486](https://github.com/valian-ca/zod-firebase-admin/commit/fdc948615561d8521e68e302d990b8447bcd9f13))
+
 ## [0.0.3](https://github.com/valian-ca/zod-firebase-admin/compare/v0.0.2...v0.0.3) (2023-06-05)
 
 
