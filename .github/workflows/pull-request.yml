@@ -4,12 +4,11 @@ on:
 
 jobs:
   lint:
+    name: eslint & prettier
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-      - name: Setup Node.js
-        uses: actions/setup-node@v3
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
         with:
           node-version-file: '.nvmrc'
           cache: 'npm'
@@ -21,12 +20,11 @@ jobs:
         run: npm run prettier
 
   type-check:
+    name: type check
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-      - name: Setup Node.js
-        uses: actions/setup-node@v3
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
         with:
           node-version-file: '.nvmrc'
           cache: 'npm'
@@ -35,13 +33,12 @@ jobs:
       - name: type-check
         run: npm run type-check
 
-  test:
+  tests:
+    name: tests
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-      - name: Setup Node.js
-        uses: actions/setup-node@v3
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
         with:
           node-version-file: '.nvmrc'
           cache: 'npm'
@@ -51,7 +48,7 @@ jobs:
         run: npm test
 
   markdown:
-    name: Markdown lint
+    name: markdown lint
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
