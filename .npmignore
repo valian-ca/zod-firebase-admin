@@ -8,6 +8,7 @@ tsconfig.tsbuildinfo
 /.github/
 /.vscode/
 /.idea/
+/.commitlint.config.js
 /.editorconfig
 /.eslintrc.js
 /.eslintignore
