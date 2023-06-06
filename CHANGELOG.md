@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.0.7](https://github.com/valian-ca/zod-firebase-admin/compare/v0.0.6...v0.0.7) (2023-06-06)
+
+
+### Bug Fixes
+
+* use rollup for compile ([#23](https://github.com/valian-ca/zod-firebase-admin/issues/23)) ([ce2d005](https://github.com/valian-ca/zod-firebase-admin/commit/ce2d005b9d6b12dd27742542b541a55450b93959))
+
 ## [0.0.6](https://github.com/valian-ca/zod-firebase-admin/compare/v0.0.5...v0.0.6) (2023-06-05)
 
 
