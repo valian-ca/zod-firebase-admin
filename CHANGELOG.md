@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.0.8](https://github.com/valian-ca/zod-firebase-admin/compare/v0.0.7...v0.0.8) (2023-06-06)
+
+
+### Bug Fixes
+
+* collection name javacript collision ([#27](https://github.com/valian-ca/zod-firebase-admin/issues/27)) ([2eeb1fc](https://github.com/valian-ca/zod-firebase-admin/commit/2eeb1fc2c5543ff8a0894e7a68e28becd9749d7e))
+
 ## [0.0.7](https://github.com/valian-ca/zod-firebase-admin/compare/v0.0.6...v0.0.7) (2023-06-06)
 
 
