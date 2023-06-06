@@ -5,7 +5,7 @@ import { multiDocumentCollectionFactory } from './multi-document-collection-fact
 import type { CollectionPath, DocumentOutput, ZodTypeDocumentData } from '../base'
 
 export type SingleDocumentCollectionFactory<TCollectionName extends string, Z extends ZodTypeDocumentData> = {
-  readonly name: TCollectionName
+  readonly collectionName: TCollectionName
   readonly collectionPath: CollectionPath
   readonly singleDocumentKey: string
 
@@ -25,20 +25,20 @@ export type SingleDocumentCollectionFactory<TCollectionName extends string, Z ex
 }
 
 export const singleDocumentCollectionFactory = <TCollectionName extends string, Z extends ZodTypeDocumentData>(
-  name: TCollectionName,
+  collectionName: TCollectionName,
   zod: Z,
   singleDocumentKey: string,
   options: FactoryOptions,
   parentPath?: [string, string]
 ): SingleDocumentCollectionFactory<TCollectionName, Z> => {
   const { collectionPath, read, write, findById, findByIdOrThrow } = multiDocumentCollectionFactory(
-    name,
+    collectionName,
     zod,
     options,
     parentPath
   )
   return {
-    name,
+    collectionName,
     collectionPath,
     singleDocumentKey,
     read: {

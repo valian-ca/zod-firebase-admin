@@ -23,14 +23,14 @@ export const collectionFactory = <
   Z extends ZodTypeDocumentData = ZodTypeDocumentData,
   TCollectionSchema extends CollectionSchema<Z> = CollectionSchema<Z>
 >(
-  name: TCollectionName,
+  collectionName: TCollectionName,
   { zod, singleDocumentKey }: TCollectionSchema,
   options: FactoryOptions,
   parentPath?: [string, string]
 ) =>
   (singleDocumentKey
-    ? singleDocumentCollectionFactory(name, zod, singleDocumentKey, options, parentPath)
-    : multiDocumentCollectionFactory(name, zod, options, parentPath)) as CollectionFactory<
+    ? singleDocumentCollectionFactory(collectionName, zod, singleDocumentKey, options, parentPath)
+    : multiDocumentCollectionFactory(collectionName, zod, options, parentPath)) as CollectionFactory<
     TCollectionName,
     Z,
     TCollectionSchema
