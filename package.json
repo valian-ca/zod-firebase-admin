@@ -27,7 +27,7 @@
   "module": "./lib/index.mjs",
   "types": "./lib/index.d.ts",
   "license": "MIT",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "scripts": {
     "prettier": "prettier --check .",
     "eslint": "eslint --ext .ts,.tsx .",
