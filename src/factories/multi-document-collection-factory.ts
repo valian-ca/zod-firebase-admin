@@ -14,7 +14,7 @@ import {
 } from '../base'
 
 export type MultiDocumentCollectionFactory<TCollectionName extends string, Z extends ZodTypeDocumentData> = {
-  readonly name: TCollectionName
+  readonly collectionName: TCollectionName
   readonly collectionPath: CollectionPath
 
   readonly read: {
@@ -41,19 +41,19 @@ export type MultiDocumentCollectionFactory<TCollectionName extends string, Z ext
 }
 
 export const multiDocumentCollectionFactory = <TCollectionName extends string, Z extends ZodTypeDocumentData>(
-  name: TCollectionName,
+  collectionName: TCollectionName,
   zod: Z,
   { getFirestore }: FactoryOptions,
   parentPath?: [string, string]
 ): MultiDocumentCollectionFactory<TCollectionName, Z> => {
-  const collectionPath: CollectionPath = parentPath ? [...parentPath, name] : [name]
+  const collectionPath: CollectionPath = parentPath ? [...parentPath, collectionName] : [collectionName]
   return {
-    name,
+    collectionName,
     collectionPath,
     read: {
       collection: () => firestoreZodCollection(collectionPath, zod, getFirestore()),
       doc: (id: string) => firestoreZodDocument(collectionPath, id, zod, getFirestore()),
-      collectionGroup: () => firestoreZodCollectionGroup(name, zod, getFirestore()),
+      collectionGroup: () => firestoreZodCollectionGroup(collectionName, zod, getFirestore()),
     },
     write: {
       collection: () => firestoreCollection(collectionPath, getFirestore()),

@@ -48,19 +48,19 @@ export const collectionWithSubCollectionsFactory = <
   Z extends ZodTypeDocumentData = ZodTypeDocumentData,
   TCollectionSchema extends CollectionSchema<Z> = CollectionSchema<Z>
 >(
-  name: TCollectionName,
+  collectionName: TCollectionName,
   collectionSchema: TCollectionSchema,
   options: FactoryOptions
 ): CollectionWithSubCollectionsFactory<TCollectionName, Z, TCollectionSchema> => {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const { zod, singleDocumentKey, ...subCollectionsSchema } = collectionSchema
-  const factory = collectionFactory(name, collectionSchema, options)
+  const factory = collectionFactory(collectionName, collectionSchema, options)
 
   if (Object.keys(subCollectionsSchema).length === 0) {
     return factory as CollectionWithSubCollectionsFactory<TCollectionName, Z, TCollectionSchema>
   }
-  return {
-    ...factory,
-    ...subCollectionAccessor(subCollectionsSchema as SubCollectionsSchema<TCollectionSchema>, options, name),
-  }
+  return Object.assign(
+    subCollectionAccessor(subCollectionsSchema as SubCollectionsSchema<TCollectionSchema>, options, collectionName),
+    factory
+  )
 }
