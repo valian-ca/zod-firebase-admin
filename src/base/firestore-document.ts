@@ -2,7 +2,7 @@ import { type DocumentData, type DocumentReference, getFirestore } from 'firebas
 import type { CollectionPath } from './firestore-collection-path'
 import { firestoreDocumentPath } from './firestore-document-path'
 import { firestoreZodDataConverter } from './firestore-zod-data-converter'
-import type { ZodTypeDocumentData } from './types'
+import type { ZodTypeDocumentData, DocumentOutput } from './types'
 
 export const firestoreDocument = <T extends DocumentData>(
   collectionPath: CollectionPath,
@@ -10,9 +10,10 @@ export const firestoreDocument = <T extends DocumentData>(
   firestore = getFirestore()
 ) => firestore.doc(firestoreDocumentPath(collectionPath, documentId)) as DocumentReference<T>
 
-export const firestoreZodDocument = <Z extends ZodTypeDocumentData>(
+export const firestoreZodDocument = <Z extends ZodTypeDocumentData = ZodTypeDocumentData>(
   collectionPath: CollectionPath,
   documentId: string,
   zod: Z,
   firestore = getFirestore()
-) => firestore.doc(firestoreDocumentPath(collectionPath, documentId)).withConverter(firestoreZodDataConverter(zod))
+): DocumentReference<DocumentOutput<Z>> =>
+  firestore.doc(firestoreDocumentPath(collectionPath, documentId)).withConverter(firestoreZodDataConverter(zod))
