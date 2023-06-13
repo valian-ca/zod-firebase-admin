@@ -2,7 +2,7 @@ import { getFirestore, type DocumentData, type CollectionReference } from 'fireb
 import { type CollectionPath, firestoreCollectionPath } from './firestore-collection-path'
 import { firestoreZodDataConverter } from './firestore-zod-data-converter'
 
-import { ZodTypeDocumentData } from './types'
+import type { ZodTypeDocumentData } from './types'
 
 export const firestoreCollection = <T extends DocumentData>(
   collectionPath: CollectionPath,

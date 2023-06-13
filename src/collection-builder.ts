@@ -1,5 +1,6 @@
 import { getFirestore as defaultGetFirestore } from 'firebase-admin/firestore'
-import { Collections, collectionWithSubCollectionsFactory, FactoryOptions, Schema } from './factories'
+import type { Collections, FactoryOptions, Schema } from './factories'
+import { collectionWithSubCollectionsFactory } from './factories'
 
 export const collectionsBuilder = <TSchema extends Schema>(
   schema: TSchema,
