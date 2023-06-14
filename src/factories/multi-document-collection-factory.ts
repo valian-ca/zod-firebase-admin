@@ -12,6 +12,7 @@ import {
   firestoreZodDocument,
   type ZodTypeDocumentData,
 } from '../base'
+import { firestoreZodCollectionGroupQuery, firestoreZodCollectionQuery, type QueryHelper, queryHelper } from '../query'
 
 export type MultiDocumentCollectionFactory<TCollectionName extends string, Z extends ZodTypeDocumentData> = {
   readonly collectionName: TCollectionName
@@ -28,17 +29,11 @@ export type MultiDocumentCollectionFactory<TCollectionName extends string, Z ext
     doc(id: string): DocumentReference<z.input<Z>>
   }
 
+  readonly group: QueryHelper<DocumentOutput<Z>>
+
   findById(this: void, id: string): Promise<DocumentOutput<Z> | undefined>
   findByIdOrThrow(this: void, id: string): Promise<DocumentOutput<Z>>
-  //
-  // query(): Promise<QuerySnapshot<DocumentOutput<Z>>>
-  //
-  // findMany(): Promise<Array<DocumentOutput<Z>>>
-  // findUnique(): Promise<DocumentOutput<Z> | null>
-  // findUniqueOrThrow(): Promise<DocumentOutput<Z>>
-  // findFirst(): Promise<DocumentOutput<Z> | null>
-  // findFirstOrThrow(): Promise<DocumentOutput<Z>>
-}
+} & QueryHelper<DocumentOutput<Z>>
 
 export const multiDocumentCollectionFactory = <TCollectionName extends string, Z extends ZodTypeDocumentData>(
   collectionName: TCollectionName,
@@ -52,18 +47,21 @@ export const multiDocumentCollectionFactory = <TCollectionName extends string, Z
     collectionPath,
     read: {
       collection: () => firestoreZodCollection(collectionPath, zod, getFirestore()),
-      doc: (id: string) => firestoreZodDocument(collectionPath, id, zod, getFirestore()),
+      doc: (id) => firestoreZodDocument(collectionPath, id, zod, getFirestore()),
       collectionGroup: () => firestoreZodCollectionGroup(collectionName, zod, getFirestore()),
     },
     write: {
       collection: () => firestoreCollection(collectionPath, getFirestore()),
-      doc: (id: string) => firestoreDocument(collectionPath, id, getFirestore()),
+      doc: (id) => firestoreDocument(collectionPath, id, getFirestore()),
     },
-    findById: async (id: string) => {
+    group: {
+      ...queryHelper((query) => firestoreZodCollectionGroupQuery(collectionName, zod, query, getFirestore())),
+    },
+    findById: async (id) => {
       const doc = await firestoreZodDocument(collectionPath, id, zod, getFirestore()).get()
       return doc.data()
     },
-    findByIdOrThrow: async (id: string) => {
+    findByIdOrThrow: async (id) => {
       const doc = await firestoreZodDocument(collectionPath, id, zod, getFirestore()).get()
       if (!doc.exists) {
         throw new Error(`Document ${id} not found in collection ${firestoreCollectionPath(collectionPath)}`)
@@ -71,5 +69,6 @@ export const multiDocumentCollectionFactory = <TCollectionName extends string, Z
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       return doc.data()!
     },
+    ...queryHelper((query) => firestoreZodCollectionQuery(collectionPath, zod, query, getFirestore())),
   }
 }

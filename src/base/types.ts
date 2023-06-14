@@ -1,7 +1,12 @@
-import type { CollectionReference, DocumentData, DocumentReference } from 'firebase-admin/firestore'
+import type {
+  CollectionReference,
+  DocumentData,
+  DocumentReference,
+  CollectionGroup,
+  QuerySnapshot,
+  DocumentSnapshot,
+} from 'firebase-admin/firestore'
 import type { z } from 'zod'
-import { firestore } from 'firebase-admin'
-import DocumentSnapshot = firestore.DocumentSnapshot
 
 export type ZodTypeDocumentData<
   Output extends DocumentData = DocumentData,
@@ -22,3 +27,7 @@ export type ZodDocumentSnapshot<Z extends ZodTypeDocumentData = ZodTypeDocumentD
 export type ZodCollectionReference<Z extends ZodTypeDocumentData = ZodTypeDocumentData> = CollectionReference<
   DocumentOutput<Z>
 >
+
+export type ZodCollectionGroup<Z extends ZodTypeDocumentData = ZodTypeDocumentData> = CollectionGroup<DocumentOutput<Z>>
+
+export type ZodQuerySnapshot<Z extends ZodTypeDocumentData = ZodTypeDocumentData> = QuerySnapshot<DocumentOutput<Z>>
