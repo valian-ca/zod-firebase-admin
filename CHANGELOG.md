@@ -1,5 +1,17 @@
 # Changelog
 
+## [0.0.9](https://github.com/valian-ca/zod-firebase-admin/compare/v0.0.8...v0.0.9) (2023-06-15)
+
+
+### Features
+
+* firebase queries ([#34](https://github.com/valian-ca/zod-firebase-admin/issues/34)) ([3d24f7d](https://github.com/valian-ca/zod-firebase-admin/commit/3d24f7dd95f4a841c4adf18319a1249985f6941a))
+
+
+### Bug Fixes
+
+* add tests ([#30](https://github.com/valian-ca/zod-firebase-admin/issues/30)) ([a82ad94](https://github.com/valian-ca/zod-firebase-admin/commit/a82ad94fd57bbf87de793a4d10edd3f181f30b25))
+
 ## [0.0.8](https://github.com/valian-ca/zod-firebase-admin/compare/v0.0.7...v0.0.8) (2023-06-06)
 
 
