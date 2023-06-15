@@ -10,4 +10,8 @@ module.exports = {
     project: ['./tsconfig.json'],
     tsconfigRootDir: __dirname,
   },
+
+  rules: {
+    'import/no-duplicates': ['error', { 'prefer-inline': true }],
+  },
 }

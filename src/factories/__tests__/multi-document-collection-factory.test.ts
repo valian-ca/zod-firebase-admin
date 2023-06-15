@@ -2,7 +2,13 @@ import { getFirestore } from 'firebase-admin/firestore'
 import { z } from 'zod'
 import { mock } from 'jest-mock-extended'
 import { multiDocumentCollectionFactory } from '../multi-document-collection-factory'
-import type { ZodDocumentReference, ZodDocumentSnapshot } from '../../base'
+import type {
+  ZodCollectionGroup,
+  ZodCollectionReference,
+  ZodDocumentReference,
+  ZodDocumentSnapshot,
+  ZodQuerySnapshot,
+} from '../../base'
 import {
   firestoreCollection,
   firestoreDocument,
@@ -95,6 +101,19 @@ describe('multiDocumentCollectionFactory', () => {
         expect(firestoreDocument).toHaveBeenCalledWith(['root', 'parent', 'foo'], 'id', getFirestore())
       })
     })
+
+    describe('group', () => {
+      it('should invoke firestoreZodCollectionGroup', async () => {
+        const collectionGroup = mock<ZodCollectionGroup>()
+        const snapshot = mock<ZodQuerySnapshot>({ empty: true })
+        collectionGroup.get.mockResolvedValue(snapshot)
+        jest.mocked(firestoreZodCollectionGroup).mockReturnValue(collectionGroup)
+
+        await subCollection.group.query({ name: 'test' })
+
+        expect(firestoreZodCollectionGroup).toHaveBeenCalledWith('foo', TestDocumentZod, getFirestore())
+      })
+    })
   })
 
   describe('findById', () => {
@@ -136,6 +155,19 @@ describe('multiDocumentCollectionFactory', () => {
       jest.mocked(firestoreZodDocument).mockReturnValue(documentRef)
 
       await expect(collection.findByIdOrThrow('id')).resolves.toEqual({ _id: 'id', name: 'bar' })
+    })
+  })
+
+  describe('query', () => {
+    it('should invoke firestoreZodCollection', async () => {
+      const collectionRef = mock<ZodCollectionReference>()
+      const snapshot = mock<ZodQuerySnapshot>({ empty: true })
+      collectionRef.get.mockResolvedValue(snapshot)
+      jest.mocked(firestoreZodCollection).mockReturnValue(collectionRef)
+
+      await collection.query({ name: 'test' })
+
+      expect(firestoreZodCollection).toHaveBeenCalledWith(['foo'], TestDocumentZod, getFirestore())
     })
   })
 })

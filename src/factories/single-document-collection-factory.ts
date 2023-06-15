@@ -3,6 +3,7 @@ import type { z } from 'zod'
 import type { FactoryOptions } from './factory-options'
 import { multiDocumentCollectionFactory } from './multi-document-collection-factory'
 import type { CollectionPath, DocumentOutput, ZodTypeDocumentData } from '../base'
+import type { QueryHelper } from '../query'
 
 export type SingleDocumentCollectionFactory<TCollectionName extends string, Z extends ZodTypeDocumentData> = {
   readonly collectionName: TCollectionName
@@ -20,6 +21,8 @@ export type SingleDocumentCollectionFactory<TCollectionName extends string, Z ex
     doc(): DocumentReference<z.input<Z>>
   }
 
+  readonly group: QueryHelper<DocumentOutput<Z>>
+
   find(this: void): Promise<DocumentOutput<Z> | undefined>
   findOrThrow(this: void): Promise<DocumentOutput<Z>>
 }
@@ -31,7 +34,7 @@ export const singleDocumentCollectionFactory = <TCollectionName extends string, 
   options: FactoryOptions,
   parentPath?: [string, string]
 ): SingleDocumentCollectionFactory<TCollectionName, Z> => {
-  const { collectionPath, read, write, findById, findByIdOrThrow } = multiDocumentCollectionFactory(
+  const { collectionPath, read, write, group, findById, findByIdOrThrow } = multiDocumentCollectionFactory(
     collectionName,
     zod,
     options,
@@ -49,6 +52,7 @@ export const singleDocumentCollectionFactory = <TCollectionName extends string, 
       ...write,
       doc: () => write.doc(singleDocumentKey),
     },
+    group,
     find: () => findById(singleDocumentKey),
     findOrThrow: () => findByIdOrThrow(singleDocumentKey),
   }
