@@ -2,13 +2,7 @@ import { getFirestore } from 'firebase-admin/firestore'
 import { z } from 'zod'
 import { mock } from 'jest-mock-extended'
 import { multiDocumentCollectionFactory } from '../multi-document-collection-factory'
-import type {
-  ZodCollectionGroup,
-  ZodCollectionReference,
-  ZodDocumentReference,
-  ZodDocumentSnapshot,
-  ZodQuerySnapshot,
-} from '../../base'
+import type { ZodCollectionReference, ZodDocumentReference, ZodDocumentSnapshot, ZodQuerySnapshot } from '../../base'
 import {
   firestoreCollection,
   firestoreDocument,
@@ -99,19 +93,6 @@ describe('multiDocumentCollectionFactory', () => {
         subCollection.write.doc('id')
 
         expect(firestoreDocument).toHaveBeenCalledWith(['root', 'parent', 'foo'], 'id', getFirestore())
-      })
-    })
-
-    describe('group', () => {
-      it('should invoke firestoreZodCollectionGroup', async () => {
-        const collectionGroup = mock<ZodCollectionGroup>()
-        const snapshot = mock<ZodQuerySnapshot>({ empty: true })
-        collectionGroup.get.mockResolvedValue(snapshot)
-        jest.mocked(firestoreZodCollectionGroup).mockReturnValue(collectionGroup)
-
-        await subCollection.group.query({ name: 'test' })
-
-        expect(firestoreZodCollectionGroup).toHaveBeenCalledWith('foo', TestDocumentZod, getFirestore())
       })
     })
   })

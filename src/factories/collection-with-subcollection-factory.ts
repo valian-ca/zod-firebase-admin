@@ -1,47 +1,9 @@
-import { collectionFactory, type CollectionFactory } from './collection-factory'
 import type { FactoryOptions } from './factory-options'
-import type { CollectionSchema, Schema } from './types'
+import type { Collection, CollectionSchema, SubCollectionsSchema } from './types'
 import type { ZodTypeDocumentData } from '../base'
-
-export type CollectionWithSubCollectionsFactory<
-  TCollectionName extends string,
-  Z extends ZodTypeDocumentData,
-  TCollectionSchema extends CollectionSchema<Z> = CollectionSchema<Z>
-> = CollectionFactory<TCollectionName, Z, TCollectionSchema> &
-  (Omit<TCollectionSchema, 'zod' | 'singleDocumentKey'> extends Schema
-    ? SubCollectionAccessor<Omit<TCollectionSchema, 'zod' | 'singleDocumentKey'>>
-    : object)
-
-export type Collections<TSchema extends Schema> = {
-  [CollectionName in keyof TSchema]: CollectionName extends string
-    ? TSchema[CollectionName] extends CollectionSchema<infer Z>
-      ? CollectionWithSubCollectionsFactory<CollectionName, Z, TSchema[CollectionName]>
-      : never
-    : never
-}
-
-type SubCollectionAccessor<TSubCollectionsSchema extends Schema> = (
-  documentId: string
-) => Collections<TSubCollectionsSchema>
-
-const subCollectionAccessor =
-  <TSubCollectionsSchema extends Schema>(
-    schema: TSubCollectionsSchema,
-    options: FactoryOptions,
-    parent: string
-  ): SubCollectionAccessor<TSubCollectionsSchema> =>
-  (documentId: string) =>
-    Object.entries(schema).reduce(
-      (acc, [collectionName, collectionSchema]) => ({
-        ...acc,
-        [collectionName]: collectionFactory<string>(collectionName, collectionSchema, options, [parent, documentId]),
-      }),
-      {} as Collections<TSubCollectionsSchema>
-    )
-
-type SubCollectionsSchema<TSchema> = Omit<TSchema, 'zod' | 'singleDocumentKey'> extends Schema
-  ? Omit<TSchema, 'zod' | 'singleDocumentKey'>
-  : never
+import { collectionFactory } from './collection-factory'
+import { subCollectionsAccessorFactory } from './sub-collections-accessor-factory'
+import { subCollectionsFactory } from './sub-collections-factory'
 
 export const collectionWithSubCollectionsFactory = <
   TCollectionName extends string,
@@ -51,16 +13,22 @@ export const collectionWithSubCollectionsFactory = <
   collectionName: TCollectionName,
   collectionSchema: TCollectionSchema,
   options: FactoryOptions
-): CollectionWithSubCollectionsFactory<TCollectionName, Z, TCollectionSchema> => {
+): Collection<TCollectionName, Z, TCollectionSchema> => {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const { zod, singleDocumentKey, ...subCollectionsSchema } = collectionSchema
-  const factory = collectionFactory(collectionName, collectionSchema, options)
+  const { zod, singleDocumentKey, ...rest } = collectionSchema
+  const collection = collectionFactory(collectionName, collectionSchema, options)
 
-  if (Object.keys(subCollectionsSchema).length === 0) {
-    return factory as CollectionWithSubCollectionsFactory<TCollectionName, Z, TCollectionSchema>
+  if (Object.keys(rest).length === 0) {
+    return collection as Collection<TCollectionName, Z, TCollectionSchema>
   }
-  return Object.assign(
-    subCollectionAccessor(subCollectionsSchema as SubCollectionsSchema<TCollectionSchema>, options, collectionName),
-    factory
-  )
+
+  const subCollectionsSchema = rest as SubCollectionsSchema<TCollectionSchema>
+  const subCollections = subCollectionsFactory(subCollectionsSchema, options)
+  const subCollectionsAccessor = subCollectionsAccessorFactory(subCollectionsSchema, options, collectionName)
+
+  return Object.assign(subCollectionsAccessor, collection, subCollections) as Collection<
+    TCollectionName,
+    Z,
+    TCollectionSchema
+  >
 }
