@@ -1,2 +1,10 @@
 ignores:
   - CHANGELOG.md
+config:
+  MD001: false
+  MD024: false
+  MD013:
+    # Number of characters
+    line_length: 120
+    # Number of characters for code blocks
+    code_block_line_length: 120
