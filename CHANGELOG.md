@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.0.10](https://github.com/valian-ca/zod-firebase-admin/compare/v0.0.9...v0.0.10) (2023-06-22)
+
+
+### Features
+
+* collection group query ([#37](https://github.com/valian-ca/zod-firebase-admin/issues/37)) ([745f286](https://github.com/valian-ca/zod-firebase-admin/commit/745f286a6285d0d7d70b2f34fc2e8f474bd60d7f))
+
 ## [0.0.9](https://github.com/valian-ca/zod-firebase-admin/compare/v0.0.8...v0.0.9) (2023-06-15)
 
 
