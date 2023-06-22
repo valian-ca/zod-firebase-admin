@@ -12,11 +12,12 @@ import {
   firestoreZodDocument,
   type ZodTypeDocumentData,
 } from '../base'
-import { firestoreZodCollectionGroupQuery, firestoreZodCollectionQuery, type QueryHelper, queryHelper } from '../query'
+import { firestoreZodCollectionQuery, type QueryHelper, queryHelper } from '../query'
 
 export type MultiDocumentCollectionFactory<TCollectionName extends string, Z extends ZodTypeDocumentData> = {
   readonly collectionName: TCollectionName
   readonly collectionPath: CollectionPath
+  readonly zod: Z
 
   readonly read: {
     collection(): CollectionReference<DocumentOutput<Z>>
@@ -28,8 +29,6 @@ export type MultiDocumentCollectionFactory<TCollectionName extends string, Z ext
     collection(): CollectionReference<z.input<Z>>
     doc(id: string): DocumentReference<z.input<Z>>
   }
-
-  readonly group: QueryHelper<DocumentOutput<Z>>
 
   findById(this: void, id: string): Promise<DocumentOutput<Z> | undefined>
   findByIdOrThrow(this: void, id: string): Promise<DocumentOutput<Z>>
@@ -45,6 +44,7 @@ export const multiDocumentCollectionFactory = <TCollectionName extends string, Z
   return {
     collectionName,
     collectionPath,
+    zod,
     read: {
       collection: () => firestoreZodCollection(collectionPath, zod, getFirestore()),
       doc: (id) => firestoreZodDocument(collectionPath, id, zod, getFirestore()),
@@ -53,9 +53,6 @@ export const multiDocumentCollectionFactory = <TCollectionName extends string, Z
     write: {
       collection: () => firestoreCollection(collectionPath, getFirestore()),
       doc: (id) => firestoreDocument(collectionPath, id, getFirestore()),
-    },
-    group: {
-      ...queryHelper((query) => firestoreZodCollectionGroupQuery(collectionName, zod, query, getFirestore())),
     },
     findById: async (id) => {
       const doc = await firestoreZodDocument(collectionPath, id, zod, getFirestore()).get()
