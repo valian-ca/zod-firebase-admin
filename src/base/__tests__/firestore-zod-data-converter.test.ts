@@ -1,6 +1,7 @@
-import { z } from 'zod'
 import type { QueryDocumentSnapshot } from 'firebase-admin/firestore'
 import { mock } from 'jest-mock-extended'
+import { z } from 'zod'
+
 import { firestoreZodDataConverter } from '../firestore-zod-data-converter'
 
 const TestDocumentZod = z.object({

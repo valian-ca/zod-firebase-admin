@@ -1,6 +1,7 @@
+import type { DocumentData, Query, QueryDocumentSnapshot, QuerySnapshot } from 'firebase-admin/firestore'
 import { mock } from 'jest-mock-extended'
-import type { Query, QuerySnapshot, DocumentData, QueryDocumentSnapshot } from 'firebase-admin/firestore'
 import type { DeepPartial } from 'ts-essentials'
+
 import { queryHelper } from '../query-helper'
 
 function mockedQueryFactory<T extends DocumentData = DocumentData>(querySnapshot?: DeepPartial<QuerySnapshot<T>>) {

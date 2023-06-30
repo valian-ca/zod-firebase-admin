@@ -1,10 +1,10 @@
 import type {
+  CollectionGroup,
   CollectionReference,
   DocumentData,
   DocumentReference,
-  CollectionGroup,
-  QuerySnapshot,
   DocumentSnapshot,
+  QuerySnapshot,
 } from 'firebase-admin/firestore'
 import type { z } from 'zod'
 

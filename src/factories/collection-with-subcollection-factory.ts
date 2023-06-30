@@ -1,9 +1,10 @@
-import type { FactoryOptions } from './factory-options'
-import type { Collection, CollectionSchema, SubCollectionsSchema } from './types'
 import type { ZodTypeDocumentData } from '../base'
+
 import { collectionFactory } from './collection-factory'
+import type { FactoryOptions } from './factory-options'
 import { subCollectionsAccessorFactory } from './sub-collections-accessor-factory'
 import { subCollectionsFactory } from './sub-collections-factory'
+import type { Collection, CollectionSchema, SubCollectionsSchema } from './types'
 
 export const collectionWithSubCollectionsFactory = <
   TCollectionName extends string,

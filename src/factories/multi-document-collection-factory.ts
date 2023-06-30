@@ -1,6 +1,6 @@
 import type { CollectionGroup, CollectionReference, DocumentReference } from 'firebase-admin/firestore'
 import type { z } from 'zod'
-import type { FactoryOptions } from './factory-options'
+
 import {
   type CollectionPath,
   type DocumentOutput,
@@ -13,6 +13,8 @@ import {
   type ZodTypeDocumentData,
 } from '../base'
 import { firestoreZodCollectionQuery, type QueryHelper, queryHelper } from '../query'
+
+import type { FactoryOptions } from './factory-options'
 
 export type MultiDocumentCollectionFactory<TCollectionName extends string, Z extends ZodTypeDocumentData> = {
   readonly collectionName: TCollectionName

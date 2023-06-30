@@ -1,12 +1,12 @@
-import { mock } from 'jest-mock-extended'
 import type {
   CollectionGroup,
   CollectionReference,
   DocumentReference,
+  DocumentSnapshot,
   Firestore,
   QuerySnapshot,
-  DocumentSnapshot,
 } from 'firebase-admin/firestore'
+import { mock } from 'jest-mock-extended'
 
 // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
 export const { Filter, Timestamp } = jest.requireActual('firebase-admin/firestore')

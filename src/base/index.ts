@@ -1,6 +1,6 @@
-export * from './firestore-collection-path'
 export * from './firestore-collection'
 export * from './firestore-collection-group'
-export * from './firestore-document-path'
+export * from './firestore-collection-path'
 export * from './firestore-document'
+export * from './firestore-document-path'
 export type * from './types'

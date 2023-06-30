@@ -1,14 +1,15 @@
+import type { ZodTypeDocumentData } from '../base'
+
 import type { FactoryOptions } from './factory-options'
 import {
-  multiDocumentCollectionFactory,
   type MultiDocumentCollectionFactory,
+  multiDocumentCollectionFactory,
 } from './multi-document-collection-factory'
 import {
-  singleDocumentCollectionFactory,
   type SingleDocumentCollectionFactory,
+  singleDocumentCollectionFactory,
 } from './single-document-collection-factory'
 import type { CollectionSchema } from './types'
-import type { ZodTypeDocumentData } from '../base'
 
 export type CollectionFactory<
   TCollectionName extends string,

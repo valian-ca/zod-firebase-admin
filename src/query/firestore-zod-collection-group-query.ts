@@ -1,6 +1,8 @@
 import { getFirestore } from 'firebase-admin/firestore'
-import { type ZodTypeDocumentData, firestoreZodCollectionGroup } from '../base'
-import { type QuerySpecification, applyQuerySpecification } from './query-specification'
+
+import { firestoreZodCollectionGroup, type ZodTypeDocumentData } from '../base'
+
+import { applyQuerySpecification, type QuerySpecification } from './query-specification'
 
 export const firestoreZodCollectionGroupQuery = <Z extends ZodTypeDocumentData>(
   collectionId: string,

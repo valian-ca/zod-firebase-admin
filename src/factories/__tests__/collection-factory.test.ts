@@ -1,5 +1,6 @@
-import { z } from 'zod'
 import { getFirestore } from 'firebase-admin/firestore'
+import { z } from 'zod'
+
 import { collectionFactory } from '../collection-factory'
 
 const TestDocumentZod = z.object({

@@ -1,4 +1,5 @@
-import { getFirestore, type DocumentData, type CollectionGroup } from 'firebase-admin/firestore'
+import { type CollectionGroup, type DocumentData, getFirestore } from 'firebase-admin/firestore'
+
 import { firestoreZodDataConverter } from './firestore-zod-data-converter'
 import type { ZodTypeDocumentData } from './types'
 

@@ -1,7 +1,7 @@
 import { getFirestore } from 'firebase-admin/firestore'
-import { z } from 'zod'
 import { mock } from 'jest-mock-extended'
-import { singleDocumentCollectionFactory } from '../single-document-collection-factory'
+import { z } from 'zod'
+
 import type { ZodDocumentReference, ZodDocumentSnapshot } from '../../base'
 import {
   firestoreCollection,
@@ -10,6 +10,7 @@ import {
   firestoreZodCollectionGroup,
   firestoreZodDocument,
 } from '../../base'
+import { singleDocumentCollectionFactory } from '../single-document-collection-factory'
 
 jest.mock('../../base')
 

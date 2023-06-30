@@ -1,6 +1,6 @@
-import type { SubCollections, SubCollectionsSchema } from './types'
-import type { FactoryOptions } from './factory-options'
 import { collectionGroupQueryHelper } from './collection-group-query-helper'
+import type { FactoryOptions } from './factory-options'
+import type { SubCollections, SubCollectionsSchema } from './types'
 
 export const subCollectionsFactory = <TCollectionSchema>(
   subCollectionsSchema: SubCollectionsSchema<TCollectionSchema>,

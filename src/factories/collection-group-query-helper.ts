@@ -1,7 +1,8 @@
 import type { ZodTypeDocumentData } from '../base'
-import type { CollectionSchema } from './types'
-import type { FactoryOptions } from './factory-options'
 import { firestoreZodCollectionGroupQuery, queryHelper } from '../query'
+
+import type { FactoryOptions } from './factory-options'
+import type { CollectionSchema } from './types'
 
 export const collectionGroupQueryHelper = <
   TCollectionName extends string,
