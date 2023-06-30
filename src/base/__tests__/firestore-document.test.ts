@@ -1,5 +1,6 @@
 import { getFirestore } from 'firebase-admin/firestore'
 import { z } from 'zod'
+
 import { firestoreDocument, firestoreZodDocument } from '../firestore-document'
 
 const TestDocumentZod = z.object({

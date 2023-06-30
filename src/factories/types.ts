@@ -1,5 +1,6 @@
-import type { ZodTypeDocumentData, DocumentOutput } from '../base'
+import type { DocumentOutput, ZodTypeDocumentData } from '../base'
 import type { QueryHelper } from '../query'
+
 import type { CollectionFactory } from './collection-factory'
 
 export type CollectionSchema<

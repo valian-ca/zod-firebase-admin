@@ -1,4 +1,5 @@
 import type { DocumentData, Query, QuerySnapshot } from 'firebase-admin/firestore'
+
 import type { QuerySpecification } from './query-specification'
 
 export type QueryHelper<T extends DocumentData = DocumentData> = {

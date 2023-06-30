@@ -1,6 +1,7 @@
-import { z } from 'zod'
 import { mock } from 'jest-mock-extended'
-import { type ZodCollectionGroup, firestoreZodCollectionGroup } from '../../base'
+import { z } from 'zod'
+
+import { firestoreZodCollectionGroup, type ZodCollectionGroup } from '../../base'
 import { firestoreZodCollectionGroupQuery } from '../firestore-zod-collection-group-query'
 
 jest.mock('../../base')

@@ -1,8 +1,10 @@
-import type { CollectionReference, DocumentReference, CollectionGroup } from 'firebase-admin/firestore'
+import type { CollectionGroup, CollectionReference, DocumentReference } from 'firebase-admin/firestore'
 import type { z } from 'zod'
+
+import type { CollectionPath, DocumentOutput, ZodTypeDocumentData } from '../base'
+
 import type { FactoryOptions } from './factory-options'
 import { multiDocumentCollectionFactory } from './multi-document-collection-factory'
-import type { CollectionPath, DocumentOutput, ZodTypeDocumentData } from '../base'
 
 export type SingleDocumentCollectionFactory<TCollectionName extends string, Z extends ZodTypeDocumentData> = {
   readonly collectionName: TCollectionName

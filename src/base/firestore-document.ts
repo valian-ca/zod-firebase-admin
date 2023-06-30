@@ -1,8 +1,9 @@
 import { type DocumentData, type DocumentReference, getFirestore } from 'firebase-admin/firestore'
+
 import type { CollectionPath } from './firestore-collection-path'
 import { firestoreDocumentPath } from './firestore-document-path'
 import { firestoreZodDataConverter } from './firestore-zod-data-converter'
-import type { ZodTypeDocumentData, DocumentOutput } from './types'
+import type { DocumentOutput, ZodTypeDocumentData } from './types'
 
 export const firestoreDocument = <T extends DocumentData>(
   collectionPath: CollectionPath,
