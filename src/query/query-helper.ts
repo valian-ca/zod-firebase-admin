@@ -17,7 +17,7 @@ export type QueryHelper<T extends DocumentData = DocumentData> = {
 }
 
 export const queryHelper = <T extends DocumentData = DocumentData>(
-  queryFactory: (querySpecification: QuerySpecification) => Query<T>
+  queryFactory: (querySpecification: QuerySpecification) => Query<T>,
 ): QueryHelper<T> => ({
   query: (query) => queryFactory(query).get(),
   count: async (query) => {

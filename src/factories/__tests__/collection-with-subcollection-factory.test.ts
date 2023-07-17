@@ -20,7 +20,7 @@ describe('collectionWithSubCollectionsFactory', () => {
       const collectionWithoutSubCollection = collectionWithSubCollectionsFactory(
         'foo',
         { zod: TestDocumentZod },
-        { getFirestore }
+        { getFirestore },
       )
 
       expect(typeof collectionWithoutSubCollection).not.toBe('function')
@@ -32,7 +32,7 @@ describe('collectionWithSubCollectionsFactory', () => {
       const collectionWithSubCollection = collectionWithSubCollectionsFactory(
         'foo',
         { zod: TestDocumentZod, test: { zod: TestSubCollectionDocumentZod } },
-        { getFirestore }
+        { getFirestore },
       )
 
       expect(typeof collectionWithSubCollection).toBe('function')
@@ -42,7 +42,7 @@ describe('collectionWithSubCollectionsFactory', () => {
       expect(firestoreZodCollection).toHaveBeenCalledWith(
         ['foo', 'id', 'test'],
         TestSubCollectionDocumentZod,
-        getFirestore()
+        getFirestore(),
       )
     })
   })

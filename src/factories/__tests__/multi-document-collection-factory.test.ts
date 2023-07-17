@@ -72,7 +72,7 @@ describe('multiDocumentCollectionFactory', () => {
           ['root', 'parent', 'foo'],
           'id',
           TestDocumentZod,
-          getFirestore()
+          getFirestore(),
         )
       })
 

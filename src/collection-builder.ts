@@ -4,5 +4,5 @@ import { type Collections, collectionsFactory, type FactoryOptions, type Schema 
 
 export const collectionsBuilder = <TSchema extends Schema>(
   schema: TSchema,
-  options: Partial<FactoryOptions> = {}
+  options: Partial<FactoryOptions> = {},
 ): Collections<TSchema> => collectionsFactory(schema, { getFirestore: defaultGetFirestore, ...options })

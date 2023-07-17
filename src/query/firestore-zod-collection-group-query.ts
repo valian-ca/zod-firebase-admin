@@ -8,5 +8,5 @@ export const firestoreZodCollectionGroupQuery = <Z extends ZodTypeDocumentData>(
   collectionId: string,
   zod: Z,
   query: QuerySpecification,
-  firestore = getFirestore()
+  firestore = getFirestore(),
 ) => applyQuerySpecification(firestoreZodCollectionGroup(collectionId, zod, firestore), query)

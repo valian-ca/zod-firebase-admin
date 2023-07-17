@@ -17,7 +17,7 @@ function isWhereTuple(filter: QuerySpecification['where']): filter is Array<Wher
 
 export const applyQuerySpecification = <T extends DocumentData = DocumentData>(
   query: Query<T>,
-  { where, orderBy, limit }: QuerySpecification
+  { where, orderBy, limit }: QuerySpecification,
 ): Query<T> => {
   let result = query
   if (where) {

@@ -8,5 +8,5 @@ export const collectionsFactory = <TSchema extends Schema>(schema: TSchema, opti
       ...acc,
       [collectionName]: collectionWithSubCollectionsFactory(collectionName, collectionSchema, options),
     }),
-    {} as Collections<TSchema>
+    {} as Collections<TSchema>,
   )

@@ -6,11 +6,11 @@ import type { ZodTypeDocumentData } from './types'
 
 export const firestoreCollection = <T extends DocumentData>(
   collectionPath: CollectionPath,
-  firestore = getFirestore()
+  firestore = getFirestore(),
 ) => firestore.collection(firestoreCollectionPath(collectionPath)) as CollectionReference<T>
 
 export const firestoreZodCollection = <Z extends ZodTypeDocumentData>(
   collectionPath: CollectionPath,
   zod: Z,
-  firestore = getFirestore()
+  firestore = getFirestore(),
 ) => firestore.collection(firestoreCollectionPath(collectionPath)).withConverter(firestoreZodDataConverter(zod))
