@@ -6,7 +6,7 @@ export const subCollectionsAccessorFactory =
   <TSubCollectionsSchema extends Schema>(
     schema: TSubCollectionsSchema,
     options: FactoryOptions,
-    parent: string
+    parent: string,
   ): SubCollectionsAccessor<TSubCollectionsSchema> =>
   (documentId) =>
     Object.entries(schema).reduce(
@@ -17,5 +17,5 @@ export const subCollectionsAccessorFactory =
           ...collectionFactory<string>(collectionName, collectionSchema, options, [parent, documentId]),
         },
       }),
-      {} as Collections<TSubCollectionsSchema>
+      {} as Collections<TSubCollectionsSchema>,
     )

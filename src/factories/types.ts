@@ -6,7 +6,7 @@ import type { CollectionFactory } from './collection-factory'
 export type CollectionSchema<
   Z extends ZodTypeDocumentData = ZodTypeDocumentData,
   // eslint-disable-next-line @typescript-eslint/ban-types
-  TSubCollectionsSchema extends Schema = {}
+  TSubCollectionsSchema extends Schema = {},
 > = {
   readonly zod: Z
   readonly singleDocumentKey?: string
@@ -40,13 +40,13 @@ export type SubCollections<TSchema extends Schema> = {
 }
 
 export type SubCollectionsAccessor<TSubCollectionsSchema extends Schema> = (
-  documentId: string
+  documentId: string,
 ) => Collections<TSubCollectionsSchema>
 
 export type Collection<
   TCollectionName extends string,
   Z extends ZodTypeDocumentData,
-  TCollectionSchema extends CollectionSchema<Z> = CollectionSchema<Z>
+  TCollectionSchema extends CollectionSchema<Z> = CollectionSchema<Z>,
 > = SubCollectionsSchema<TCollectionSchema> extends Schema
   ? CollectionFactory<TCollectionName, Z, TCollectionSchema> &
       SubCollections<SubCollectionsSchema<TCollectionSchema>> &

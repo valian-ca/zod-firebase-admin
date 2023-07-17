@@ -9,11 +9,11 @@ import type { Collection, CollectionSchema, SubCollectionsSchema } from './types
 export const collectionWithSubCollectionsFactory = <
   TCollectionName extends string,
   Z extends ZodTypeDocumentData = ZodTypeDocumentData,
-  TCollectionSchema extends CollectionSchema<Z> = CollectionSchema<Z>
+  TCollectionSchema extends CollectionSchema<Z> = CollectionSchema<Z>,
 >(
   collectionName: TCollectionName,
   collectionSchema: TCollectionSchema,
-  options: FactoryOptions
+  options: FactoryOptions,
 ): Collection<TCollectionName, Z, TCollectionSchema> => {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const { zod, singleDocumentKey, ...rest } = collectionSchema

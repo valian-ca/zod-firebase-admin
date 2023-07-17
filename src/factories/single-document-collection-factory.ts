@@ -32,13 +32,13 @@ export const singleDocumentCollectionFactory = <TCollectionName extends string, 
   zod: Z,
   singleDocumentKey: string,
   options: FactoryOptions,
-  parentPath?: [string, string]
+  parentPath?: [string, string],
 ): SingleDocumentCollectionFactory<TCollectionName, Z> => {
   const { collectionPath, read, write, findById, findByIdOrThrow } = multiDocumentCollectionFactory(
     collectionName,
     zod,
     options,
-    parentPath
+    parentPath,
   )
   return {
     collectionName,

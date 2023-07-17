@@ -9,5 +9,5 @@ export const firestoreCollectionGroup = <T extends DocumentData>(collectionId: s
 export const firestoreZodCollectionGroup = <Z extends ZodTypeDocumentData>(
   collectionId: string,
   zod: Z,
-  firestore = getFirestore()
+  firestore = getFirestore(),
 ) => firestore.collectionGroup(collectionId).withConverter(firestoreZodDataConverter(zod))

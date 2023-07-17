@@ -40,7 +40,7 @@ export const multiDocumentCollectionFactory = <TCollectionName extends string, Z
   collectionName: TCollectionName,
   zod: Z,
   { getFirestore }: FactoryOptions,
-  parentPath?: [string, string]
+  parentPath?: [string, string],
 ): MultiDocumentCollectionFactory<TCollectionName, Z> => {
   const collectionPath: CollectionPath = parentPath ? [...parentPath, collectionName] : [collectionName]
   return {

@@ -56,7 +56,7 @@ describe('queryHelper', () => {
         size: 2,
       })
       await expect(queryHelper(queryFactory).findUnique({ name: 'test' })).rejects.toThrow(
-        'Query test returned more than one document'
+        'Query test returned more than one document',
       )
     })
 
@@ -85,7 +85,7 @@ describe('queryHelper', () => {
         size: 2,
       })
       await expect(queryHelper(queryFactory).findUniqueOrThrow({ name: 'test' })).rejects.toThrow(
-        'Query test returned more than one document'
+        'Query test returned more than one document',
       )
     })
 
@@ -94,7 +94,7 @@ describe('queryHelper', () => {
         size: 0,
       })
       await expect(queryHelper(queryFactory).findUniqueOrThrow({ name: 'test' })).rejects.toThrow(
-        'Query test returned no documents'
+        'Query test returned no documents',
       )
     })
 
@@ -138,7 +138,7 @@ describe('queryHelper', () => {
         size: 0,
       })
       await expect(queryHelper(queryFactory).findFirstOrThrow({ name: 'test' })).rejects.toThrow(
-        'Query test returned no documents'
+        'Query test returned no documents',
       )
     })
 

@@ -14,7 +14,7 @@ import type { CollectionSchema } from './types'
 export type CollectionFactory<
   TCollectionName extends string,
   Z extends ZodTypeDocumentData = ZodTypeDocumentData,
-  TCollectionSchema extends CollectionSchema<Z> = CollectionSchema<Z>
+  TCollectionSchema extends CollectionSchema<Z> = CollectionSchema<Z>,
 > = TCollectionSchema['singleDocumentKey'] extends string
   ? SingleDocumentCollectionFactory<TCollectionName, Z>
   : MultiDocumentCollectionFactory<TCollectionName, Z>
@@ -22,12 +22,12 @@ export type CollectionFactory<
 export const collectionFactory = <
   TCollectionName extends string,
   Z extends ZodTypeDocumentData = ZodTypeDocumentData,
-  TCollectionSchema extends CollectionSchema<Z> = CollectionSchema<Z>
+  TCollectionSchema extends CollectionSchema<Z> = CollectionSchema<Z>,
 >(
   collectionName: TCollectionName,
   { zod, singleDocumentKey }: TCollectionSchema,
   options: FactoryOptions,
-  parentPath?: [string, string]
+  parentPath?: [string, string],
 ) =>
   (singleDocumentKey
     ? singleDocumentCollectionFactory(collectionName, zod, singleDocumentKey, options, parentPath)

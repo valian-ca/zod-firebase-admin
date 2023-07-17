@@ -4,7 +4,7 @@ import type { SubCollections, SubCollectionsSchema } from './types'
 
 export const subCollectionsFactory = <TCollectionSchema>(
   subCollectionsSchema: SubCollectionsSchema<TCollectionSchema>,
-  options: FactoryOptions
+  options: FactoryOptions,
 ) =>
   Object.entries(subCollectionsSchema).reduce(
     (acc, [collectionName, collectionSchema]) => ({
@@ -15,5 +15,5 @@ export const subCollectionsFactory = <TCollectionSchema>(
         group: collectionGroupQueryHelper(collectionName, collectionSchema, options),
       },
     }),
-    {} as SubCollections<SubCollectionsSchema<TCollectionSchema>>
+    {} as SubCollections<SubCollectionsSchema<TCollectionSchema>>,
   )
