@@ -42,7 +42,7 @@
     "@commitlint/cli": "17.7.1",
     "@commitlint/config-conventional": "17.7.0",
     "@rollup/plugin-typescript": "11.1.2",
-    "@tsconfig/node18": "2.0.1",
+    "@tsconfig/node18": "18.2.0",
     "@types/jest": "29.5.3",
     "@types/node": "18",
     "@valian/eslint-config": "0.0.15",
