@@ -16,20 +16,16 @@ import { firestoreZodCollectionQuery, type QueryHelper, queryHelper } from '../q
 
 import type { FactoryOptions } from './factory-options'
 
-export type MultiDocumentCollectionFactory<TCollectionName extends string, Z extends ZodTypeDocumentData> = {
-  readonly collectionName: TCollectionName
-  readonly collectionPath: CollectionPath
-  readonly zod: Z
-
+export type MultiDocumentCollectionFactory<Z extends ZodTypeDocumentData> = {
   readonly read: {
-    collection(): CollectionReference<DocumentOutput<Z>>
-    doc(id: string): DocumentReference<DocumentOutput<Z>>
-    collectionGroup(): CollectionGroup<DocumentOutput<Z>>
+    collection(this: void): CollectionReference<DocumentOutput<Z>>
+    doc(this: void, id: string): DocumentReference<DocumentOutput<Z>>
+    collectionGroup(this: void): CollectionGroup<DocumentOutput<Z>>
   }
 
   readonly write: {
-    collection(): CollectionReference<z.input<Z>>
-    doc(id: string): DocumentReference<z.input<Z>>
+    collection(this: void): CollectionReference<z.input<Z>>
+    doc(this: void, id: string): DocumentReference<z.input<Z>>
   }
 
   findById(this: void, id: string): Promise<DocumentOutput<Z> | undefined>
@@ -41,12 +37,9 @@ export const multiDocumentCollectionFactory = <TCollectionName extends string, Z
   zod: Z,
   { getFirestore }: FactoryOptions,
   parentPath?: [string, string],
-): MultiDocumentCollectionFactory<TCollectionName, Z> => {
+): MultiDocumentCollectionFactory<Z> => {
   const collectionPath: CollectionPath = parentPath ? [...parentPath, collectionName] : [collectionName]
   return {
-    collectionName,
-    collectionPath,
-    zod,
     read: {
       collection: () => firestoreZodCollection(collectionPath, zod, getFirestore()),
       doc: (id) => firestoreZodDocument(collectionPath, id, zod, getFirestore()),
