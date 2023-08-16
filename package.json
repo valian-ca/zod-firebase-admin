@@ -44,7 +44,6 @@
     "@rollup/plugin-typescript": "11.1.2",
     "@tsconfig/node18": "18.2.0",
     "@types/jest": "29.5.3",
-    "@types/node": "18",
     "@valian/eslint-config": "0.0.15",
     "eslint": "8.47.0",
     "firebase-admin": "11.10.1",
