@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.0.11](https://github.com/valian-ca/zod-firebase-admin/compare/v0.0.10...v0.0.11) (2023-08-16)
+
+
+### Features
+
+* write operators ([#55](https://github.com/valian-ca/zod-firebase-admin/issues/55)) ([276ad78](https://github.com/valian-ca/zod-firebase-admin/commit/276ad78f67a840ebe21a30180b11d4b98b9295b9))
+
 ## [0.0.10](https://github.com/valian-ca/zod-firebase-admin/compare/v0.0.9...v0.0.10) (2023-06-22)
 
 
