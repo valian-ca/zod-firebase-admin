@@ -1,4 +1,5 @@
 import type { ZodTypeDocumentData } from '../base'
+import { firestoreCollectionPath } from '../base'
 
 import type { FactoryOptions } from './factory-options'
 import {
@@ -11,13 +12,22 @@ import {
 } from './single-document-collection-factory'
 import type { CollectionSchema } from './types'
 
+type SingleOrMultiDocumentCollectionFactory<
+  Z extends ZodTypeDocumentData = ZodTypeDocumentData,
+  TCollectionSchema extends CollectionSchema<Z> = CollectionSchema<Z>,
+> = TCollectionSchema['singleDocumentKey'] extends string
+  ? SingleDocumentCollectionFactory<Z>
+  : MultiDocumentCollectionFactory<Z>
+
 export type CollectionFactory<
   TCollectionName extends string,
   Z extends ZodTypeDocumentData = ZodTypeDocumentData,
   TCollectionSchema extends CollectionSchema<Z> = CollectionSchema<Z>,
-> = TCollectionSchema['singleDocumentKey'] extends string
-  ? SingleDocumentCollectionFactory<TCollectionName, Z>
-  : MultiDocumentCollectionFactory<TCollectionName, Z>
+> = SingleOrMultiDocumentCollectionFactory<Z, TCollectionSchema> & {
+  readonly collectionName: TCollectionName
+  readonly collectionPath: string
+  readonly zod: Z
+}
 
 export const collectionFactory = <
   TCollectionName extends string,
@@ -28,11 +38,16 @@ export const collectionFactory = <
   { zod, singleDocumentKey }: TCollectionSchema,
   options: FactoryOptions,
   parentPath?: [string, string],
-) =>
-  (singleDocumentKey
-    ? singleDocumentCollectionFactory(collectionName, zod, singleDocumentKey, options, parentPath)
-    : multiDocumentCollectionFactory(collectionName, zod, options, parentPath)) as CollectionFactory<
-    TCollectionName,
-    Z,
-    TCollectionSchema
-  >
+) => {
+  const collection = (
+    typeof singleDocumentKey === 'string'
+      ? singleDocumentCollectionFactory(collectionName, zod, singleDocumentKey, options, parentPath)
+      : multiDocumentCollectionFactory(collectionName, zod, options, parentPath)
+  ) as SingleOrMultiDocumentCollectionFactory<Z, TCollectionSchema>
+  return {
+    collectionName,
+    collectionPath: parentPath ? firestoreCollectionPath([...parentPath, collectionName]) : collectionName,
+    zod,
+    ...collection,
+  }
+}

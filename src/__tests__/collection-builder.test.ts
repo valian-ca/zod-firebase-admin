@@ -28,9 +28,9 @@ describe('collectionsBuilder', () => {
   it('should expose collectionPath', () => {
     const collection = collectionsBuilder(schema)
 
-    expect(collection.test.collectionPath).toEqual(['test'])
-    expect(collection.test('id').sub.collectionPath).toEqual(['test', 'id', 'sub'])
-    expect(collection.test('id').multi.collectionPath).toEqual(['test', 'id', 'multi'])
+    expect(collection.test.collectionPath).toBe('test')
+    expect(collection.test('id').sub.collectionPath).toEqual(['test', 'id', 'sub'].join('/'))
+    expect(collection.test('id').multi.collectionPath).toEqual(['test', 'id', 'multi'].join('/'))
   })
 
   it('should expose schema', () => {
