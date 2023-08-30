@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.0.12](https://github.com/valian-ca/zod-firebase-admin/compare/v0.0.11...v0.0.12) (2023-08-30)
+
+
+### Bug Fixes
+
+* add returns a DocumentReference ([#63](https://github.com/valian-ca/zod-firebase-admin/issues/63)) ([37fa07d](https://github.com/valian-ca/zod-firebase-admin/commit/37fa07d5ee804d74be3585e1386a77661f4e9e0c))
+
 ## [0.0.11](https://github.com/valian-ca/zod-firebase-admin/compare/v0.0.10...v0.0.11) (2023-08-16)
 
 
