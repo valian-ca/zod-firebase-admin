@@ -2,13 +2,14 @@ import { type DocumentReference, getFirestore } from 'firebase-admin/firestore'
 import { mock } from 'jest-mock-extended'
 import { z } from 'zod'
 
-import type { ZodDocumentReference, ZodDocumentSnapshot } from '../../base'
 import {
   firestoreCollection,
   firestoreDocument,
   firestoreZodCollection,
   firestoreZodCollectionGroup,
   firestoreZodDocument,
+  type ZodDocumentReference,
+  type ZodDocumentSnapshot,
 } from '../../base'
 import { singleDocumentCollectionFactory } from '../single-document-collection-factory'
 

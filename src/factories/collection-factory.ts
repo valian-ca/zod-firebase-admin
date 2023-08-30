@@ -1,5 +1,4 @@
-import type { ZodTypeDocumentData } from '../base'
-import { firestoreCollectionPath } from '../base'
+import { firestoreCollectionPath, type ZodTypeDocumentData } from '../base'
 
 import type { FactoryOptions } from './factory-options'
 import {
