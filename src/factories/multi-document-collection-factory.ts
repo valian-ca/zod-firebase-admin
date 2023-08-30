@@ -41,7 +41,7 @@ export type MultiDocumentCollectionFactory<Z extends ZodTypeDocumentData> = {
     doc(this: void, id: string): DocumentReference<z.input<Z>>
   }
 
-  add(this: void, data: WithFieldValue<z.input<Z>>): Promise<z.input<Z>>
+  add(this: void, data: WithFieldValue<z.input<Z>>): Promise<DocumentReference<z.input<Z>>>
   create(this: void, id: string, data: WithFieldValue<z.input<Z>>): Promise<z.input<Z>>
   set(this: void, id: string, data: PartialWithFieldValue<z.input<Z>>, options: SetOptions): Promise<WriteResult>
   update(this: void, id: string, data: UpdateData<z.input<Z>>, precondition?: Precondition): Promise<WriteResult>
