@@ -46,7 +46,7 @@
     "@types/jest": "29.5.5",
     "@valian/eslint-config": "0.0.17",
     "eslint": "8.50.0",
-    "firebase-admin": "11.10.1",
+    "firebase-admin": "11.11.0",
     "husky": "8.0.3",
     "jest": "29.7.0",
     "jest-mock-extended": "3.0.5",
