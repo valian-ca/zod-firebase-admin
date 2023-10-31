@@ -39,8 +39,8 @@
     "prepack": "npm run compile"
   },
   "devDependencies": {
-    "@commitlint/cli": "17.8.1",
-    "@commitlint/config-conventional": "17.8.1",
+    "@commitlint/cli": "18.2.0",
+    "@commitlint/config-conventional": "18.1.0",
     "@rollup/plugin-typescript": "11.1.5",
     "@tsconfig/node18": "18.2.2",
     "@types/jest": "29.5.6",
