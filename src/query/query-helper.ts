@@ -3,6 +3,7 @@ import type { DocumentData, Query, QuerySnapshot } from 'firebase-admin/firestor
 import type { QuerySpecification } from './query-specification'
 
 export type QueryHelper<T extends DocumentData = DocumentData> = {
+  prepare(query: QuerySpecification): Query<T>
   query(query: QuerySpecification): Promise<QuerySnapshot<T>>
 
   count(query: QuerySpecification): Promise<number>
@@ -19,6 +20,7 @@ export type QueryHelper<T extends DocumentData = DocumentData> = {
 export const queryHelper = <T extends DocumentData = DocumentData>(
   queryFactory: (querySpecification: QuerySpecification) => Query<T>,
 ): QueryHelper<T> => ({
+  prepare: (query) => queryFactory(query),
   query: (query) => queryFactory(query).get(),
   count: async (query) => {
     const snapshot = await queryFactory(query).count().get()
