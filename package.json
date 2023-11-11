@@ -43,7 +43,7 @@
     "@commitlint/config-conventional": "18.1.0",
     "@rollup/plugin-typescript": "11.1.5",
     "@tsconfig/node18": "18.2.2",
-    "@types/jest": "29.5.7",
+    "@types/jest": "29.5.8",
     "@valian/eslint-config": "0.0.19",
     "eslint": "8.52.0",
     "firebase-admin": "11.11.0",
