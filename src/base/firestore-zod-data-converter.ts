@@ -7,7 +7,12 @@ export const firestoreZodDataConverter = <Z extends ZodTypeDocumentData>(
 ): FirestoreDataConverter<DocumentOutput<Z>> => ({
   toFirestore: ({ _id, ...documentData }) => documentData,
   fromFirestore: (snapshot: QueryDocumentSnapshot) => ({
+    // Must be added again because zod.parse might remove it
     _id: snapshot.id,
-    ...zod.parse(snapshot.data()),
+    ...zod.parse({
+      // _id can be used in the zod parse for discriminatedUnion
+      _id: snapshot.id,
+      ...snapshot.data(),
+    }),
   }),
 })
