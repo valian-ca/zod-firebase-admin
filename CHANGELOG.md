@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.0.13](https://github.com/valian-ca/zod-firebase-admin/compare/v0.0.12...v0.0.13) (2023-11-17)
+
+
+### Features
+
+* parse with snapshot id ([#99](https://github.com/valian-ca/zod-firebase-admin/issues/99)) ([64983bc](https://github.com/valian-ca/zod-firebase-admin/commit/64983bcaa692dc7455a0d00489055f7ac6d75537))
+
 ## [0.0.12](https://github.com/valian-ca/zod-firebase-admin/compare/v0.0.11...v0.0.12) (2023-08-30)
 
 
