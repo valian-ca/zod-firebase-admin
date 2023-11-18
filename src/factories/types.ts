@@ -10,6 +10,7 @@ export type CollectionSchema<
 > = {
   readonly zod: Z
   readonly singleDocumentKey?: string
+  readonly includeDocumentIdForZod?: boolean
 } & TSubCollectionsSchema
 
 export type Schema = {

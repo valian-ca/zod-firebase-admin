@@ -24,7 +24,7 @@ import {
 } from '../base'
 import { firestoreZodCollectionQuery, type QueryHelper, queryHelper } from '../query'
 
-import type { FactoryOptions } from './factory-options'
+import type { FirestoreZodFactoryOptions } from './firestore-zod-factory-options'
 
 export type MultiDocumentCollectionFactory<Z extends ZodTypeDocumentData> = {
   readonly read: {
@@ -51,22 +51,23 @@ export type MultiDocumentCollectionFactory<Z extends ZodTypeDocumentData> = {
 export const multiDocumentCollectionFactory = <TCollectionName extends string, Z extends ZodTypeDocumentData>(
   collectionName: TCollectionName,
   zod: Z,
-  { getFirestore }: FactoryOptions,
+  { getFirestore, ...zodOptions }: FirestoreZodFactoryOptions,
   parentPath?: [string, string],
 ): MultiDocumentCollectionFactory<Z> => {
   const collectionPath: CollectionPath = parentPath ? [...parentPath, collectionName] : [collectionName]
+  const buildOptions = () => ({ ...zodOptions, firestore: getFirestore() })
   return {
     read: {
-      collection: () => firestoreZodCollection(collectionPath, zod, getFirestore()),
-      doc: (id) => firestoreZodDocument(collectionPath, id, zod, getFirestore()),
-      collectionGroup: () => firestoreZodCollectionGroup(collectionName, zod, getFirestore()),
+      collection: () => firestoreZodCollection(collectionPath, zod, buildOptions()),
+      doc: (id) => firestoreZodDocument(collectionPath, id, zod, buildOptions()),
+      collectionGroup: () => firestoreZodCollectionGroup(collectionName, zod, buildOptions()),
     },
     findById: async (id) => {
-      const doc = await firestoreZodDocument(collectionPath, id, zod, getFirestore()).get()
+      const doc = await firestoreZodDocument(collectionPath, id, zod, buildOptions()).get()
       return doc.data()
     },
     findByIdOrThrow: async (id) => {
-      const doc = await firestoreZodDocument(collectionPath, id, zod, getFirestore()).get()
+      const doc = await firestoreZodDocument(collectionPath, id, zod, buildOptions()).get()
       if (!doc.exists) {
         throw new Error(`Document ${id} not found in collection ${firestoreCollectionPath(collectionPath)}`)
       }
@@ -79,10 +80,10 @@ export const multiDocumentCollectionFactory = <TCollectionName extends string, Z
     },
     add: async (data) => firestoreCollection(collectionPath, getFirestore()).add(data),
     create: async (id, data) => firestoreDocument(collectionPath, id, getFirestore()).create(data),
-    set: (id, data, options) => firestoreDocument(collectionPath, id, getFirestore()).set(data, options),
+    set: (id, data, setOptions) => firestoreDocument(collectionPath, id, getFirestore()).set(data, setOptions),
     update: (id, data, precondition) =>
       firestoreDocument(collectionPath, id, getFirestore()).update(data, precondition),
     delete: (id, precondition) => firestoreDocument(collectionPath, id, getFirestore()).delete(precondition),
-    ...queryHelper((query) => firestoreZodCollectionQuery(collectionPath, zod, query, getFirestore())),
+    ...queryHelper((query) => firestoreZodCollectionQuery(collectionPath, zod, query, buildOptions())),
   }
 }

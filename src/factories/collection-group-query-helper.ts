@@ -1,7 +1,7 @@
 import type { ZodTypeDocumentData } from '../base'
 import { firestoreZodCollectionGroupQuery, queryHelper } from '../query'
 
-import type { FactoryOptions } from './factory-options'
+import type { FirestoreZodFactoryOptions } from './firestore-zod-factory-options'
 import type { CollectionSchema } from './types'
 
 export const collectionGroupQueryHelper = <
@@ -11,5 +11,8 @@ export const collectionGroupQueryHelper = <
 >(
   collectionName: TCollectionName,
   { zod }: TCollectionSchema,
-  { getFirestore }: FactoryOptions,
-) => queryHelper((query) => firestoreZodCollectionGroupQuery(collectionName, zod, query, getFirestore()))
+  { getFirestore, ...options }: FirestoreZodFactoryOptions,
+) =>
+  queryHelper((query) =>
+    firestoreZodCollectionGroupQuery(collectionName, zod, query, { firestore: getFirestore(), ...options }),
+  )

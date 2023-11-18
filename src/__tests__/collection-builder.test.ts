@@ -16,11 +16,16 @@ const TestSubMultiCollectionDocumentZod = z.object({
   uudi: z.string(),
 })
 
+const WithIdDocumentZod = z.object({
+  _id: z.string(),
+})
+
 const schema = {
   test: {
     zod: TestDocumentZod,
     sub: { zod: TestSubCollectionDocumentZod, singleDocumentKey: 'KEY' },
     multi: { zod: TestSubMultiCollectionDocumentZod },
+    withId: { zod: WithIdDocumentZod, includeDocumentIdForZod: true },
   },
 }
 

@@ -1,7 +1,7 @@
 import type { ZodTypeDocumentData } from '../base'
 
 import { collectionFactory } from './collection-factory'
-import type { FactoryOptions } from './factory-options'
+import type { FirestoreZodFactoryOptions } from './firestore-zod-factory-options'
 import { subCollectionsAccessorFactory } from './sub-collections-accessor-factory'
 import { subCollectionsFactory } from './sub-collections-factory'
 import type { Collection, CollectionSchema, SubCollectionsSchema } from './types'
@@ -13,10 +13,10 @@ export const collectionWithSubCollectionsFactory = <
 >(
   collectionName: TCollectionName,
   collectionSchema: TCollectionSchema,
-  options: FactoryOptions,
+  options: FirestoreZodFactoryOptions,
 ): Collection<TCollectionName, Z, TCollectionSchema> => {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const { zod, singleDocumentKey, ...rest } = collectionSchema
+  const { zod, singleDocumentKey, includeDocumentIdForZod, ...rest } = collectionSchema
   const collection = collectionFactory(collectionName, collectionSchema, options)
 
   if (Object.keys(rest).length === 0) {

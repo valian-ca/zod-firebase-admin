@@ -1,4 +1,4 @@
-import { type DocumentReference, getFirestore } from 'firebase-admin/firestore'
+import { type DocumentReference, getFirestore, Timestamp } from 'firebase-admin/firestore'
 import { mock } from 'jest-mock-extended'
 import { z } from 'zod'
 
@@ -21,24 +21,25 @@ const TestDocumentZod = z.object({
 
 describe('singleDocumentCollectionFactory', () => {
   const collection = singleDocumentCollectionFactory('foo', TestDocumentZod, 'KEY', { getFirestore })
+  const firestoreZodOptions = { firestore: getFirestore() }
 
   describe('read', () => {
     it('should invoke firestoreZodCollection', () => {
       collection.read.collection()
 
-      expect(firestoreZodCollection).toHaveBeenCalledWith(['foo'], TestDocumentZod, getFirestore())
+      expect(firestoreZodCollection).toHaveBeenCalledWith(['foo'], TestDocumentZod, firestoreZodOptions)
     })
 
     it('should invoke firestoreZodDocument', () => {
       collection.read.doc()
 
-      expect(firestoreZodDocument).toHaveBeenCalledWith(['foo'], 'KEY', TestDocumentZod, getFirestore())
+      expect(firestoreZodDocument).toHaveBeenCalledWith(['foo'], 'KEY', TestDocumentZod, firestoreZodOptions)
     })
 
     it('should invoke firestoreZodCollectionGroup', () => {
       collection.read.collectionGroup()
 
-      expect(firestoreZodCollectionGroup).toHaveBeenCalledWith('foo', TestDocumentZod, getFirestore())
+      expect(firestoreZodCollectionGroup).toHaveBeenCalledWith('foo', TestDocumentZod, firestoreZodOptions)
     })
   })
 
@@ -70,10 +71,17 @@ describe('singleDocumentCollectionFactory', () => {
       const documentRef = mock<ZodDocumentReference>()
       const snapshot = mock<ZodDocumentSnapshot>({ exists: true })
       documentRef.get.mockResolvedValue(snapshot)
-      snapshot.data.mockReturnValue({ _id: 'KEY', name: 'bar' })
+      const parsedDocumentValue = {
+        _id: 'id',
+        _createTime: Timestamp.now(),
+        _updateTime: Timestamp.now(),
+        _readTime: Timestamp.now(),
+        name: 'bar',
+      }
+      snapshot.data.mockReturnValue(parsedDocumentValue)
       jest.mocked(firestoreZodDocument).mockReturnValue(documentRef)
 
-      await expect(collection.find()).resolves.toEqual({ _id: 'KEY', name: 'bar' })
+      await expect(collection.find()).resolves.toEqual(parsedDocumentValue)
     })
   })
 
@@ -91,10 +99,17 @@ describe('singleDocumentCollectionFactory', () => {
       const documentRef = mock<ZodDocumentReference>()
       const snapshot = mock<ZodDocumentSnapshot>({ exists: true })
       documentRef.get.mockResolvedValue(snapshot)
-      snapshot.data.mockReturnValue({ _id: 'KEY', name: 'bar' })
+      const parsedDocumentValue = {
+        _id: 'id',
+        _createTime: Timestamp.now(),
+        _updateTime: Timestamp.now(),
+        _readTime: Timestamp.now(),
+        name: 'bar',
+      }
+      snapshot.data.mockReturnValue(parsedDocumentValue)
       jest.mocked(firestoreZodDocument).mockReturnValue(documentRef)
 
-      await expect(collection.findOrThrow()).resolves.toEqual({ _id: 'KEY', name: 'bar' })
+      await expect(collection.findOrThrow()).resolves.toEqual(parsedDocumentValue)
     })
   })
 

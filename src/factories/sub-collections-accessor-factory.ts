@@ -1,11 +1,11 @@
 import { collectionFactory } from './collection-factory'
-import type { FactoryOptions } from './factory-options'
+import type { FirestoreZodFactoryOptions } from './firestore-zod-factory-options'
 import type { Collections, Schema, SubCollectionsAccessor } from './types'
 
 export const subCollectionsAccessorFactory =
   <TSubCollectionsSchema extends Schema>(
     schema: TSubCollectionsSchema,
-    options: FactoryOptions,
+    options: FirestoreZodFactoryOptions,
     parent: string,
   ): SubCollectionsAccessor<TSubCollectionsSchema> =>
   (documentId) =>

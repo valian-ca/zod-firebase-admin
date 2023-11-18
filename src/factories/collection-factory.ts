@@ -1,6 +1,6 @@
 import { firestoreCollectionPath, type ZodTypeDocumentData } from '../base'
 
-import type { FactoryOptions } from './factory-options'
+import type { FirestoreZodFactoryOptions } from './firestore-zod-factory-options'
 import {
   type MultiDocumentCollectionFactory,
   multiDocumentCollectionFactory,
@@ -34,14 +34,15 @@ export const collectionFactory = <
   TCollectionSchema extends CollectionSchema<Z> = CollectionSchema<Z>,
 >(
   collectionName: TCollectionName,
-  { zod, singleDocumentKey }: TCollectionSchema,
-  options: FactoryOptions,
+  { zod, singleDocumentKey, includeDocumentIdForZod }: TCollectionSchema,
+  options: FirestoreZodFactoryOptions,
   parentPath?: [string, string],
 ) => {
+  const factoryOptions = { ...options, includeDocumentIdForZod }
   const collection = (
     typeof singleDocumentKey === 'string'
-      ? singleDocumentCollectionFactory(collectionName, zod, singleDocumentKey, options, parentPath)
-      : multiDocumentCollectionFactory(collectionName, zod, options, parentPath)
+      ? singleDocumentCollectionFactory(collectionName, zod, singleDocumentKey, factoryOptions, parentPath)
+      : multiDocumentCollectionFactory(collectionName, zod, factoryOptions, parentPath)
   ) as SingleOrMultiDocumentCollectionFactory<Z, TCollectionSchema>
   return {
     collectionName,
