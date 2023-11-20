@@ -1,6 +1,7 @@
 import type {
   CollectionGroup,
   CollectionReference,
+  DocumentData,
   DocumentReference,
   PartialWithFieldValue,
   Precondition,
@@ -9,10 +10,10 @@ import type {
   WithFieldValue,
   WriteResult,
 } from 'firebase-admin/firestore'
-import type { z } from 'zod'
 
 import {
   type CollectionPath,
+  type DocumentInput,
   type DocumentOutput,
   firestoreCollection,
   firestoreCollectionPath,
@@ -26,27 +27,31 @@ import { firestoreZodCollectionQuery, type QueryHelper, queryHelper } from '../q
 
 import type { FirestoreZodFactoryOptions } from './firestore-zod-factory-options'
 
-export type MultiDocumentCollectionFactory<Z extends ZodTypeDocumentData> = {
+export type MultiDocumentCollectionFactory<
+  Z extends ZodTypeDocumentData,
+  TInput extends DocumentData = DocumentInput<Z>,
+  TOutput extends DocumentData = DocumentOutput<Z>,
+> = {
   readonly read: {
-    collection(this: void): CollectionReference<DocumentOutput<Z>>
-    doc(this: void, id: string): DocumentReference<DocumentOutput<Z>>
-    collectionGroup(this: void): CollectionGroup<DocumentOutput<Z>>
+    collection(this: void): CollectionReference<TOutput>
+    doc(this: void, id: string): DocumentReference<TOutput>
+    collectionGroup(this: void): CollectionGroup<TOutput>
   }
 
-  findById(this: void, id: string): Promise<DocumentOutput<Z> | undefined>
-  findByIdOrThrow(this: void, id: string): Promise<DocumentOutput<Z>>
+  findById(this: void, id: string): Promise<TOutput | undefined>
+  findByIdOrThrow(this: void, id: string): Promise<TOutput>
 
   readonly write: {
-    collection(this: void): CollectionReference<z.input<Z>>
-    doc(this: void, id: string): DocumentReference<z.input<Z>>
+    collection(this: void): CollectionReference<TInput>
+    doc(this: void, id: string): DocumentReference<TInput>
   }
 
-  add(this: void, data: WithFieldValue<z.input<Z>>): Promise<DocumentReference<z.input<Z>>>
-  create(this: void, id: string, data: WithFieldValue<z.input<Z>>): Promise<z.input<Z>>
-  set(this: void, id: string, data: PartialWithFieldValue<z.input<Z>>, options: SetOptions): Promise<WriteResult>
-  update(this: void, id: string, data: UpdateData<z.input<Z>>, precondition?: Precondition): Promise<WriteResult>
+  add(this: void, data: WithFieldValue<TInput>): Promise<DocumentReference<TInput>>
+  create(this: void, id: string, data: WithFieldValue<TInput>): Promise<TInput>
+  set(this: void, id: string, data: PartialWithFieldValue<TInput>, options: SetOptions): Promise<WriteResult>
+  update(this: void, id: string, data: UpdateData<TInput>, precondition?: Precondition): Promise<WriteResult>
   delete(this: void, id: string, precondition?: Precondition): Promise<WriteResult>
-} & QueryHelper<DocumentOutput<Z>>
+} & QueryHelper<TOutput>
 
 export const multiDocumentCollectionFactory = <TCollectionName extends string, Z extends ZodTypeDocumentData>(
   collectionName: TCollectionName,
@@ -82,7 +87,9 @@ export const multiDocumentCollectionFactory = <TCollectionName extends string, Z
     create: async (id, data) => firestoreDocument(collectionPath, id, getFirestore()).create(data),
     set: (id, data, setOptions) => firestoreDocument(collectionPath, id, getFirestore()).set(data, setOptions),
     update: (id, data, precondition) =>
-      firestoreDocument(collectionPath, id, getFirestore()).update(data, precondition),
+      precondition
+        ? firestoreDocument(collectionPath, id, getFirestore()).update(data, precondition)
+        : firestoreDocument(collectionPath, id, getFirestore()).update(data),
     delete: (id, precondition) => firestoreDocument(collectionPath, id, getFirestore()).delete(precondition),
     ...queryHelper((query) => firestoreZodCollectionQuery(collectionPath, zod, query, buildOptions())),
   }
