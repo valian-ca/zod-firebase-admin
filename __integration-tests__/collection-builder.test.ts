@@ -4,7 +4,7 @@ import { FieldValue, getFirestore } from 'firebase-admin/firestore'
 import functionsTest from 'firebase-functions-test'
 import { z } from 'zod'
 
-import { collectionsBuilder } from '../collection-builder'
+import { collectionsBuilder } from '../src'
 
 jest.unmock('firebase-admin/firestore')
 
