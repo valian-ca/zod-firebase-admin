@@ -30,7 +30,7 @@
   "version": "0.0.13",
   "scripts": {
     "prettier": "prettier --check .",
-    "eslint": "eslint --ext .ts,.tsx .",
+    "eslint": "eslint --ext .ts,.tsx,.cjs .",
     "type-check": "tsc",
     "lint:md": "markdownlint-cli2 \"**/*.md\" \"#node_modules\"",
     "prepare": "husky install",

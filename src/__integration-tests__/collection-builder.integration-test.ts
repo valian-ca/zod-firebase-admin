@@ -1,5 +1,6 @@
 import { initializeApp } from 'firebase-admin/app'
 import { FieldValue, getFirestore } from 'firebase-admin/firestore'
+// eslint-disable-next-line import/no-extraneous-dependencies
 import functionsTest from 'firebase-functions-test'
 import { z } from 'zod'
 
