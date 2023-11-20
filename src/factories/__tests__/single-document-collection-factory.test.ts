@@ -145,7 +145,7 @@ describe('singleDocumentCollectionFactory', () => {
       await collection.update({ name: 'test' })
 
       expect(firestoreDocument).toHaveBeenCalledWith(['foo'], 'KEY', getFirestore())
-      expect(docRef.update).toHaveBeenCalledWith({ name: 'test' }, undefined)
+      expect(docRef.update).toHaveBeenCalledWith({ name: 'test' })
     })
 
     it('should invoke update on firestoreDocument with precondition', async () => {
