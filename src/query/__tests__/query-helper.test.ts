@@ -1,4 +1,10 @@
-import type { DocumentData, Query, QueryDocumentSnapshot, QuerySnapshot } from 'firebase-admin/firestore'
+import {
+  type DocumentData,
+  getFirestore,
+  type Query,
+  type QueryDocumentSnapshot,
+  type QuerySnapshot,
+} from 'firebase-admin/firestore'
 import { mock } from 'jest-mock-extended'
 import type { DeepPartial } from 'ts-essentials'
 
@@ -12,6 +18,17 @@ function mockedQueryFactory<T extends DocumentData = DocumentData>(querySnapshot
 }
 
 describe('queryHelper', () => {
+  describe('prepare', () => {
+    it('returns the query that can be used in transactions', async () => {
+      const queryFactory = mockedQueryFactory()
+      const query = queryHelper(queryFactory).prepare({ name: 'test' })
+
+      expect(queryFactory().get).not.toHaveBeenCalled()
+
+      await getFirestore().runTransaction(async (transaction) => transaction.get(query))
+    })
+  })
+
   describe('query', () => {
     it('returns the query snapshot', async () => {
       const queryFactory = mockedQueryFactory()

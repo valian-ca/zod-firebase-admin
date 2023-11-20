@@ -1,6 +1,7 @@
 import type {
   CollectionGroup,
   CollectionReference,
+  DocumentData,
   DocumentReference,
   PartialWithFieldValue,
   Precondition,
@@ -9,33 +10,36 @@ import type {
   WithFieldValue,
   WriteResult,
 } from 'firebase-admin/firestore'
-import type { input, z } from 'zod'
 
-import type { DocumentOutput, ZodTypeDocumentData } from '../base'
+import type { DocumentInput, DocumentOutput, ZodTypeDocumentData } from '../base'
 
-import type { FactoryOptions } from './factory-options'
+import type { FirestoreZodFactoryOptions } from './firestore-zod-factory-options'
 import { multiDocumentCollectionFactory } from './multi-document-collection-factory'
 
-export type SingleDocumentCollectionFactory<Z extends ZodTypeDocumentData> = {
+export type SingleDocumentCollectionFactory<
+  Z extends ZodTypeDocumentData,
+  TInput extends DocumentData = DocumentInput<Z>,
+  TOutput extends DocumentData = DocumentOutput<Z>,
+> = {
   readonly singleDocumentKey: string
 
   readonly read: {
-    collection(this: void): CollectionReference<DocumentOutput<Z>>
-    doc(this: void): DocumentReference<DocumentOutput<Z>>
-    collectionGroup(this: void): CollectionGroup<DocumentOutput<Z>>
+    collection(this: void): CollectionReference<TOutput>
+    doc(this: void): DocumentReference<TOutput>
+    collectionGroup(this: void): CollectionGroup<TOutput>
   }
 
-  find(this: void): Promise<DocumentOutput<Z> | undefined>
-  findOrThrow(this: void): Promise<DocumentOutput<Z>>
+  find(this: void): Promise<TOutput | undefined>
+  findOrThrow(this: void): Promise<TOutput>
 
   readonly write: {
-    collection(this: void): CollectionReference<z.input<Z>>
-    doc(this: void): DocumentReference<z.input<Z>>
+    collection(this: void): CollectionReference<TInput>
+    doc(this: void): DocumentReference<TInput>
   }
 
-  create(this: void, data: WithFieldValue<z.input<Z>>): Promise<WriteResult>
-  set(this: void, data: PartialWithFieldValue<z.input<Z>>, options: SetOptions): Promise<WriteResult>
-  update(this: void, data: UpdateData<z.input<Z>>, precondition?: Precondition): Promise<WriteResult>
+  create(this: void, data: WithFieldValue<TInput>): Promise<WriteResult>
+  set(this: void, data: PartialWithFieldValue<TInput>, options: SetOptions): Promise<WriteResult>
+  update(this: void, data: UpdateData<TInput>, precondition?: Precondition): Promise<WriteResult>
   delete(this: void, precondition?: Precondition): Promise<WriteResult>
 }
 
@@ -43,7 +47,7 @@ export const singleDocumentCollectionFactory = <TCollectionName extends string, 
   collectionName: TCollectionName,
   zod: Z,
   singleDocumentKey: string,
-  factoryOptions: FactoryOptions,
+  factoryOptions: FirestoreZodFactoryOptions,
   parentPath?: [string, string],
 ): SingleDocumentCollectionFactory<Z> => {
   const { read, write, findById, findByIdOrThrow, set, update } = multiDocumentCollectionFactory(

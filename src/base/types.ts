@@ -5,6 +5,7 @@ import type {
   DocumentReference,
   DocumentSnapshot,
   QuerySnapshot,
+  Timestamp,
 } from 'firebase-admin/firestore'
 import type { z } from 'zod'
 
@@ -14,7 +15,14 @@ export type ZodTypeDocumentData<
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
 > = z.ZodType<Output, any, Input>
 
-export type DocumentOutput<Z extends ZodTypeDocumentData = ZodTypeDocumentData> = z.output<Z> & { readonly _id: string }
+export type DocumentInput<Z extends ZodTypeDocumentData = ZodTypeDocumentData> = z.input<Z>
+
+export type DocumentOutput<Z extends ZodTypeDocumentData = ZodTypeDocumentData> = z.output<Z> & {
+  readonly _id: string
+  readonly _createTime: Timestamp
+  readonly _updateTime: Timestamp
+  readonly _readTime: Timestamp
+}
 
 export type ZodDocumentReference<Z extends ZodTypeDocumentData = ZodTypeDocumentData> = DocumentReference<
   DocumentOutput<Z>

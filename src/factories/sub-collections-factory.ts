@@ -1,10 +1,10 @@
 import { collectionGroupQueryHelper } from './collection-group-query-helper'
-import type { FactoryOptions } from './factory-options'
+import type { FirestoreZodFactoryOptions } from './firestore-zod-factory-options'
 import type { SubCollections, SubCollectionsSchema } from './types'
 
 export const subCollectionsFactory = <TCollectionSchema>(
   subCollectionsSchema: SubCollectionsSchema<TCollectionSchema>,
-  options: FactoryOptions,
+  options: FirestoreZodFactoryOptions,
 ) =>
   Object.entries(subCollectionsSchema).reduce(
     (acc, [collectionName, collectionSchema]) => ({

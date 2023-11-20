@@ -10,6 +10,7 @@ export type CollectionSchema<
 > = {
   readonly zod: Z
   readonly singleDocumentKey?: string
+  readonly includeDocumentIdForZod?: boolean
 } & TSubCollectionsSchema
 
 export type Schema = {
@@ -24,8 +25,11 @@ export type Collections<TSchema extends Schema> = {
     : never
 }
 
-export type SubCollectionsSchema<TSchema> = Omit<TSchema, 'zod' | 'singleDocumentKey'> extends Schema
-  ? Omit<TSchema, 'zod' | 'singleDocumentKey'>
+export type SubCollectionsSchema<TSchema> = Omit<
+  TSchema,
+  'zod' | 'singleDocumentKey' | 'includeDocumentIdForZod'
+> extends Schema
+  ? Omit<TSchema, 'zod' | 'singleDocumentKey' | 'includeDocumentIdForZod'>
   : never
 
 export type SubCollections<TSchema extends Schema> = {

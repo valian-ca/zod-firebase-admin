@@ -1,7 +1,9 @@
 module.exports = {
   preset: 'ts-jest',
   clearMocks: true,
-  collectCoverageFrom: ['src/**/*.ts', '!src/index.ts'],
+  testEnvironment: 'node',
+  rootDir: 'src',
+  collectCoverageFrom: ['**/*.ts', '!index.ts'],
   coverageThreshold: {
     global: {
       branches: 100,

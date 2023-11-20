@@ -44,8 +44,10 @@ jobs:
           cache: 'npm'
       - name: Install dependencies
         run: npm ci
-      - name: type-check
+      - name: tests
         run: npm test
+      - name: integration tests
+        run: npm run test:integration:ci
 
   markdown:
     name: markdown lint

@@ -5,5 +5,5 @@
     "module": "ES2022",
     "moduleResolution": "bundler"
   },
-  "include": ["src", "example"]
+  "include": ["src", "example", "__integration-tests__"]
 }
