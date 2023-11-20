@@ -25,8 +25,8 @@ const schema = {
     zod: TestDocumentZod,
     sub: { zod: TestSubCollectionDocumentZod, singleDocumentKey: 'KEY' },
     multi: { zod: TestSubMultiCollectionDocumentZod },
-    withId: { zod: WithIdDocumentZod, includeDocumentIdForZod: true },
   },
+  withId: { zod: WithIdDocumentZod, includeDocumentIdForZod: true },
 }
 
 describe('collectionsBuilder', () => {

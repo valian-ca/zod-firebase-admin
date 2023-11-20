@@ -1,6 +1,7 @@
 module.exports = {
   preset: 'ts-jest',
   clearMocks: true,
+  testEnvironment: 'node',
   collectCoverageFrom: ['src/**/*.ts', '!src/index.ts'],
   coverageThreshold: {
     global: {

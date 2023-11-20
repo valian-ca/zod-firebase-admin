@@ -15,6 +15,8 @@ export type ZodTypeDocumentData<
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
 > = z.ZodType<Output, any, Input>
 
+export type DocumentInput<Z extends ZodTypeDocumentData = ZodTypeDocumentData> = z.input<Z>
+
 export type DocumentOutput<Z extends ZodTypeDocumentData = ZodTypeDocumentData> = z.output<Z> & {
   readonly _id: string
   readonly _createTime: Timestamp
