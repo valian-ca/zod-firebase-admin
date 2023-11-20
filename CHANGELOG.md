@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.0.14](https://github.com/valian-ca/zod-firebase-admin/compare/v0.0.13...v0.0.14) (2023-11-20)
+
+
+### Features
+
+* parse with id option ([#102](https://github.com/valian-ca/zod-firebase-admin/issues/102)) ([a91f1fb](https://github.com/valian-ca/zod-firebase-admin/commit/a91f1fb84c10f862a440ed22da02af82dc59cd20))
+
 ## [0.0.13](https://github.com/valian-ca/zod-firebase-admin/compare/v0.0.12...v0.0.13) (2023-11-17)
 
 
