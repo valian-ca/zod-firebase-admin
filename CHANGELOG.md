@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.1.0](https://github.com/valian-ca/zod-firebase-admin/compare/v0.0.14...v0.1.0) (2023-12-02)
+
+
+### Features
+
+* export configuration ([#112](https://github.com/valian-ca/zod-firebase-admin/issues/112)) ([579bd93](https://github.com/valian-ca/zod-firebase-admin/commit/579bd93a9fdee2af069875d9c535d8f44be4dec5))
+
 ## [0.0.14](https://github.com/valian-ca/zod-firebase-admin/compare/v0.0.13...v0.0.14) (2023-11-20)
 
 
