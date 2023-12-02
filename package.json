@@ -17,10 +17,17 @@
   ],
   "exports": {
     ".": {
-      "types": "./lib/index.d.ts",
-      "import": "./lib/index.mjs",
-      "require": "./lib/index.cjs"
-    }
+      "import": {
+        "types": "./lib/index.d.mts",
+        "default": "./lib/index.mjs"
+      },
+      "require": {
+        "types": "./lib/index.d.cts",
+        "default": "./lib/index.cjs"
+      },
+      "default": "./lib/index.mjs"
+    },
+    "./package.json": "./package.json"
   },
   "type": "module",
   "main": "./lib/index.cjs",

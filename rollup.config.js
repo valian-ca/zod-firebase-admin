@@ -23,6 +23,12 @@ export default [
       {
         file: 'lib/index.d.ts',
       },
+      {
+        file: 'lib/index.d.cts',
+      },
+      {
+        file: 'lib/index.d.mts',
+      },
     ],
     external: ['firebase-admin/firestore'],
     plugins: [dts()],
