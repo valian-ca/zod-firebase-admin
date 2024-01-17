@@ -25,12 +25,10 @@ export type Collections<TSchema extends Schema> = {
     : never
 }
 
-export type SubCollectionsSchema<TSchema> = Omit<
-  TSchema,
-  'zod' | 'singleDocumentKey' | 'includeDocumentIdForZod'
-> extends Schema
-  ? Omit<TSchema, 'zod' | 'singleDocumentKey' | 'includeDocumentIdForZod'>
-  : never
+export type SubCollectionsSchema<TSchema> =
+  Omit<TSchema, 'zod' | 'singleDocumentKey' | 'includeDocumentIdForZod'> extends Schema
+    ? Omit<TSchema, 'zod' | 'singleDocumentKey' | 'includeDocumentIdForZod'>
+    : never
 
 export type SubCollections<TSchema extends Schema> = {
   [CollectionName in keyof TSchema]: CollectionName extends string
@@ -51,8 +49,9 @@ export type Collection<
   TCollectionName extends string,
   Z extends ZodTypeDocumentData,
   TCollectionSchema extends CollectionSchema<Z> = CollectionSchema<Z>,
-> = SubCollectionsSchema<TCollectionSchema> extends Schema
-  ? CollectionFactory<TCollectionName, Z, TCollectionSchema> &
-      SubCollections<SubCollectionsSchema<TCollectionSchema>> &
-      SubCollectionsAccessor<SubCollectionsSchema<TCollectionSchema>>
-  : CollectionFactory<TCollectionName, Z, TCollectionSchema>
+> =
+  SubCollectionsSchema<TCollectionSchema> extends Schema
+    ? CollectionFactory<TCollectionName, Z, TCollectionSchema> &
+        SubCollections<SubCollectionsSchema<TCollectionSchema>> &
+        SubCollectionsAccessor<SubCollectionsSchema<TCollectionSchema>>
+    : CollectionFactory<TCollectionName, Z, TCollectionSchema>
