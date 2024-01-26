@@ -40,7 +40,7 @@
     "eslint": "eslint --ext .ts,.tsx,.cjs .",
     "type-check": "tsc",
     "lint:md": "markdownlint-cli2 \"**/*.md\" \"#node_modules\"",
-    "prepare": "husky install",
+    "prepare": "husky",
     "test": "jest --coverage",
     "serve": "firebase emulators:start --only firestore --project demo-tests",
     "test:integration": "npm exec jest -- --config=jest.integration.config.cjs --coverage",
