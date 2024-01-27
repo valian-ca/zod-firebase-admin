@@ -50,12 +50,16 @@ export const singleDocumentCollectionFactory = <TCollectionName extends string, 
   factoryOptions: FirestoreZodFactoryOptions,
   parentPath?: [string, string],
 ): SingleDocumentCollectionFactory<Z> => {
-  const { read, write, findById, findByIdOrThrow, set, update } = multiDocumentCollectionFactory(
-    collectionName,
-    zod,
-    factoryOptions,
-    parentPath,
-  )
+  const {
+    read,
+    write,
+    findById,
+    findByIdOrThrow,
+    create,
+    set,
+    update,
+    delete: deleteDocument,
+  } = multiDocumentCollectionFactory(collectionName, zod, factoryOptions, parentPath)
   return {
     singleDocumentKey,
     read: {
@@ -68,9 +72,9 @@ export const singleDocumentCollectionFactory = <TCollectionName extends string, 
       ...write,
       doc: () => write.doc(singleDocumentKey),
     },
-    create: (data) => write.doc(singleDocumentKey).create(data),
+    create: (data) => create(singleDocumentKey, data),
     set: (data, options) => set(singleDocumentKey, data, options),
     update: (data, precondition) => update(singleDocumentKey, data, precondition),
-    delete: (precondition) => write.doc(singleDocumentKey).delete(precondition),
+    delete: (precondition) => deleteDocument(singleDocumentKey, precondition),
   }
 }
