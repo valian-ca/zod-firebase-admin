@@ -4,7 +4,7 @@ import type { SubCollections, SubCollectionsSchema } from './types'
 
 export const subCollectionsFactory = <TCollectionSchema>(
   subCollectionsSchema: SubCollectionsSchema<TCollectionSchema>,
-  options: FirestoreZodFactoryOptions,
+  options?: FirestoreZodFactoryOptions,
 ) =>
   Object.entries(subCollectionsSchema).reduce(
     (acc, [collectionName, collectionSchema]) => ({

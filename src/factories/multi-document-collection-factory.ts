@@ -1,14 +1,15 @@
-import type {
-  CollectionGroup,
-  CollectionReference,
-  DocumentData,
-  DocumentReference,
-  PartialWithFieldValue,
-  Precondition,
-  SetOptions,
-  UpdateData,
-  WithFieldValue,
-  WriteResult,
+import {
+  type CollectionGroup,
+  type CollectionReference,
+  type DocumentData,
+  type DocumentReference,
+  getFirestore as defaultGetFirestore,
+  type PartialWithFieldValue,
+  type Precondition,
+  type SetOptions,
+  type UpdateData,
+  type WithFieldValue,
+  type WriteResult,
 } from 'firebase-admin/firestore'
 
 import {
@@ -20,6 +21,7 @@ import {
   firestoreDocument,
   firestoreZodCollection,
   firestoreZodCollectionGroup,
+  type FirestoreZodDataConverterOptions,
   firestoreZodDocument,
   type ZodTypeDocumentData,
 } from '../base'
@@ -53,10 +55,12 @@ export type MultiDocumentCollectionFactory<
   delete(this: void, id: string, precondition?: Precondition): Promise<WriteResult>
 } & QueryHelper<TOutput>
 
+export type MultiDocumentCollectionFactoryOptions = FirestoreZodFactoryOptions & FirestoreZodDataConverterOptions
+
 export const multiDocumentCollectionFactory = <TCollectionName extends string, Z extends ZodTypeDocumentData>(
   collectionName: TCollectionName,
   zod: Z,
-  { getFirestore, ...zodOptions }: FirestoreZodFactoryOptions,
+  { getFirestore = defaultGetFirestore, ...zodOptions }: MultiDocumentCollectionFactoryOptions = {},
   parentPath?: [string, string],
 ): MultiDocumentCollectionFactory<Z> => {
   const collectionPath: CollectionPath = parentPath ? [...parentPath, collectionName] : [collectionName]

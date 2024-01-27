@@ -13,8 +13,10 @@ import type {
 
 import type { DocumentInput, DocumentOutput, ZodTypeDocumentData } from '../base'
 
-import type { FirestoreZodFactoryOptions } from './firestore-zod-factory-options'
-import { multiDocumentCollectionFactory } from './multi-document-collection-factory'
+import {
+  multiDocumentCollectionFactory,
+  type MultiDocumentCollectionFactoryOptions,
+} from './multi-document-collection-factory'
 
 export type SingleDocumentCollectionFactory<
   Z extends ZodTypeDocumentData,
@@ -47,7 +49,7 @@ export const singleDocumentCollectionFactory = <TCollectionName extends string, 
   collectionName: TCollectionName,
   zod: Z,
   singleDocumentKey: string,
-  factoryOptions: FirestoreZodFactoryOptions,
+  factoryOptions?: MultiDocumentCollectionFactoryOptions,
   parentPath?: [string, string],
 ): SingleDocumentCollectionFactory<Z> => {
   const {

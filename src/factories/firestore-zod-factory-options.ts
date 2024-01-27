@@ -1,7 +1,8 @@
 import type { getFirestore } from 'firebase-admin/firestore'
 
-import type { FirestoreZodDataConverterOptions } from '../base/firestore-zod-data-converter'
+import type { ZodErrorHandler } from '../base'
 
-export type FirestoreZodFactoryOptions = FirestoreZodDataConverterOptions & {
-  readonly getFirestore: typeof getFirestore
+export type FirestoreZodFactoryOptions = {
+  readonly getFirestore?: typeof getFirestore
+  readonly zodErrorHandler?: ZodErrorHandler
 }

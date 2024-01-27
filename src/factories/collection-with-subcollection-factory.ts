@@ -13,7 +13,7 @@ export const collectionWithSubCollectionsFactory = <
 >(
   collectionName: TCollectionName,
   collectionSchema: TCollectionSchema,
-  options: FirestoreZodFactoryOptions,
+  options?: FirestoreZodFactoryOptions,
 ): Collection<TCollectionName, Z, TCollectionSchema> => {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const { zod, singleDocumentKey, includeDocumentIdForZod, ...rest } = collectionSchema
@@ -25,7 +25,7 @@ export const collectionWithSubCollectionsFactory = <
 
   const subCollectionsSchema = rest as SubCollectionsSchema<TCollectionSchema>
   const subCollections = subCollectionsFactory(subCollectionsSchema, options)
-  const subCollectionsAccessor = subCollectionsAccessorFactory(subCollectionsSchema, options, collectionName)
+  const subCollectionsAccessor = subCollectionsAccessorFactory(subCollectionsSchema, collectionName, options)
 
   return Object.assign(subCollectionsAccessor, collection, subCollections) as Collection<
     TCollectionName,

@@ -1,3 +1,5 @@
+import { getFirestore } from 'firebase-admin/firestore'
+import { mock } from 'jest-mock-extended'
 import { z } from 'zod'
 
 import { collectionsBuilder } from '../collection-builder'
@@ -53,5 +55,31 @@ describe('collectionsBuilder', () => {
     expect(collection.test.collectionName).toBe('test')
     expect(collection.test.sub.collectionName).toBe('sub')
     expect(collection.test.multi.collectionName).toBe('multi')
+  })
+
+  describe('with specified firestore factory', () => {
+    const firestoreWrapper = jest.fn().mockImplementation(getFirestore)
+    const collectionWithSpecifyFirestore = collectionsBuilder(schema, {
+      getFirestore: firestoreWrapper,
+    })
+
+    beforeEach(() => {
+      firestoreWrapper.mockClear()
+    })
+
+    it('should call firestoreWrapper for test', async () => {
+      await collectionWithSpecifyFirestore.test.findById('TEST')
+      expect(firestoreWrapper).toHaveBeenCalled()
+    })
+
+    it('should call firestoreWrapper for test.sub', async () => {
+      await collectionWithSpecifyFirestore.test('id').sub.find()
+      expect(firestoreWrapper).toHaveBeenCalled()
+    })
+
+    it('should call firestoreWrapper for test.multi', async () => {
+      await collectionWithSpecifyFirestore.test('id').multi.findById('TEST')
+      expect(firestoreWrapper).toHaveBeenCalled()
+    })
   })
 })

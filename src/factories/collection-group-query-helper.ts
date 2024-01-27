@@ -11,8 +11,5 @@ export const collectionGroupQueryHelper = <
 >(
   collectionName: TCollectionName,
   { zod }: TCollectionSchema,
-  { getFirestore, ...options }: FirestoreZodFactoryOptions,
-) =>
-  queryHelper((query) =>
-    firestoreZodCollectionGroupQuery(collectionName, zod, query, { firestore: getFirestore(), ...options }),
-  )
+  options?: FirestoreZodFactoryOptions,
+) => queryHelper((query) => firestoreZodCollectionGroupQuery(collectionName, zod, query, options))

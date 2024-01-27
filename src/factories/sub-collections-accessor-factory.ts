@@ -5,8 +5,8 @@ import type { Collections, Schema, SubCollectionsAccessor } from './types'
 export const subCollectionsAccessorFactory =
   <TSubCollectionsSchema extends Schema>(
     schema: TSubCollectionsSchema,
-    options: FirestoreZodFactoryOptions,
     parent: string,
+    options?: FirestoreZodFactoryOptions,
   ): SubCollectionsAccessor<TSubCollectionsSchema> =>
   (documentId) =>
     Object.entries(schema).reduce(

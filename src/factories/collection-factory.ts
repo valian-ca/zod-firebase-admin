@@ -41,7 +41,7 @@ export const collectionFactory = <
 >(
   collectionName: TCollectionName,
   { zod, singleDocumentKey, includeDocumentIdForZod }: TCollectionSchema,
-  options: FirestoreZodFactoryOptions,
+  options?: FirestoreZodFactoryOptions,
   parentPath?: [string, string],
 ) => {
   const factoryOptions = { ...options, includeDocumentIdForZod }
