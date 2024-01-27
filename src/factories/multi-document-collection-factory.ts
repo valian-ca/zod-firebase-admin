@@ -47,7 +47,7 @@ export type MultiDocumentCollectionFactory<
   }
 
   add(this: void, data: WithFieldValue<TInput>): Promise<DocumentReference<TInput>>
-  create(this: void, id: string, data: WithFieldValue<TInput>): Promise<TInput>
+  create(this: void, id: string, data: WithFieldValue<TInput>): Promise<WriteResult>
   set(this: void, id: string, data: PartialWithFieldValue<TInput>, options: SetOptions): Promise<WriteResult>
   update(this: void, id: string, data: UpdateData<TInput>, precondition?: Precondition): Promise<WriteResult>
   delete(this: void, id: string, precondition?: Precondition): Promise<WriteResult>
