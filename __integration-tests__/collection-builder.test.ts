@@ -143,4 +143,20 @@ describe('collectionsBuilder', () => {
       expect(documents).toHaveLength(2)
     })
   })
+
+  describe('zodErrorHandler', () => {
+    const collectionWithErrorHandler = collectionsBuilder(schema, {
+      zodErrorHandler: (error, snapshot) => new Error(`zodError ${snapshot.id}`),
+    })
+
+    beforeEach(async () => {
+      // insert an invalid document
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      await collectionWithErrorHandler.test.create('bar', { value: 41 } as any)
+    })
+
+    it('should handle error with error converter', async () => {
+      await expect(() => collectionWithErrorHandler.test.findByIdOrThrow('bar')).rejects.toThrow('zodError bar')
+    })
+  })
 })

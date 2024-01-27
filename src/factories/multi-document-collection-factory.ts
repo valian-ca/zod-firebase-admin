@@ -1,15 +1,14 @@
-import {
-  type CollectionGroup,
-  type CollectionReference,
-  type DocumentData,
-  type DocumentReference,
-  getFirestore as defaultGetFirestore,
-  type PartialWithFieldValue,
-  type Precondition,
-  type SetOptions,
-  type UpdateData,
-  type WithFieldValue,
-  type WriteResult,
+import type {
+  CollectionGroup,
+  CollectionReference,
+  DocumentData,
+  DocumentReference,
+  PartialWithFieldValue,
+  Precondition,
+  SetOptions,
+  UpdateData,
+  WithFieldValue,
+  WriteResult,
 } from 'firebase-admin/firestore'
 
 import {
@@ -60,11 +59,11 @@ export type MultiDocumentCollectionFactoryOptions = FirestoreZodFactoryOptions &
 export const multiDocumentCollectionFactory = <TCollectionName extends string, Z extends ZodTypeDocumentData>(
   collectionName: TCollectionName,
   zod: Z,
-  { getFirestore = defaultGetFirestore, ...zodOptions }: MultiDocumentCollectionFactoryOptions = {},
+  { getFirestore, ...zodOptions }: MultiDocumentCollectionFactoryOptions = {},
   parentPath?: [string, string],
 ): MultiDocumentCollectionFactory<Z> => {
   const collectionPath: CollectionPath = parentPath ? [...parentPath, collectionName] : [collectionName]
-  const buildOptions = () => ({ ...zodOptions, firestore: getFirestore() })
+  const buildOptions = () => (getFirestore ? { ...zodOptions, firestore: getFirestore() } : zodOptions)
   return {
     read: {
       collection: () => firestoreZodCollection(collectionPath, zod, buildOptions()),
@@ -84,17 +83,17 @@ export const multiDocumentCollectionFactory = <TCollectionName extends string, Z
       return doc.data()!
     },
     write: {
-      collection: () => firestoreCollection(collectionPath, getFirestore()),
-      doc: (id) => firestoreDocument(collectionPath, id, getFirestore()),
+      collection: () => firestoreCollection(collectionPath, getFirestore?.()),
+      doc: (id) => firestoreDocument(collectionPath, id, getFirestore?.()),
     },
-    add: async (data) => firestoreCollection(collectionPath, getFirestore()).add(data),
-    create: async (id, data) => firestoreDocument(collectionPath, id, getFirestore()).create(data),
-    set: (id, data, setOptions) => firestoreDocument(collectionPath, id, getFirestore()).set(data, setOptions),
+    add: async (data) => firestoreCollection(collectionPath, getFirestore?.()).add(data),
+    create: async (id, data) => firestoreDocument(collectionPath, id, getFirestore?.()).create(data),
+    set: (id, data, setOptions) => firestoreDocument(collectionPath, id, getFirestore?.()).set(data, setOptions),
     update: (id, data, precondition) =>
       precondition
-        ? firestoreDocument(collectionPath, id, getFirestore()).update(data, precondition)
-        : firestoreDocument(collectionPath, id, getFirestore()).update(data),
-    delete: (id, precondition) => firestoreDocument(collectionPath, id, getFirestore()).delete(precondition),
+        ? firestoreDocument(collectionPath, id, getFirestore?.()).update(data, precondition)
+        : firestoreDocument(collectionPath, id, getFirestore?.()).update(data),
+    delete: (id, precondition) => firestoreDocument(collectionPath, id, getFirestore?.()).delete(precondition),
     ...queryHelper((query) => firestoreZodCollectionQuery(collectionPath, zod, query, buildOptions())),
   }
 }

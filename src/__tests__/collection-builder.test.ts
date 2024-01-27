@@ -1,5 +1,4 @@
 import { getFirestore } from 'firebase-admin/firestore'
-import { mock } from 'jest-mock-extended'
 import { z } from 'zod'
 
 import { collectionsBuilder } from '../collection-builder'
@@ -69,6 +68,11 @@ describe('collectionsBuilder', () => {
 
     it('should call firestoreWrapper for test', async () => {
       await collectionWithSpecifyFirestore.test.findById('TEST')
+      expect(firestoreWrapper).toHaveBeenCalled()
+    })
+
+    it('should call firestoreWrapper for add to test', async () => {
+      await collectionWithSpecifyFirestore.test.add({ name: 'TEST' })
       expect(firestoreWrapper).toHaveBeenCalled()
     })
 
