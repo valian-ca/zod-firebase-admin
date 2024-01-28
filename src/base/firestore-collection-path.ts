@@ -1,3 +1,4 @@
-export type CollectionPath = string | [string] | [string, string, string]
+export type CollectionPath = [string] | [string, string, string]
 
-export const firestoreCollectionPath = (path: CollectionPath): string => (Array.isArray(path) ? path.join('/') : path)
+export const firestoreCollectionPath = (path: CollectionPath | string): string =>
+  Array.isArray(path) ? path.join('/') : path

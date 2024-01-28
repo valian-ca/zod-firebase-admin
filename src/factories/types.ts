@@ -17,6 +17,11 @@ export type Schema = {
   [key: string]: CollectionSchema
 }
 
+export type SubCollectionsSchema<TSchema> =
+  Omit<TSchema, 'zod' | 'singleDocumentKey' | 'includeDocumentIdForZod'> extends Schema
+    ? Omit<TSchema, 'zod' | 'singleDocumentKey' | 'includeDocumentIdForZod'>
+    : never
+
 export type Collections<TSchema extends Schema> = {
   [CollectionName in keyof TSchema]: CollectionName extends string
     ? TSchema[CollectionName] extends CollectionSchema<infer Z>
@@ -25,18 +30,10 @@ export type Collections<TSchema extends Schema> = {
     : never
 }
 
-export type SubCollectionsSchema<TSchema> =
-  Omit<TSchema, 'zod' | 'singleDocumentKey' | 'includeDocumentIdForZod'> extends Schema
-    ? Omit<TSchema, 'zod' | 'singleDocumentKey' | 'includeDocumentIdForZod'>
-    : never
-
 export type SubCollections<TSchema extends Schema> = {
   [CollectionName in keyof TSchema]: CollectionName extends string
     ? TSchema[CollectionName] extends CollectionSchema<infer Z>
-      ? TSchema[CollectionName] & {
-          readonly collectionName: CollectionName
-          readonly group: QueryHelper<DocumentOutput<Z>>
-        }
+      ? TSchema[CollectionName] & SubCollection<CollectionName, Z, TSchema[CollectionName]>
       : never
     : never
 }
@@ -55,3 +52,18 @@ export type Collection<
         SubCollections<SubCollectionsSchema<TCollectionSchema>> &
         SubCollectionsAccessor<SubCollectionsSchema<TCollectionSchema>>
     : CollectionFactory<TCollectionName, Z, TCollectionSchema>
+
+export type SubCollection<
+  TCollectionName extends string,
+  Z extends ZodTypeDocumentData,
+  TCollectionSchema extends CollectionSchema<Z> = CollectionSchema<Z>,
+> =
+  SubCollectionsSchema<TCollectionSchema> extends Schema
+    ? TCollectionSchema & {
+        readonly collectionName: TCollectionName
+        readonly group: QueryHelper<DocumentOutput<Z>>
+      } & SubCollections<SubCollectionsSchema<TCollectionSchema>>
+    : TCollectionSchema & {
+        readonly collectionName: TCollectionName
+        readonly group: QueryHelper<DocumentOutput<Z>>
+      }

@@ -39,7 +39,12 @@ const schema = {
       zod: TestSubCollectionDocumentZod,
       singleDocumentKey: 'KEY',
     },
-    multi: { zod: TestSubMultiCollectionDocumentZod },
+    multi: {
+      zod: TestSubMultiCollectionDocumentZod,
+      subSub: {
+        zod: TestSubCollectionDocumentZod,
+      },
+    },
   },
   withId: {
     zod: WithIdDocumentZod,
@@ -126,6 +131,15 @@ describe('collectionsBuilder', () => {
       await collection.test('bar').multi.create('foo', { value: 42 })
 
       const count = await collection.test.multi.group.count({ name: 'all' })
+
+      expect(count).toBe(2)
+    })
+
+    it('should provide collection for subSubCollection', async () => {
+      await collection.test('foo').multi('test').subSub.create('bar', { value: 41 })
+      await collection.test('bar').multi('test2').subSub.create('foo', { value: 42 })
+
+      const count = await collection.test.multi.subSub.group.count({ name: 'all' })
 
       expect(count).toBe(2)
     })

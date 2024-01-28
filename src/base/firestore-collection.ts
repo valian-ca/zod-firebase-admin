@@ -6,12 +6,12 @@ import type { FirestoreZodOptions } from './firestore-zod-options'
 import type { ZodTypeDocumentData } from './types'
 
 export const firestoreCollection = <T extends DocumentData>(
-  collectionPath: CollectionPath,
+  collectionPath: CollectionPath | string,
   firestore = getFirestore(),
 ) => firestore.collection(firestoreCollectionPath(collectionPath)) as CollectionReference<T>
 
 export const firestoreZodCollection = <Z extends ZodTypeDocumentData>(
-  collectionPath: CollectionPath,
+  collectionPath: CollectionPath | string,
   zod: Z,
   { firestore = getFirestore(), ...options }: FirestoreZodOptions = {},
 ) =>

@@ -8,7 +8,7 @@ import {
 import { applyQuerySpecification, type QuerySpecification } from './query-specification'
 
 export const firestoreZodCollectionQuery = <Z extends ZodTypeDocumentData>(
-  collectionPath: CollectionPath,
+  collectionPath: CollectionPath | string,
   zod: Z,
   query: QuerySpecification,
   options?: FirestoreZodOptions,

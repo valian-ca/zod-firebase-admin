@@ -2,7 +2,7 @@ import { getFirestore } from 'firebase-admin/firestore'
 import { z } from 'zod'
 
 import { firestoreZodCollection } from '../../base'
-import { collectionWithSubCollectionsFactory } from '../collection-with-subcollection-factory'
+import { collectionWithSubCollectionsFactory } from '../collections-factory'
 
 jest.mock('../../base')
 
