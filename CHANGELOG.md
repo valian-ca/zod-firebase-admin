@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.2.0](https://github.com/valian-ca/zod-firebase-admin/compare/v0.1.0...v0.2.0) (2024-01-29)
+
+
+### Features
+
+* support sub-collections of sub-collections ([#125](https://github.com/valian-ca/zod-firebase-admin/issues/125)) ([95838c8](https://github.com/valian-ca/zod-firebase-admin/commit/95838c84fa872c1e286e241b88d1b0b0b403730c))
+
 ## [0.1.0](https://github.com/valian-ca/zod-firebase-admin/compare/v0.0.14...v0.1.0) (2023-12-02)
 
 
