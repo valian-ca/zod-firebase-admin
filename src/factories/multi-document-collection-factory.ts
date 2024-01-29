@@ -20,6 +20,7 @@ import {
   firestoreDocument,
   firestoreZodCollection,
   firestoreZodCollectionGroup,
+  type FirestoreZodDataConverterOptions,
   firestoreZodDocument,
   type ZodTypeDocumentData,
 } from '../base'
@@ -47,20 +48,22 @@ export type MultiDocumentCollectionFactory<
   }
 
   add(this: void, data: WithFieldValue<TInput>): Promise<DocumentReference<TInput>>
-  create(this: void, id: string, data: WithFieldValue<TInput>): Promise<TInput>
+  create(this: void, id: string, data: WithFieldValue<TInput>): Promise<WriteResult>
   set(this: void, id: string, data: PartialWithFieldValue<TInput>, options: SetOptions): Promise<WriteResult>
   update(this: void, id: string, data: UpdateData<TInput>, precondition?: Precondition): Promise<WriteResult>
   delete(this: void, id: string, precondition?: Precondition): Promise<WriteResult>
 } & QueryHelper<TOutput>
 
+export type MultiDocumentCollectionFactoryOptions = FirestoreZodFactoryOptions & FirestoreZodDataConverterOptions
+
 export const multiDocumentCollectionFactory = <TCollectionName extends string, Z extends ZodTypeDocumentData>(
   collectionName: TCollectionName,
   zod: Z,
-  { getFirestore, ...zodOptions }: FirestoreZodFactoryOptions,
+  { getFirestore, ...zodOptions }: MultiDocumentCollectionFactoryOptions = {},
   parentPath?: [string, string],
 ): MultiDocumentCollectionFactory<Z> => {
   const collectionPath: CollectionPath = parentPath ? [...parentPath, collectionName] : [collectionName]
-  const buildOptions = () => ({ ...zodOptions, firestore: getFirestore() })
+  const buildOptions = () => (getFirestore ? { ...zodOptions, firestore: getFirestore() } : zodOptions)
   return {
     read: {
       collection: () => firestoreZodCollection(collectionPath, zod, buildOptions()),
@@ -80,17 +83,17 @@ export const multiDocumentCollectionFactory = <TCollectionName extends string, Z
       return doc.data()!
     },
     write: {
-      collection: () => firestoreCollection(collectionPath, getFirestore()),
-      doc: (id) => firestoreDocument(collectionPath, id, getFirestore()),
+      collection: () => firestoreCollection(collectionPath, getFirestore?.()),
+      doc: (id) => firestoreDocument(collectionPath, id, getFirestore?.()),
     },
-    add: async (data) => firestoreCollection(collectionPath, getFirestore()).add(data),
-    create: async (id, data) => firestoreDocument(collectionPath, id, getFirestore()).create(data),
-    set: (id, data, setOptions) => firestoreDocument(collectionPath, id, getFirestore()).set(data, setOptions),
+    add: async (data) => firestoreCollection(collectionPath, getFirestore?.()).add(data),
+    create: async (id, data) => firestoreDocument(collectionPath, id, getFirestore?.()).create(data),
+    set: (id, data, setOptions) => firestoreDocument(collectionPath, id, getFirestore?.()).set(data, setOptions),
     update: (id, data, precondition) =>
       precondition
-        ? firestoreDocument(collectionPath, id, getFirestore()).update(data, precondition)
-        : firestoreDocument(collectionPath, id, getFirestore()).update(data),
-    delete: (id, precondition) => firestoreDocument(collectionPath, id, getFirestore()).delete(precondition),
+        ? firestoreDocument(collectionPath, id, getFirestore?.()).update(data, precondition)
+        : firestoreDocument(collectionPath, id, getFirestore?.()).update(data),
+    delete: (id, precondition) => firestoreDocument(collectionPath, id, getFirestore?.()).delete(precondition),
     ...queryHelper((query) => firestoreZodCollectionQuery(collectionPath, zod, query, buildOptions())),
   }
 }

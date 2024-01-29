@@ -1,6 +1,6 @@
 import { type QueryDocumentSnapshot, Timestamp } from 'firebase-admin/firestore'
 import { mock } from 'jest-mock-extended'
-import { z } from 'zod'
+import { z, ZodError } from 'zod'
 
 import { firestoreZodDataConverter } from '../firestore-zod-data-converter'
 
@@ -103,6 +103,46 @@ describe('firestoreZodDataConverter', () => {
           name1: undefined,
           name2: 'name2',
         })
+      })
+    })
+  })
+
+  describe('zod error', () => {
+    describe('without custom error handler', () => {
+      const converter = firestoreZodDataConverter(TestDocumentZod)
+
+      it('should throw error with id', () => {
+        const now = Timestamp.now()
+        const snapshot = mock<QueryDocumentSnapshot>({
+          id: 'id',
+          createTime: now,
+          updateTime: now,
+          readTime: now,
+        })
+        snapshot.data.mockReturnValue({ name: 123 })
+
+        expect(() => converter.fromFirestore(snapshot)).toThrow(ZodError)
+      })
+    })
+
+    describe('with custom error handler', () => {
+      const converter = firestoreZodDataConverter(TestDocumentZod, {
+        zodErrorHandler: (error, snapshot) => {
+          throw new Error(`Error: Invalid input on ${snapshot.id}`)
+        },
+      })
+
+      it('should throw error with id', () => {
+        const now = Timestamp.now()
+        const snapshot = mock<QueryDocumentSnapshot>({
+          id: 'id',
+          createTime: now,
+          updateTime: now,
+          readTime: now,
+        })
+        snapshot.data.mockReturnValue({ name: 123 })
+
+        expect(() => converter.fromFirestore(snapshot)).toThrow('Error: Invalid input on id')
       })
     })
   })

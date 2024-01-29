@@ -39,7 +39,12 @@ const schema = {
       zod: TestSubCollectionDocumentZod,
       singleDocumentKey: 'KEY',
     },
-    multi: { zod: TestSubMultiCollectionDocumentZod },
+    multi: {
+      zod: TestSubMultiCollectionDocumentZod,
+      subSub: {
+        zod: TestSubCollectionDocumentZod,
+      },
+    },
   },
   withId: {
     zod: WithIdDocumentZod,
@@ -129,6 +134,15 @@ describe('collectionsBuilder', () => {
 
       expect(count).toBe(2)
     })
+
+    it('should provide collection for subSubCollection', async () => {
+      await collection.test('foo').multi('test').subSub.create('bar', { value: 41 })
+      await collection.test('bar').multi('test2').subSub.create('foo', { value: 42 })
+
+      const count = await collection.test.multi.subSub.group.count({ name: 'all' })
+
+      expect(count).toBe(2)
+    })
   })
 
   describe('test withId collection', () => {
@@ -141,6 +155,22 @@ describe('collectionsBuilder', () => {
       const documents = await collection.withId.findMany({ name: 'all' })
 
       expect(documents).toHaveLength(2)
+    })
+  })
+
+  describe('zodErrorHandler', () => {
+    const collectionWithErrorHandler = collectionsBuilder(schema, {
+      zodErrorHandler: (error, snapshot) => new Error(`zodError ${snapshot.id}`),
+    })
+
+    beforeEach(async () => {
+      // insert an invalid document
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      await collectionWithErrorHandler.test.create('bar', { value: 41 } as any)
+    })
+
+    it('should handle error with error converter', async () => {
+      await expect(() => collectionWithErrorHandler.test.findByIdOrThrow('bar')).rejects.toThrow('zodError bar')
     })
   })
 })

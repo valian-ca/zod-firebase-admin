@@ -1,12 +1,6 @@
-import { getFirestore as defaultGetFirestore } from 'firebase-admin/firestore'
-
-import { type Collections, collectionsFactory, type Schema } from './factories'
-
-type CollectionsBuilderOptions = {
-  readonly getFirestore?: typeof defaultGetFirestore
-}
+import { type Collections, collectionsFactory, type FirestoreZodFactoryOptions, type Schema } from './factories'
 
 export const collectionsBuilder = <TSchema extends Schema>(
   schema: TSchema,
-  options?: CollectionsBuilderOptions,
-): Collections<TSchema> => collectionsFactory(schema, { getFirestore: options?.getFirestore ?? defaultGetFirestore })
+  options?: FirestoreZodFactoryOptions,
+): Collections<TSchema> => collectionsFactory(schema, options)
