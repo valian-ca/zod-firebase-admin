@@ -1,0 +1,10 @@
+{
+  "packages": {
+    "packages/zod-firebase": {
+      "releaseType": "node"
+    },
+    "packages/zod-firebase-admin": {
+      "releaseType": "node"
+    }
+  }
+}

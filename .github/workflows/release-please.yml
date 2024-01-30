@@ -16,9 +16,11 @@ jobs:
       - uses: google-github-actions/release-please-action@v4
         id: release
         with:
-          release-type: node
+          config-file: release-please-config.json
+          manifest-file: .release-please-manifest.json
           bump-minor-pre-major: true
           bump-patch-for-minor-pre-major: true
+
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         if: ${{ steps.release.outputs.release_created }}
