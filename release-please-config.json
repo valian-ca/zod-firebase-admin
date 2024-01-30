@@ -2,11 +2,9 @@
   "plugins": ["node-workspace"],
   "packages": {
     "packages/zod-firebase": {
-      "release-as": "1.0.0",
       "releaseType": "node"
     },
     "packages/zod-firebase-admin": {
-      "release-as": "1.0.0",
       "releaseType": "node"
     }
   }
