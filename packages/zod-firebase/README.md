@@ -1,1 +1,3 @@
-# zod-firebase-admin
+# zod-firebase
+
+firestore document schema based on [zod](https://zod.dev/)
