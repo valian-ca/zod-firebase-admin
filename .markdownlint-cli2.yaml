@@ -1,2 +1,4 @@
 ignores:
   - CHANGELOG.md
+  - packages/zod-firebase/CHANGELOG.md
+  - packages/zod-firebase-admin/CHANGELOG.md
