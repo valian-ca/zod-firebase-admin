@@ -19,7 +19,7 @@
   "workspaces": [
     "packages/*"
   ],
-  "version": "0.2.0",
+  "version": "0.3.0",
   "scripts": {
     "prettier": "prettier --check .",
     "eslint": "eslint --ext .ts,.tsx,.cjs .",
