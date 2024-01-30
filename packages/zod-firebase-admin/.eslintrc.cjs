@@ -14,4 +14,11 @@ module.exports = {
   rules: {
     'import/no-duplicates': ['error', { 'prefer-inline': true }],
   },
+
+  overrides: [
+    {
+      files: ['__mocks__/*', '__integration-tests__/*'],
+      rules: { 'import/no-extraneous-dependencies': ['error', { devDependencies: false }] },
+    },
+  ],
 }

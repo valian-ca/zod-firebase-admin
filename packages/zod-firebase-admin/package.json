@@ -1,0 +1,63 @@
+{
+  "author": {
+    "name": "Valian",
+    "organization": true,
+    "url": "https://valian.ca"
+  },
+  "dependencies": {
+    "zod": "^3.22.4"
+  },
+  "description": "zod firebase-admin schema",
+  "devDependencies": {
+    "firebase-admin": "12.0.0",
+    "firebase-functions-test": "3.1.1",
+    "jest-mock-extended": "3.0.5"
+  },
+  "engines": {
+    "node": ">= 18.0.0"
+  },
+  "exports": {
+    ".": {
+      "default": "./lib/index.mjs",
+      "import": {
+        "default": "./lib/index.mjs",
+        "types": "./lib/index.d.mts"
+      },
+      "require": {
+        "default": "./lib/index.cjs",
+        "types": "./lib/index.d.cts"
+      }
+    },
+    "./package.json": "./package.json"
+  },
+  "keywords": [
+    "zod",
+    "schema",
+    "firestore",
+    "firebase-admin"
+  ],
+  "license": "MIT",
+  "main": "./lib/index.cjs",
+  "module": "./lib/index.mjs",
+  "name": "zod-firebase-admin",
+  "peerDependencies": {
+    "firebase-admin": "^11.0.0 || ^12.0.0",
+    "typescript": ">=5"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/valian-ca/zod-firebase-admin.git"
+  },
+  "scripts": {
+    "compile": "rm -rf ./lib && rollup -c",
+    "prepack": "npm run compile",
+    "serve": "firebase emulators:start --only firestore --project demo-zod-firebase-admin",
+    "test": "jest --coverage",
+    "test:integration": "npm exec jest -- --config=jest.integration.config.cjs --coverage",
+    "test:integration:ci": "firebase emulators:exec --only firestore --project demo-zod-firebase-admin 'npm exec jest -- --config=jest.integration.config.cjs --coverage'",
+    "type-check": "tsc"
+  },
+  "type": "module",
+  "types": "./lib/index.d.ts",
+  "version": "0.2.0"
+}

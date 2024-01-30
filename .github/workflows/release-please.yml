@@ -30,7 +30,8 @@ jobs:
       - name: Install dependencies
         run: npm ci
         if: ${{ steps.release.outputs.release_created }}
-      - run: npm publish
+      - name: Publish to NPM
+        run: npx lerna publish from-package --no-push --no-private --yes
         if: ${{ steps.release.outputs.release_created }}
         env:
           NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}

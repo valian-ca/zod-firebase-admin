@@ -1,0 +1,60 @@
+{
+  "author": {
+    "name": "Valian",
+    "organization": true,
+    "url": "https://valian.ca"
+  },
+  "dependencies": {
+    "zod": "^3.22.4"
+  },
+  "description": "zod firebase schema",
+  "devDependencies": {
+    "firebase": "10.7.2",
+    "firebase-functions-test": "3.1.1",
+    "jest-mock-extended": "3.0.5"
+  },
+  "engines": {
+    "node": ">= 18.0.0"
+  },
+  "exports": {
+    ".": {
+      "default": "./lib/index.mjs",
+      "import": {
+        "default": "./lib/index.mjs",
+        "types": "./lib/index.d.mts"
+      },
+      "require": {
+        "default": "./lib/index.cjs",
+        "types": "./lib/index.d.cts"
+      }
+    },
+    "./package.json": "./package.json"
+  },
+  "keywords": [
+    "zod",
+    "schema",
+    "firestore",
+    "firebase"
+  ],
+  "license": "MIT",
+  "main": "./lib/index.cjs",
+  "module": "./lib/index.mjs",
+  "name": "zod-firebase",
+  "peerDependencies": {
+    "firebase": "^10.0.0",
+    "typescript": ">=5"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/valian-ca/zod-firebase-admin.git"
+  },
+  "scripts": {
+    "compile": "rm -rf ./lib && rollup -c",
+    "prepack": "npm run compile",
+    "test": "jest --coverage",
+    "type-check": "tsc"
+  },
+  "type": "module",
+  "types": "./lib/index.d.ts",
+  "version": "0.2.0"
+}
