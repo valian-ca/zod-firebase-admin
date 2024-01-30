@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.1](https://github.com/valian-ca/zod-firebase-admin/compare/zod-firebase-schema-v1.0.0...zod-firebase-schema-v1.0.1) (2024-01-30)
+
+
+### Bug Fixes
+
+* publish to npm ([3143418](https://github.com/valian-ca/zod-firebase-admin/commit/3143418f6655a510ea2050e34f1655f6ccfc7390))
+
 ## [1.0.0](https://github.com/valian-ca/zod-firebase-admin/compare/zod-firebase-schema-v1.0.0...zod-firebase-schema-v1.0.0) (2024-01-30)
 
 
