@@ -1,0 +1,12 @@
+/__integration-tests__/
+/coverage/
+/src/
+!/lib/
+/tsconfig.json
+/tsconfig.*.json
+tsconfig.tsbuildinfo
+jest.*.js
+rollup.config.js
+.eslintrc.js
+.gitignore
+firebase.json
