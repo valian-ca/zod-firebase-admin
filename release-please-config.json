@@ -1,8 +1,9 @@
 {
+  "releaseType": "node",
+  "plugins": ["node-workspace"],
   "packages": {
     ".": {
-      "releaseType": "node",
-      "skip-github-release": true
+      "releaseType": "node"
     },
     "packages/zod-firebase": {
       "releaseType": "node"
