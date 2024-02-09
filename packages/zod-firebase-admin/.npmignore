@@ -8,5 +8,8 @@ tsconfig.tsbuildinfo
 jest.*.js
 rollup.config.js
 .eslintrc.js
+.eslintrc.cjs
 .gitignore
 firebase.json
+.jest.config.js
+.jest.integration.config.js
