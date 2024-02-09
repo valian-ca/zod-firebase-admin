@@ -26,6 +26,7 @@ jspm_packages/
 .yarn-integrity
 .cache
 .idea
+.nx
 /test-reports/
 junit.xml
 /coverage/
@@ -37,4 +38,3 @@ junit.xml
 !/src/
 /lib
 /dist/
-
