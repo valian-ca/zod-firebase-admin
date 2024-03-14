@@ -1,6 +1,7 @@
 import type {
   CollectionGroup,
   CollectionReference,
+  DocumentData,
   DocumentReference,
   PartialWithFieldValue,
   Precondition,
@@ -31,6 +32,7 @@ export type MultiDocumentCollectionFactory<
   TCollectionSchema extends CollectionSchema<Z> = CollectionSchema<Z>,
   TInput extends SchemaDocumentInput<Z, TCollectionSchema> = SchemaDocumentInput<Z, TCollectionSchema>,
   TOutput extends SchemaDocumentOutput<Z, TCollectionSchema> = SchemaDocumentOutput<Z, TCollectionSchema>,
+  DbModelType extends DocumentData = TInput,
 > = {
   readonly read: {
     collection(this: void): CollectionReference<TOutput>
@@ -50,7 +52,7 @@ export type MultiDocumentCollectionFactory<
   create(this: void, id: string, data: WithFieldValue<TInput>): Promise<WriteResult>
   set(this: void, id: string, data: WithFieldValue<TInput>): Promise<WriteResult>
   set(this: void, id: string, data: PartialWithFieldValue<TInput>, options: SetOptions): Promise<WriteResult>
-  update(this: void, id: string, data: UpdateData<TInput>, precondition?: Precondition): Promise<WriteResult>
+  update(this: void, id: string, data: UpdateData<DbModelType>, precondition?: Precondition): Promise<WriteResult>
   delete(this: void, id: string, precondition?: Precondition): Promise<WriteResult>
 } & QueryHelper<TOutput>
 
@@ -62,48 +64,54 @@ export const multiDocumentCollectionFactory = <
   TCollectionSchema extends CollectionSchema<Z> = CollectionSchema<Z>,
   TInput extends SchemaDocumentInput<Z, TCollectionSchema> = SchemaDocumentInput<Z, TCollectionSchema>,
   TOutput extends SchemaDocumentOutput<Z, TCollectionSchema> = SchemaDocumentOutput<Z, TCollectionSchema>,
+  DbModelType extends DocumentData = TInput,
 >(
   collectionName: TCollectionName,
   zod: Z,
   { getFirestore, ...zodDataConverterOptions }: MultiDocumentCollectionFactoryOptions = {},
   parentPath?: [string, string],
-): MultiDocumentCollectionFactory<Z, TCollectionSchema, TInput, TOutput> => {
+): MultiDocumentCollectionFactory<Z, TCollectionSchema, TInput, TOutput, DbModelType> => {
   const collectionPath: CollectionPath = parentPath ? [...parentPath, collectionName] : [collectionName]
   const buildZodOptions = () =>
     getFirestore ? { ...zodDataConverterOptions, firestore: getFirestore() } : zodDataConverterOptions
   const set = (id: string, data: PartialWithFieldValue<TInput>, setOptions?: SetOptions) =>
     setOptions
-      ? firestoreDocument(collectionPath, id, getFirestore?.()).set(data, setOptions)
-      : firestoreDocument(collectionPath, id, getFirestore?.()).set(data as WithFieldValue<TInput>)
+      ? firestoreDocument<TInput, DbModelType>(collectionPath, id, getFirestore?.()).set(data, setOptions)
+      : firestoreDocument<TInput, DbModelType>(collectionPath, id, getFirestore?.()).set(data as WithFieldValue<TInput>)
   return {
     read: {
-      collection: () => firestoreZodCollection<Z, TOutput>(collectionPath, zod, buildZodOptions()),
-      doc: (id) => firestoreZodDocument<Z, TOutput>(collectionPath, id, zod, buildZodOptions()),
-      collectionGroup: () => firestoreZodCollectionGroup<Z, TOutput>(collectionName, zod, buildZodOptions()),
+      collection: () => firestoreZodCollection<Z, TOutput, DbModelType>(collectionPath, zod, buildZodOptions()),
+      doc: (id) => firestoreZodDocument<Z, TOutput, DbModelType>(collectionPath, id, zod, buildZodOptions()),
+      collectionGroup: () =>
+        firestoreZodCollectionGroup<Z, TOutput, DbModelType>(collectionName, zod, buildZodOptions()),
     },
     findById: async (id) => {
-      const doc = await firestoreZodDocument<Z, TOutput>(collectionPath, id, zod, buildZodOptions()).get()
+      const doc = await firestoreZodDocument<Z, TOutput, DbModelType>(collectionPath, id, zod, buildZodOptions()).get()
       return doc.data()
     },
     findByIdOrThrow: async (id) => {
-      const doc = await firestoreZodDocument<Z, TOutput>(collectionPath, id, zod, buildZodOptions()).get()
+      const doc = await firestoreZodDocument<Z, TOutput, DbModelType>(collectionPath, id, zod, buildZodOptions()).get()
       if (!doc.exists) {
         throw new Error(`Document ${id} not found in collection ${firestoreCollectionPath(collectionPath)}`)
       }
       return doc.data()!
     },
     write: {
-      collection: () => firestoreCollection(collectionPath, getFirestore?.()),
-      doc: (id) => firestoreDocument(collectionPath, id, getFirestore?.()),
+      collection: () => firestoreCollection<TInput, DbModelType>(collectionPath, getFirestore?.()),
+      doc: (id) => firestoreDocument<TInput, DbModelType>(collectionPath, id, getFirestore?.()),
     },
-    add: async (data) => firestoreCollection<TInput>(collectionPath, getFirestore?.()).add(data),
-    create: async (id, data) => firestoreDocument<TInput>(collectionPath, id, getFirestore?.()).create(data),
+    add: async (data) => firestoreCollection<TInput, DbModelType>(collectionPath, getFirestore?.()).add(data),
+    create: async (id, data) =>
+      firestoreDocument<TInput, DbModelType>(collectionPath, id, getFirestore?.()).create(data),
     set,
     update: (id, data, precondition) =>
       precondition
-        ? firestoreDocument(collectionPath, id, getFirestore?.()).update(data, precondition)
-        : firestoreDocument(collectionPath, id, getFirestore?.()).update(data),
-    delete: (id, precondition) => firestoreDocument(collectionPath, id, getFirestore?.()).delete(precondition),
-    ...queryHelper((query) => firestoreZodCollectionQuery(collectionPath, zod, query, buildZodOptions())),
+        ? firestoreDocument<TInput, DbModelType>(collectionPath, id, getFirestore?.()).update(data, precondition)
+        : firestoreDocument<TInput, DbModelType>(collectionPath, id, getFirestore?.()).update(data),
+    delete: (id, precondition) =>
+      firestoreDocument<TInput, DbModelType>(collectionPath, id, getFirestore?.()).delete(precondition),
+    ...queryHelper((query) =>
+      firestoreZodCollectionQuery<Z, TOutput, DbModelType>(collectionPath, zod, query, buildZodOptions()),
+    ),
   }
 }

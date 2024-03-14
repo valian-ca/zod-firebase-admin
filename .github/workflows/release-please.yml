@@ -26,4 +26,4 @@ jobs:
       - release-please
     uses: ./.github/workflows/publish.yml
     secrets: inherit
-    if: ${{ needs.release-please.outputs.release_created }}
+    if: ${{ needs.release-please.outputs.release_created == 'true' }}

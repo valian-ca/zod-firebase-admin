@@ -1,5 +1,6 @@
 import type {
   CollectionReference,
+  DocumentData,
   DocumentReference,
   PartialWithFieldValue,
   Query,
@@ -21,26 +22,27 @@ export type SingleDocumentCollectionFactory<
   TCollectionSchema extends CollectionSchema<Z> = CollectionSchema<Z>,
   TInput extends SchemaDocumentInput<Z, TCollectionSchema> = SchemaDocumentInput<Z, TCollectionSchema>,
   TOutput extends SchemaDocumentOutput<Z, TCollectionSchema> = SchemaDocumentOutput<Z, TCollectionSchema>,
+  DbModelType extends DocumentData = TInput,
 > = {
   readonly singleDocumentKey: string
 
   readonly read: {
-    collection(this: void): CollectionReference<TOutput>
-    doc(this: void): DocumentReference<TOutput>
-    collectionGroup(this: void): Query<TOutput>
+    collection(this: void): CollectionReference<TOutput, DbModelType>
+    doc(this: void): DocumentReference<TOutput, DbModelType>
+    collectionGroup(this: void): Query<TOutput, DbModelType>
   }
 
   find(this: void): Promise<TOutput | undefined>
   findOrThrow(this: void): Promise<TOutput>
 
   readonly write: {
-    collection(this: void): CollectionReference<TInput>
-    doc(this: void): DocumentReference<TInput>
+    collection(this: void): CollectionReference<TInput, DbModelType>
+    doc(this: void): DocumentReference<TInput, DbModelType>
   }
 
   set(this: void, data: WithFieldValue<TInput>): Promise<void>
   set(this: void, data: PartialWithFieldValue<TInput>, options: SetOptions): Promise<void>
-  update(this: void, data: UpdateData<TInput>): Promise<void>
+  update(this: void, data: UpdateData<DbModelType>): Promise<void>
   delete(this: void): Promise<void>
 }
 
@@ -50,13 +52,14 @@ export const singleDocumentCollectionFactory = <
   TCollectionSchema extends CollectionSchema<Z> = CollectionSchema<Z>,
   TInput extends SchemaDocumentInput<Z, TCollectionSchema> = SchemaDocumentInput<Z, TCollectionSchema>,
   TOutput extends SchemaDocumentOutput<Z, TCollectionSchema> = SchemaDocumentOutput<Z, TCollectionSchema>,
+  DbModelType extends DocumentData = TInput,
 >(
   collectionName: TCollectionName,
   zod: Z,
   singleDocumentKey: string,
   factoryOptions?: MultiDocumentCollectionFactoryOptions,
   parentPath?: [string, string],
-): SingleDocumentCollectionFactory<Z, TCollectionSchema, TInput, TOutput> => {
+): SingleDocumentCollectionFactory<Z, TCollectionSchema, TInput, TOutput, DbModelType> => {
   const {
     read,
     write,
@@ -65,7 +68,7 @@ export const singleDocumentCollectionFactory = <
     set,
     update,
     delete: deleteDocument,
-  } = multiDocumentCollectionFactory<TCollectionName, Z, TCollectionSchema, TInput, TOutput>(
+  } = multiDocumentCollectionFactory<TCollectionName, Z, TCollectionSchema, TInput, TOutput, DbModelType>(
     collectionName,
     zod,
     factoryOptions,
