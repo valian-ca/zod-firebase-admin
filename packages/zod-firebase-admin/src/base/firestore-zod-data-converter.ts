@@ -1,3 +1,4 @@
+import type { WithFieldValue } from '@firebase/firestore'
 import type { DocumentData, FirestoreDataConverter, QueryDocumentSnapshot } from 'firebase-admin/firestore'
 
 import type { DocumentOutput, ZodTypeDocumentData } from './types'
@@ -9,11 +10,16 @@ export type FirestoreZodDataConverterOptions = {
   readonly snapshotDataConverter?: (snapshot: QueryDocumentSnapshot) => DocumentData
 }
 
-export const firestoreZodDataConverter = <Z extends ZodTypeDocumentData>(
+export const firestoreZodDataConverter = <
+  Z extends ZodTypeDocumentData,
+  AppModelType extends DocumentOutput<Z> = DocumentOutput<Z>,
+  DbModelType extends DocumentData = DocumentData,
+>(
   zod: Z,
   options?: FirestoreZodDataConverterOptions,
-): FirestoreDataConverter<DocumentOutput<Z>> => ({
-  toFirestore: ({ _id, _readTime, _createTime, _updateTime, ...documentData }) => documentData,
+): FirestoreDataConverter<AppModelType, DbModelType> => ({
+  toFirestore: ({ _id, _readTime, _createTime, _updateTime, ...documentData }) =>
+    documentData as WithFieldValue<DbModelType>,
   fromFirestore: (snapshot) => {
     const data = options?.snapshotDataConverter ? options.snapshotDataConverter(snapshot) : snapshot.data()
     const output = zod.safeParse(
@@ -33,6 +39,6 @@ export const firestoreZodDataConverter = <Z extends ZodTypeDocumentData>(
       _createTime: snapshot.createTime,
       _updateTime: snapshot.updateTime,
       ...output.data,
-    }
+    } as AppModelType
   },
 })

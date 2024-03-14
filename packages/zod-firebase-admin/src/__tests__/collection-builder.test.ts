@@ -7,6 +7,7 @@ import { collectionsBuilder } from '../collection-builder'
 
 const TestDocumentZod = z.object({
   name: z.string(),
+  list: z.array(z.string()).optional().default([]),
 })
 
 const TestSubCollectionDocumentZod = z.object({
@@ -33,7 +34,8 @@ const schema = {
     },
   },
   withId: { zod: WithIdDocumentZod, includeDocumentIdForZod: true },
-}
+  readonlyCollection: { zod: TestDocumentZod, readonlyDocuments: true },
+} as const
 
 describe('collectionsBuilder', () => {
   it('should expose collectionPath', () => {

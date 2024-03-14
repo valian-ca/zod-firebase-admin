@@ -29,6 +29,9 @@
     "type-check": "lerna run type-check",
     "test:integration:ci": "lerna run test:integration:ci"
   },
+  "dependencies": {
+    "type-fest": "^4.12.0"
+  },
   "devDependencies": {
     "@commitlint/cli": "19.0.3",
     "@commitlint/config-conventional": "19.0.3",

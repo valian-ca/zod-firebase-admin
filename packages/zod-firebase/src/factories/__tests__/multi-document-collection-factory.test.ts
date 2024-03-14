@@ -3,9 +3,11 @@ import {
   type CollectionReference,
   deleteDoc,
   type DocumentReference,
+  getDoc,
   getDocs,
   getFirestore,
   setDoc,
+  type SnapshotMetadata,
   updateDoc,
 } from 'firebase/firestore'
 import { mock } from 'jest-mock-extended'
@@ -18,6 +20,8 @@ import {
   firestoreZodCollectionGroup,
   firestoreZodDocument,
   type ZodCollectionReference,
+  type ZodDocumentReference,
+  type ZodDocumentSnapshot,
   type ZodQuerySnapshot,
 } from '../../base'
 import { multiDocumentCollectionFactory } from '../multi-document-collection-factory'
@@ -27,6 +31,8 @@ jest.mock('../../base')
 const TestDocumentZod = z.object({
   name: z.string(),
 })
+
+const META_DATA_MOCK = mock<SnapshotMetadata>()
 
 describe('multiDocumentCollectionFactory', () => {
   describe('with specified getFirestore option', () => {
@@ -111,6 +117,60 @@ describe('multiDocumentCollectionFactory', () => {
 
           expect(firestoreDocument).toHaveBeenCalledWith(['root', 'parent', 'foo'], 'id', getFirestore())
         })
+      })
+    })
+
+    describe('findById', () => {
+      it('should return undefined if document doest not exists', async () => {
+        const documentRef = mock<ZodDocumentReference>()
+        const snapshot = mock<ZodDocumentSnapshot>()
+        snapshot.exists.mockReturnValue(false)
+        jest.mocked(getDoc).mockResolvedValue(snapshot)
+        jest.mocked(firestoreZodDocument).mockReturnValue(documentRef)
+
+        await expect(collection.findById('id')).resolves.toBeUndefined()
+      })
+
+      it('should return value if document exists', async () => {
+        const documentRef = mock<ZodDocumentReference>()
+        const snapshot = mock<ZodDocumentSnapshot>()
+        snapshot.exists.mockReturnValue(true)
+        jest.mocked(getDoc).mockResolvedValue(snapshot)
+        const parsedDocumentValue = {
+          _id: 'id',
+          _metadata: META_DATA_MOCK,
+        }
+        snapshot.data.mockReturnValue(parsedDocumentValue)
+        jest.mocked(firestoreZodDocument).mockReturnValue(documentRef)
+
+        await expect(collection.findById('id')).resolves.toEqual(parsedDocumentValue)
+      })
+    })
+
+    describe('findByIdOrThrow', () => {
+      it('should throw if document doest not exists', async () => {
+        const documentRef = mock<ZodDocumentReference>()
+        const snapshot = mock<ZodDocumentSnapshot>()
+        snapshot.exists.mockReturnValue(false)
+        jest.mocked(getDoc).mockResolvedValue(snapshot)
+        jest.mocked(firestoreZodDocument).mockReturnValue(documentRef)
+
+        await expect(collection.findByIdOrThrow('id')).rejects.toThrow()
+      })
+
+      it('should return value if document exists', async () => {
+        const documentRef = mock<ZodDocumentReference>()
+        const snapshot = mock<ZodDocumentSnapshot>()
+        snapshot.exists.mockReturnValue(true)
+        jest.mocked(getDoc).mockResolvedValue(snapshot)
+        const parsedDocumentValue = {
+          _id: 'id',
+          _metadata: META_DATA_MOCK,
+        }
+        snapshot.data.mockReturnValue(parsedDocumentValue)
+        jest.mocked(firestoreZodDocument).mockReturnValue(documentRef)
+
+        await expect(collection.findByIdOrThrow('id')).resolves.toEqual(parsedDocumentValue)
       })
     })
 

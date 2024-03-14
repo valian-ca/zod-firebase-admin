@@ -64,7 +64,11 @@ const schema = {
   timestampTransform: {
     zod: TimestampTransformZod,
   },
-}
+  readOnly: {
+    zod: TestDocumentZod,
+    readonlyDocuments: true,
+  },
+} as const
 
 const collection = collectionsBuilder(schema)
 const testHelper = functionsTest()

@@ -1,5 +1,8 @@
+import type { DocumentData } from 'firebase/firestore'
+
 import {
   type CollectionPath,
+  type DocumentOutput,
   firestoreZodCollection,
   type FirestoreZodOptions,
   type ZodTypeDocumentData,
@@ -7,9 +10,13 @@ import {
 
 import { applyQuerySpecification, type QuerySpecification } from './query-specification'
 
-export const firestoreZodCollectionQuery = <Z extends ZodTypeDocumentData>(
+export const firestoreZodCollectionQuery = <
+  Z extends ZodTypeDocumentData = ZodTypeDocumentData,
+  AppModelType extends DocumentOutput<Z> = DocumentOutput<Z>,
+  DbModelType extends DocumentData = DocumentData,
+>(
   collectionPath: CollectionPath | string,
   zod: Z,
   query: QuerySpecification,
   options?: FirestoreZodOptions,
-) => applyQuerySpecification(firestoreZodCollection(collectionPath, zod, options), query)
+) => applyQuerySpecification(firestoreZodCollection<Z, AppModelType, DbModelType>(collectionPath, zod, options), query)
