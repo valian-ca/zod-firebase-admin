@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.1.0](https://github.com/valian-ca/zod-firebase-admin/compare/zod-firebase-admin-v1.0.0...zod-firebase-admin-v1.1.0) (2024-03-14)
+
+
+### Features
+
+* readonly documents ([#149](https://github.com/valian-ca/zod-firebase-admin/issues/149)) ([2379df9](https://github.com/valian-ca/zod-firebase-admin/commit/2379df9e83ad4dff7cd04efa9777f046801c6780))
+
 ## [1.0.0](https://github.com/valian-ca/zod-firebase-admin/compare/zod-firebase-admin-v0.2.0...zod-firebase-admin-v1.0.0) (2024-01-30)
 
 
