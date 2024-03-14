@@ -1,5 +1,21 @@
 # Changelog
 
+## [1.0.0](https://github.com/valian-ca/zod-firebase-admin/compare/v0.2.0...v1.0.0) (2024-03-14)
+
+
+### Features
+
+* readonly documents ([#149](https://github.com/valian-ca/zod-firebase-admin/issues/149)) ([2379df9](https://github.com/valian-ca/zod-firebase-admin/commit/2379df9e83ad4dff7cd04efa9777f046801c6780))
+* release ([ee58745](https://github.com/valian-ca/zod-firebase-admin/commit/ee587451cc4b5514bfcb6de1a28652c74b231e82))
+* version 1.0.0 ([968208b](https://github.com/valian-ca/zod-firebase-admin/commit/968208b73aa39d08bdd4b9a41d2df4dd8f11d496))
+* zod-firebase ([#128](https://github.com/valian-ca/zod-firebase-admin/issues/128)) ([3003ecb](https://github.com/valian-ca/zod-firebase-admin/commit/3003ecbf8ee2edd91f5537475a88e1d55fb566ee))
+
+
+### Bug Fixes
+
+* publish to npm ([52ea2bd](https://github.com/valian-ca/zod-firebase-admin/commit/52ea2bdc36664d4f9b27c8d3adef7cbd3c226ac4))
+* update version ([918a055](https://github.com/valian-ca/zod-firebase-admin/commit/918a055ff6e751dc4ac4da025a417d6e451512f0))
+
 ## [1.0.0](https://github.com/valian-ca/zod-firebase-admin/compare/zod-firebase-schema-v1.0.0...zod-firebase-schema-v1.0.0) (2024-01-30)
 
 
