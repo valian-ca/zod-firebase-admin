@@ -32,7 +32,7 @@ export const collectionWithSubCollectionsFactory = <
   const collection = collectionFactory(collectionName, collectionSchema, options, parentPath)
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const { zod, singleDocumentKey, includeDocumentIdForZod, ...rest } = collectionSchema
+  const { zod, singleDocumentKey, includeDocumentIdForZod, readonlyDocuments, ...rest } = collectionSchema
   if (Object.keys(rest).length === 0) {
     return collection as Collection<TCollectionName, Z, TCollectionSchema>
   }

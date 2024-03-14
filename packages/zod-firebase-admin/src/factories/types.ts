@@ -1,4 +1,10 @@
-import type { DocumentOutput, ZodTypeDocumentData } from '../base'
+import type {
+  DocumentInput,
+  DocumentOutput,
+  ReadonlyDocumentInput,
+  ReadonlyDocumentOutput,
+  ZodTypeDocumentData,
+} from '../base'
 import type { QueryHelper } from '../query'
 
 import type { CollectionFactory } from './collection-factory'
@@ -10,7 +16,8 @@ export type CollectionSchema<
 > = {
   readonly zod: Z
   readonly singleDocumentKey?: string
-  readonly includeDocumentIdForZod?: boolean
+  readonly includeDocumentIdForZod?: true
+  readonly readonlyDocuments?: true
 } & TSubCollectionsSchema
 
 export type Schema = {
@@ -18,8 +25,8 @@ export type Schema = {
 }
 
 export type SubCollectionsSchema<TSchema> =
-  Omit<TSchema, 'zod' | 'singleDocumentKey' | 'includeDocumentIdForZod'> extends Schema
-    ? Omit<TSchema, 'zod' | 'singleDocumentKey' | 'includeDocumentIdForZod'>
+  Omit<TSchema, 'zod' | 'singleDocumentKey' | 'includeDocumentIdForZod' | 'readonlyDocuments'> extends Schema
+    ? Omit<TSchema, 'zod' | 'singleDocumentKey' | 'includeDocumentIdForZod' | 'readonlyDocuments'>
     : never
 
 export type Collections<TSchema extends Schema> = {
@@ -67,3 +74,13 @@ export type SubCollection<
         readonly collectionName: TCollectionName
         readonly group: QueryHelper<DocumentOutput<Z>>
       }
+
+export type SchemaDocumentInput<
+  Z extends ZodTypeDocumentData = ZodTypeDocumentData,
+  TCollectionSchema extends CollectionSchema<Z> = CollectionSchema<Z>,
+> = TCollectionSchema['readonlyDocuments'] extends true ? ReadonlyDocumentInput<Z> : DocumentInput<Z>
+
+export type SchemaDocumentOutput<
+  Z extends ZodTypeDocumentData = ZodTypeDocumentData,
+  TCollectionSchema extends CollectionSchema<Z> = CollectionSchema<Z>,
+> = TCollectionSchema['readonlyDocuments'] extends true ? ReadonlyDocumentOutput<Z> : DocumentOutput<Z>

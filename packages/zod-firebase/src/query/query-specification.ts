@@ -1,4 +1,3 @@
-import type { QueryConstraint } from '@firebase/firestore'
 import {
   type DocumentData,
   type FieldPath,
@@ -7,6 +6,7 @@ import {
   type OrderByDirection,
   type Query,
   query as firestoreQuery,
+  type QueryConstraint,
   where as firestoreWhere,
   type WhereFilterOp,
 } from 'firebase/firestore'

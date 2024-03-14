@@ -33,7 +33,7 @@ const subCollectionFactory = <
   }
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const { zod, singleDocumentKey, includeDocumentIdForZod, ...rest } = collectionSchema
+  const { zod, singleDocumentKey, includeDocumentIdForZod, readonlyDocuments, ...rest } = collectionSchema
   if (Object.keys(rest).length === 0) {
     return subCollection as SubCollection<TCollectionName, Z, TCollectionSchema>
   }

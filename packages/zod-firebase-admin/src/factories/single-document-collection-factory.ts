@@ -1,7 +1,6 @@
 import type {
   CollectionGroup,
   CollectionReference,
-  DocumentData,
   DocumentReference,
   PartialWithFieldValue,
   Precondition,
@@ -11,17 +10,19 @@ import type {
   WriteResult,
 } from 'firebase-admin/firestore'
 
-import type { DocumentInput, DocumentOutput, ZodTypeDocumentData } from '../base'
+import type { ZodTypeDocumentData } from '../base'
 
 import {
   multiDocumentCollectionFactory,
   type MultiDocumentCollectionFactoryOptions,
 } from './multi-document-collection-factory'
+import type { CollectionSchema, SchemaDocumentInput, SchemaDocumentOutput } from './types'
 
 export type SingleDocumentCollectionFactory<
   Z extends ZodTypeDocumentData,
-  TInput extends DocumentData = DocumentInput<Z>,
-  TOutput extends DocumentData = DocumentOutput<Z>,
+  TCollectionSchema extends CollectionSchema<Z> = CollectionSchema<Z>,
+  TInput extends SchemaDocumentInput<Z, TCollectionSchema> = SchemaDocumentInput<Z, TCollectionSchema>,
+  TOutput extends SchemaDocumentOutput<Z, TCollectionSchema> = SchemaDocumentOutput<Z, TCollectionSchema>,
 > = {
   readonly singleDocumentKey: string
 
@@ -40,18 +41,25 @@ export type SingleDocumentCollectionFactory<
   }
 
   create(this: void, data: WithFieldValue<TInput>): Promise<WriteResult>
+  set(this: void, data: WithFieldValue<TInput>): Promise<WriteResult>
   set(this: void, data: PartialWithFieldValue<TInput>, options: SetOptions): Promise<WriteResult>
   update(this: void, data: UpdateData<TInput>, precondition?: Precondition): Promise<WriteResult>
   delete(this: void, precondition?: Precondition): Promise<WriteResult>
 }
 
-export const singleDocumentCollectionFactory = <TCollectionName extends string, Z extends ZodTypeDocumentData>(
+export const singleDocumentCollectionFactory = <
+  TCollectionName extends string,
+  Z extends ZodTypeDocumentData,
+  TCollectionSchema extends CollectionSchema<Z> = CollectionSchema<Z>,
+  TInput extends SchemaDocumentInput<Z, TCollectionSchema> = SchemaDocumentInput<Z, TCollectionSchema>,
+  TOutput extends SchemaDocumentOutput<Z, TCollectionSchema> = SchemaDocumentOutput<Z, TCollectionSchema>,
+>(
   collectionName: TCollectionName,
   zod: Z,
   singleDocumentKey: string,
   factoryOptions?: MultiDocumentCollectionFactoryOptions,
   parentPath?: [string, string],
-): SingleDocumentCollectionFactory<Z> => {
+): SingleDocumentCollectionFactory<Z, TCollectionSchema, TInput, TOutput> => {
   const {
     read,
     write,
@@ -61,7 +69,14 @@ export const singleDocumentCollectionFactory = <TCollectionName extends string, 
     set,
     update,
     delete: deleteDocument,
-  } = multiDocumentCollectionFactory(collectionName, zod, factoryOptions, parentPath)
+  } = multiDocumentCollectionFactory<TCollectionName, Z, TCollectionSchema, TInput, TOutput>(
+    collectionName,
+    zod,
+    factoryOptions,
+    parentPath,
+  )
+  const setOverload = (data: PartialWithFieldValue<TInput>, setOptions?: SetOptions) =>
+    setOptions ? set(singleDocumentKey, data, setOptions) : set(singleDocumentKey, data as WithFieldValue<TInput>)
   return {
     singleDocumentKey,
     read: {
@@ -75,7 +90,7 @@ export const singleDocumentCollectionFactory = <TCollectionName extends string, 
       doc: () => write.doc(singleDocumentKey),
     },
     create: (data) => create(singleDocumentKey, data),
-    set: (data, options) => set(singleDocumentKey, data, options),
+    set: setOverload,
     update: (data, precondition) => update(singleDocumentKey, data, precondition),
     delete: (precondition) => deleteDocument(singleDocumentKey, precondition),
   }

@@ -135,6 +135,16 @@ describe('singleDocumentCollectionFactory', () => {
       expect(firestoreDocument).toHaveBeenCalledWith(['foo'], 'KEY', getFirestore())
       expect(docRef.set).toHaveBeenCalledWith({ name: 'test' }, { merge: true })
     })
+
+    it('should invoke set on firestoreDocument without options', async () => {
+      const docRef = mock<DocumentReference>()
+      jest.mocked(firestoreDocument).mockReturnValue(docRef)
+
+      await collection.set({ name: 'test' })
+
+      expect(firestoreDocument).toHaveBeenCalledWith(['foo'], 'KEY', getFirestore())
+      expect(docRef.set).toHaveBeenCalledWith({ name: 'test' })
+    })
   })
 
   describe('update', () => {

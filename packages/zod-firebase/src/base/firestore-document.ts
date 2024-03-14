@@ -6,18 +6,22 @@ import { firestoreZodDataConverter } from './firestore-zod-data-converter'
 import type { FirestoreZodOptions } from './firestore-zod-options'
 import type { DocumentOutput, ZodTypeDocumentData } from './types'
 
-export const firestoreDocument = <T extends DocumentData>(
+export const firestoreDocument = <AppModelType = DocumentData, DbModelType extends DocumentData = DocumentData>(
   collectionPath: CollectionPath | string,
   documentId: string,
   firestore = getFirestore(),
-) => doc(firestore, firestoreDocumentPath(collectionPath, documentId)) as DocumentReference<T>
+) => doc(firestore, firestoreDocumentPath(collectionPath, documentId)) as DocumentReference<AppModelType, DbModelType>
 
-export const firestoreZodDocument = <Z extends ZodTypeDocumentData = ZodTypeDocumentData>(
+export const firestoreZodDocument = <
+  Z extends ZodTypeDocumentData = ZodTypeDocumentData,
+  AppModelType extends DocumentOutput<Z> = DocumentOutput<Z>,
+  DbModelType extends DocumentData = DocumentData,
+>(
   collectionPath: CollectionPath | string,
   documentId: string,
   zod: Z,
   { firestore = getFirestore(), ...options }: FirestoreZodOptions = {},
-): DocumentReference<DocumentOutput<Z>> =>
+): DocumentReference<AppModelType, DbModelType> =>
   doc(firestore, firestoreDocumentPath(collectionPath, documentId)).withConverter(
-    firestoreZodDataConverter(zod, options),
+    firestoreZodDataConverter<Z, AppModelType, DbModelType>(zod, options),
   )

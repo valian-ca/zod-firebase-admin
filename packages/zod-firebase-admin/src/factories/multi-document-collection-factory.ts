@@ -1,7 +1,6 @@
 import type {
   CollectionGroup,
   CollectionReference,
-  DocumentData,
   DocumentReference,
   PartialWithFieldValue,
   Precondition,
@@ -13,8 +12,6 @@ import type {
 
 import {
   type CollectionPath,
-  type DocumentInput,
-  type DocumentOutput,
   firestoreCollection,
   firestoreCollectionPath,
   firestoreDocument,
@@ -27,11 +24,13 @@ import {
 import { firestoreZodCollectionQuery, type QueryHelper, queryHelper } from '../query'
 
 import type { FirestoreZodFactoryOptions } from './firestore-zod-factory-options'
+import type { CollectionSchema, SchemaDocumentInput, SchemaDocumentOutput } from './types'
 
 export type MultiDocumentCollectionFactory<
   Z extends ZodTypeDocumentData,
-  TInput extends DocumentData = DocumentInput<Z>,
-  TOutput extends DocumentData = DocumentOutput<Z>,
+  TCollectionSchema extends CollectionSchema<Z> = CollectionSchema<Z>,
+  TInput extends SchemaDocumentInput<Z, TCollectionSchema> = SchemaDocumentInput<Z, TCollectionSchema>,
+  TOutput extends SchemaDocumentOutput<Z, TCollectionSchema> = SchemaDocumentOutput<Z, TCollectionSchema>,
 > = {
   readonly read: {
     collection(this: void): CollectionReference<TOutput>
@@ -49,6 +48,7 @@ export type MultiDocumentCollectionFactory<
 
   add(this: void, data: WithFieldValue<TInput>): Promise<DocumentReference<TInput>>
   create(this: void, id: string, data: WithFieldValue<TInput>): Promise<WriteResult>
+  set(this: void, id: string, data: WithFieldValue<TInput>): Promise<WriteResult>
   set(this: void, id: string, data: PartialWithFieldValue<TInput>, options: SetOptions): Promise<WriteResult>
   update(this: void, id: string, data: UpdateData<TInput>, precondition?: Precondition): Promise<WriteResult>
   delete(this: void, id: string, precondition?: Precondition): Promise<WriteResult>
@@ -56,27 +56,37 @@ export type MultiDocumentCollectionFactory<
 
 export type MultiDocumentCollectionFactoryOptions = FirestoreZodFactoryOptions & FirestoreZodDataConverterOptions
 
-export const multiDocumentCollectionFactory = <TCollectionName extends string, Z extends ZodTypeDocumentData>(
+export const multiDocumentCollectionFactory = <
+  TCollectionName extends string,
+  Z extends ZodTypeDocumentData,
+  TCollectionSchema extends CollectionSchema<Z> = CollectionSchema<Z>,
+  TInput extends SchemaDocumentInput<Z, TCollectionSchema> = SchemaDocumentInput<Z, TCollectionSchema>,
+  TOutput extends SchemaDocumentOutput<Z, TCollectionSchema> = SchemaDocumentOutput<Z, TCollectionSchema>,
+>(
   collectionName: TCollectionName,
   zod: Z,
   { getFirestore, ...zodDataConverterOptions }: MultiDocumentCollectionFactoryOptions = {},
   parentPath?: [string, string],
-): MultiDocumentCollectionFactory<Z> => {
+): MultiDocumentCollectionFactory<Z, TCollectionSchema, TInput, TOutput> => {
   const collectionPath: CollectionPath = parentPath ? [...parentPath, collectionName] : [collectionName]
   const buildZodOptions = () =>
     getFirestore ? { ...zodDataConverterOptions, firestore: getFirestore() } : zodDataConverterOptions
+  const set = (id: string, data: PartialWithFieldValue<TInput>, setOptions?: SetOptions) =>
+    setOptions
+      ? firestoreDocument(collectionPath, id, getFirestore?.()).set(data, setOptions)
+      : firestoreDocument(collectionPath, id, getFirestore?.()).set(data as WithFieldValue<TInput>)
   return {
     read: {
-      collection: () => firestoreZodCollection(collectionPath, zod, buildZodOptions()),
-      doc: (id) => firestoreZodDocument(collectionPath, id, zod, buildZodOptions()),
-      collectionGroup: () => firestoreZodCollectionGroup(collectionName, zod, buildZodOptions()),
+      collection: () => firestoreZodCollection<Z, TOutput>(collectionPath, zod, buildZodOptions()),
+      doc: (id) => firestoreZodDocument<Z, TOutput>(collectionPath, id, zod, buildZodOptions()),
+      collectionGroup: () => firestoreZodCollectionGroup<Z, TOutput>(collectionName, zod, buildZodOptions()),
     },
     findById: async (id) => {
-      const doc = await firestoreZodDocument(collectionPath, id, zod, buildZodOptions()).get()
+      const doc = await firestoreZodDocument<Z, TOutput>(collectionPath, id, zod, buildZodOptions()).get()
       return doc.data()
     },
     findByIdOrThrow: async (id) => {
-      const doc = await firestoreZodDocument(collectionPath, id, zod, buildZodOptions()).get()
+      const doc = await firestoreZodDocument<Z, TOutput>(collectionPath, id, zod, buildZodOptions()).get()
       if (!doc.exists) {
         throw new Error(`Document ${id} not found in collection ${firestoreCollectionPath(collectionPath)}`)
       }
@@ -86,9 +96,9 @@ export const multiDocumentCollectionFactory = <TCollectionName extends string, Z
       collection: () => firestoreCollection(collectionPath, getFirestore?.()),
       doc: (id) => firestoreDocument(collectionPath, id, getFirestore?.()),
     },
-    add: async (data) => firestoreCollection(collectionPath, getFirestore?.()).add(data),
-    create: async (id, data) => firestoreDocument(collectionPath, id, getFirestore?.()).create(data),
-    set: (id, data, setOptions) => firestoreDocument(collectionPath, id, getFirestore?.()).set(data, setOptions),
+    add: async (data) => firestoreCollection<TInput>(collectionPath, getFirestore?.()).add(data),
+    create: async (id, data) => firestoreDocument<TInput>(collectionPath, id, getFirestore?.()).create(data),
+    set,
     update: (id, data, precondition) =>
       precondition
         ? firestoreDocument(collectionPath, id, getFirestore?.()).update(data, precondition)

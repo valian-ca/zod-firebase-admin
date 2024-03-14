@@ -7,6 +7,7 @@ import type {
   QuerySnapshot,
   Timestamp,
 } from 'firebase-admin/firestore'
+import type { ReadonlyDeep } from 'type-fest'
 import type { z } from 'zod'
 
 export type ZodTypeDocumentData<
@@ -17,6 +18,8 @@ export type ZodTypeDocumentData<
 
 export type DocumentInput<Z extends ZodTypeDocumentData = ZodTypeDocumentData> = z.input<Z>
 
+export type ReadonlyDocumentInput<Z extends ZodTypeDocumentData = ZodTypeDocumentData> = ReadonlyDeep<DocumentInput<Z>>
+
 export type DocumentOutput<Z extends ZodTypeDocumentData = ZodTypeDocumentData> = z.output<Z> & {
   readonly _id: string
   readonly _createTime: Timestamp
@@ -24,18 +27,36 @@ export type DocumentOutput<Z extends ZodTypeDocumentData = ZodTypeDocumentData> 
   readonly _readTime: Timestamp
 }
 
-export type ZodDocumentReference<Z extends ZodTypeDocumentData = ZodTypeDocumentData> = DocumentReference<
+export type ReadonlyDocumentOutput<Z extends ZodTypeDocumentData = ZodTypeDocumentData> = ReadonlyDeep<
   DocumentOutput<Z>
 >
 
-export type ZodDocumentSnapshot<Z extends ZodTypeDocumentData = ZodTypeDocumentData> = DocumentSnapshot<
-  DocumentOutput<Z>
->
+export type ZodDocumentReference<
+  Z extends ZodTypeDocumentData = ZodTypeDocumentData,
+  AppModelType extends DocumentOutput<Z> = DocumentOutput<Z>,
+  DbModelType extends DocumentData = DocumentData,
+> = DocumentReference<AppModelType, DbModelType>
 
-export type ZodCollectionReference<Z extends ZodTypeDocumentData = ZodTypeDocumentData> = CollectionReference<
-  DocumentOutput<Z>
->
+export type ZodDocumentSnapshot<
+  Z extends ZodTypeDocumentData = ZodTypeDocumentData,
+  AppModelType extends DocumentOutput<Z> = DocumentOutput<Z>,
+  DbModelType extends DocumentData = DocumentData,
+> = DocumentSnapshot<AppModelType, DbModelType>
 
-export type ZodCollectionGroup<Z extends ZodTypeDocumentData = ZodTypeDocumentData> = CollectionGroup<DocumentOutput<Z>>
+export type ZodCollectionReference<
+  Z extends ZodTypeDocumentData = ZodTypeDocumentData,
+  AppModelType extends DocumentOutput<Z> = DocumentOutput<Z>,
+  DbModelType extends DocumentData = DocumentData,
+> = CollectionReference<AppModelType, DbModelType>
 
-export type ZodQuerySnapshot<Z extends ZodTypeDocumentData = ZodTypeDocumentData> = QuerySnapshot<DocumentOutput<Z>>
+export type ZodCollectionGroup<
+  Z extends ZodTypeDocumentData = ZodTypeDocumentData,
+  AppModelType extends DocumentOutput<Z> = DocumentOutput<Z>,
+  DbModelType extends DocumentData = DocumentData,
+> = CollectionGroup<AppModelType, DbModelType>
+
+export type ZodQuerySnapshot<
+  Z extends ZodTypeDocumentData = ZodTypeDocumentData,
+  AppModelType extends DocumentOutput<Z> = DocumentOutput<Z>,
+  DbModelType extends DocumentData = DocumentData,
+> = QuerySnapshot<AppModelType, DbModelType>
