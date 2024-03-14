@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.2.0](https://github.com/valian-ca/zod-firebase-admin/compare/zod-firebase-v1.1.0...zod-firebase-v1.2.0) (2024-03-14)
+
+
+### Features
+
+* typescript 5.4 ([6969994](https://github.com/valian-ca/zod-firebase-admin/commit/6969994ec741abb49e8587ae9daa3d94bfb42fe9))
+
 ## [1.1.0](https://github.com/valian-ca/zod-firebase-admin/compare/zod-firebase-v1.0.0...zod-firebase-v1.1.0) (2024-03-14)
 
 
