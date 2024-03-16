@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.3.0](https://github.com/valian-ca/zod-firebase-admin/compare/zod-firebase-v1.2.0...zod-firebase-v1.3.0) (2024-03-16)
+
+
+### Features
+
+* meta data options ([#154](https://github.com/valian-ca/zod-firebase-admin/issues/154)) ([4c2f8d4](https://github.com/valian-ca/zod-firebase-admin/commit/4c2f8d405d7e4f9daa8b98799b0faa21ae5c05bc))
+
 ## [1.2.0](https://github.com/valian-ca/zod-firebase-admin/compare/zod-firebase-v1.1.0...zod-firebase-v1.2.0) (2024-03-14)
 
 
