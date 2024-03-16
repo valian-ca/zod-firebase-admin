@@ -22,7 +22,7 @@ export type QuerySpecification = {
   limit?: number
 }
 
-export const applyQuerySpecification = <AppModelType, DbModelType extends DocumentData>(
+export const applyQuerySpecification = <AppModelType, DbModelType extends DocumentData = DocumentData>(
   query: Query<AppModelType, DbModelType>,
   { constraints = [], where, orderBy, limit }: QuerySpecification,
 ): Query<AppModelType, DbModelType> => {

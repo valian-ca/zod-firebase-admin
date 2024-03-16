@@ -1,4 +1,4 @@
-import { type DocumentReference, getFirestore, Timestamp } from 'firebase-admin/firestore'
+import { type CollectionReference, type DocumentReference, getFirestore, Timestamp } from 'firebase-admin/firestore'
 import { mock } from 'jest-mock-extended'
 import { z } from 'zod'
 
@@ -19,27 +19,35 @@ const TestDocumentZod = z.object({
   name: z.string(),
 })
 
+type TestDocumentReference = ZodDocumentReference<typeof TestDocumentZod>
+type TestDocumentSnapshot = ZodDocumentSnapshot<typeof TestDocumentZod>
+
 describe('singleDocumentCollectionFactory', () => {
   const collection = singleDocumentCollectionFactory('foo', TestDocumentZod, 'KEY', { getFirestore })
   const firestoreZodOptions = { firestore: getFirestore() }
+
+  beforeEach(() => {
+    jest.mocked(firestoreCollection).mockReturnValue(mock<CollectionReference>())
+    jest.mocked(firestoreDocument).mockReturnValue(mock<DocumentReference>())
+  })
 
   describe('read', () => {
     it('should invoke firestoreZodCollection', () => {
       collection.read.collection()
 
-      expect(firestoreZodCollection).toHaveBeenCalledWith(['foo'], TestDocumentZod, firestoreZodOptions)
+      expect(firestoreZodCollection).toHaveBeenCalledWith(['foo'], TestDocumentZod, undefined, firestoreZodOptions)
     })
 
     it('should invoke firestoreZodDocument', () => {
       collection.read.doc()
 
-      expect(firestoreZodDocument).toHaveBeenCalledWith(['foo'], 'KEY', TestDocumentZod, firestoreZodOptions)
+      expect(firestoreZodDocument).toHaveBeenCalledWith(['foo'], 'KEY', TestDocumentZod, undefined, firestoreZodOptions)
     })
 
     it('should invoke firestoreZodCollectionGroup', () => {
       collection.read.collectionGroup()
 
-      expect(firestoreZodCollectionGroup).toHaveBeenCalledWith('foo', TestDocumentZod, firestoreZodOptions)
+      expect(firestoreZodCollectionGroup).toHaveBeenCalledWith('foo', TestDocumentZod, undefined, firestoreZodOptions)
     })
   })
 
@@ -59,8 +67,8 @@ describe('singleDocumentCollectionFactory', () => {
 
   describe('find', () => {
     it('should return undefined if document doest not exists', async () => {
-      const documentRef = mock<ZodDocumentReference>()
-      const snapshot = mock<ZodDocumentSnapshot>({ exists: false })
+      const documentRef = mock<TestDocumentReference>()
+      const snapshot = mock<TestDocumentSnapshot>({ exists: false })
       documentRef.get.mockResolvedValue(snapshot)
       jest.mocked(firestoreZodDocument).mockReturnValue(documentRef)
 
@@ -68,8 +76,8 @@ describe('singleDocumentCollectionFactory', () => {
     })
 
     it('should return value if document exists', async () => {
-      const documentRef = mock<ZodDocumentReference>()
-      const snapshot = mock<ZodDocumentSnapshot>({ exists: true })
+      const documentRef = mock<TestDocumentReference>()
+      const snapshot = mock<TestDocumentSnapshot>({ exists: true })
       documentRef.get.mockResolvedValue(snapshot)
       const parsedDocumentValue = {
         _id: 'id',
@@ -87,8 +95,8 @@ describe('singleDocumentCollectionFactory', () => {
 
   describe('findByIdOrThrow', () => {
     it('should throw if document doest not exists', async () => {
-      const documentRef = mock<ZodDocumentReference>()
-      const snapshot = mock<ZodDocumentSnapshot>({ exists: false })
+      const documentRef = mock<TestDocumentReference>()
+      const snapshot = mock<TestDocumentSnapshot>({ exists: false })
       documentRef.get.mockResolvedValue(snapshot)
       jest.mocked(firestoreZodDocument).mockReturnValue(documentRef)
 
@@ -96,8 +104,8 @@ describe('singleDocumentCollectionFactory', () => {
     })
 
     it('should return value if document exists', async () => {
-      const documentRef = mock<ZodDocumentReference>()
-      const snapshot = mock<ZodDocumentSnapshot>({ exists: true })
+      const documentRef = mock<TestDocumentReference>()
+      const snapshot = mock<TestDocumentSnapshot>({ exists: true })
       documentRef.get.mockResolvedValue(snapshot)
       const parsedDocumentValue = {
         _id: 'id',
@@ -116,6 +124,7 @@ describe('singleDocumentCollectionFactory', () => {
   describe('create', () => {
     it('should invoke create on firestoreDocument', async () => {
       const docRef = mock<DocumentReference>()
+      docRef.withConverter.mockReturnThis()
       jest.mocked(firestoreDocument).mockReturnValue(docRef)
 
       await collection.create({ name: 'test' })
@@ -128,6 +137,7 @@ describe('singleDocumentCollectionFactory', () => {
   describe('set', () => {
     it('should invoke set on firestoreDocument with options', async () => {
       const docRef = mock<DocumentReference>()
+      docRef.withConverter.mockReturnThis()
       jest.mocked(firestoreDocument).mockReturnValue(docRef)
 
       await collection.set({ name: 'test' }, { merge: true })
@@ -138,6 +148,7 @@ describe('singleDocumentCollectionFactory', () => {
 
     it('should invoke set on firestoreDocument without options', async () => {
       const docRef = mock<DocumentReference>()
+      docRef.withConverter.mockReturnThis()
       jest.mocked(firestoreDocument).mockReturnValue(docRef)
 
       await collection.set({ name: 'test' })
@@ -150,6 +161,7 @@ describe('singleDocumentCollectionFactory', () => {
   describe('update', () => {
     it('should invoke update on firestoreDocument', async () => {
       const docRef = mock<DocumentReference>()
+      docRef.withConverter.mockReturnThis()
       jest.mocked(firestoreDocument).mockReturnValue(docRef)
 
       await collection.update({ name: 'test' })
@@ -160,6 +172,7 @@ describe('singleDocumentCollectionFactory', () => {
 
     it('should invoke update on firestoreDocument with precondition', async () => {
       const docRef = mock<DocumentReference>()
+      docRef.withConverter.mockReturnThis()
       jest.mocked(firestoreDocument).mockReturnValue(docRef)
 
       await collection.update({ name: 'test' }, { exists: true })
@@ -172,6 +185,7 @@ describe('singleDocumentCollectionFactory', () => {
   describe('delete', () => {
     it('should invoke delete on firestoreDocument', async () => {
       const docRef = mock<DocumentReference>()
+      docRef.withConverter.mockReturnThis()
       jest.mocked(firestoreDocument).mockReturnValue(docRef)
 
       await collection.delete()
@@ -182,6 +196,7 @@ describe('singleDocumentCollectionFactory', () => {
 
     it('should invoke delete on firestoreDocument with precondition', async () => {
       const docRef = mock<DocumentReference>()
+      docRef.withConverter.mockReturnThis()
       jest.mocked(firestoreDocument).mockReturnValue(docRef)
 
       await collection.delete({ exists: true })

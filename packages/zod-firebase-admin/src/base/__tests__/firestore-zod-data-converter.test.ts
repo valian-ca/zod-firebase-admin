@@ -20,8 +20,12 @@ const TestDiscriminatedUnionDocumentZod = z.discriminatedUnion('_id', [
 ])
 
 describe('firestoreZodDataConverter', () => {
-  describe('base case', () => {
-    const converter = firestoreZodDataConverter(TestDocumentZod)
+  describe('with metadata', () => {
+    const converter = firestoreZodDataConverter(TestDocumentZod, {
+      _createTime: true,
+      _updateTime: true,
+      _readTime: true,
+    })
 
     describe('toFirestore', () => {
       it('should omit _id _createTime _updateTime _readTime', () => {
@@ -59,8 +63,41 @@ describe('firestoreZodDataConverter', () => {
     })
   })
 
+  describe('without metadata', () => {
+    const converter = firestoreZodDataConverter(TestDocumentZod, {
+      _id: false,
+    })
+
+    describe('toFirestore', () => {
+      it('should omit _id _createTime _updateTime _readTime', () => {
+        expect(converter.toFirestore({ name: 'name' })).toEqual({ name: 'name' })
+      })
+    })
+
+    describe('fromFirestore', () => {
+      it('should parse and add _id _createTime _updateTime _readTime', () => {
+        const now = Timestamp.now()
+        const snapshot = mock<QueryDocumentSnapshot>({
+          id: 'id',
+          createTime: now,
+          updateTime: now,
+          readTime: now,
+        })
+        snapshot.data.mockReturnValue({ name: 'name' })
+
+        expect(converter.fromFirestore(snapshot)).toEqual({
+          name: 'name',
+        })
+      })
+    })
+  })
+
   describe('discriminated union on _id', () => {
-    const converter = firestoreZodDataConverter(TestDiscriminatedUnionDocumentZod, { includeDocumentIdForZod: true })
+    const converter = firestoreZodDataConverter(
+      TestDiscriminatedUnionDocumentZod,
+      {},
+      { includeDocumentIdForZod: true },
+    )
 
     describe('fromFirestore foo document', () => {
       it('should parse value with _id', () => {
@@ -75,9 +112,6 @@ describe('firestoreZodDataConverter', () => {
 
         expect(converter.fromFirestore(snapshot)).toEqual({
           _id: 'foo',
-          _createTime: now,
-          _updateTime: now,
-          _readTime: now,
           name1: 'name1',
           name2: undefined,
         })
@@ -97,9 +131,6 @@ describe('firestoreZodDataConverter', () => {
 
         expect(converter.fromFirestore(snapshot)).toEqual({
           _id: 'bar',
-          _createTime: now,
-          _updateTime: now,
-          _readTime: now,
           name1: undefined,
           name2: 'name2',
         })
@@ -126,11 +157,15 @@ describe('firestoreZodDataConverter', () => {
     })
 
     describe('with custom error handler', () => {
-      const converter = firestoreZodDataConverter(TestDocumentZod, {
-        zodErrorHandler: (error, snapshot) => {
-          throw new Error(`Error: Invalid input on ${snapshot.id}`)
+      const converter = firestoreZodDataConverter(
+        TestDocumentZod,
+        {},
+        {
+          zodErrorHandler: (error, snapshot) => {
+            throw new Error(`Error: Invalid input on ${snapshot.id}`)
+          },
         },
-      })
+      )
 
       it('should throw error with id', () => {
         const now = Timestamp.now()
@@ -149,9 +184,13 @@ describe('firestoreZodDataConverter', () => {
     describe('snapshotDataConverter', () => {
       it('should return data', () => {
         const snapshotDataConverter = jest.fn().mockImplementation((snapshot: QueryDocumentSnapshot) => snapshot.data())
-        const converter = firestoreZodDataConverter(TestDocumentZod, {
-          snapshotDataConverter,
-        })
+        const converter = firestoreZodDataConverter(
+          TestDocumentZod,
+          {},
+          {
+            snapshotDataConverter,
+          },
+        )
 
         const now = Timestamp.now()
         const snapshot = mock<QueryDocumentSnapshot>({

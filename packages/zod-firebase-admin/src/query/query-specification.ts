@@ -15,10 +15,10 @@ function isWhereTuple(filter: QuerySpecification['where']): filter is Array<Wher
   return Array.isArray(filter)
 }
 
-export const applyQuerySpecification = <T extends DocumentData = DocumentData>(
-  query: Query<T>,
+export const applyQuerySpecification = <AppModelType, DbModelType extends DocumentData = DocumentData>(
+  query: Query<AppModelType, DbModelType>,
   { where, orderBy, limit }: QuerySpecification,
-): Query<T> => {
+): Query<AppModelType, DbModelType> => {
   let result = query
   if (where) {
     result = isWhereTuple(where)

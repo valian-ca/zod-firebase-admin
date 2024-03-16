@@ -1,13 +1,11 @@
-import type {
-  DocumentInput,
-  DocumentOutput,
-  ReadonlyDocumentInput,
-  ReadonlyDocumentOutput,
-  ZodTypeDocumentData,
-} from '../base'
-import type { QueryHelper } from '../query'
+import type { CollectionReference, DocumentReference, Query } from 'firebase/firestore'
+import type { ReadonlyDeep } from 'type-fest'
+import type { z } from 'zod'
+
+import type { DocumentOutput, MetaOutputOptions, ReadonlyDocumentOutput, ZodTypeDocumentData } from '../base'
 
 import type { CollectionFactory } from './collection-factory'
+import type { SchemaQueryHelper } from './schema-query-helper'
 
 export type CollectionSchema<
   Z extends ZodTypeDocumentData = ZodTypeDocumentData,
@@ -68,19 +66,47 @@ export type SubCollection<
   SubCollectionsSchema<TCollectionSchema> extends Schema
     ? TCollectionSchema & {
         readonly collectionName: TCollectionName
-        readonly group: QueryHelper<DocumentOutput<Z>>
+        readonly group: SchemaQueryHelper<TCollectionSchema>
       } & SubCollections<SubCollectionsSchema<TCollectionSchema>>
     : TCollectionSchema & {
         readonly collectionName: TCollectionName
-        readonly group: QueryHelper<DocumentOutput<Z>>
+        readonly group: SchemaQueryHelper<TCollectionSchema>
       }
 
-export type SchemaDocumentInput<
-  Z extends ZodTypeDocumentData = ZodTypeDocumentData,
-  TCollectionSchema extends CollectionSchema<Z> = CollectionSchema<Z>,
-> = TCollectionSchema['readonlyDocuments'] extends true ? ReadonlyDocumentInput<Z> : DocumentInput<Z>
+type CollectionSchemaZod<TCollectionSchema> = TCollectionSchema extends CollectionSchema<infer Z> ? Z : never
+
+export type SchemaDocumentInput<TCollectionSchema extends CollectionSchema> =
+  | z.input<CollectionSchemaZod<TCollectionSchema>>
+  | ReadonlyDeep<z.input<CollectionSchemaZod<TCollectionSchema>>>
 
 export type SchemaDocumentOutput<
-  Z extends ZodTypeDocumentData = ZodTypeDocumentData,
-  TCollectionSchema extends CollectionSchema<Z> = CollectionSchema<Z>,
-> = TCollectionSchema['readonlyDocuments'] extends true ? ReadonlyDocumentOutput<Z> : DocumentOutput<Z>
+  TCollectionSchema extends CollectionSchema,
+  Options extends MetaOutputOptions = MetaOutputOptions,
+> = TCollectionSchema['readonlyDocuments'] extends true
+  ? ReadonlyDocumentOutput<CollectionSchemaZod<TCollectionSchema>, Options>
+  : DocumentOutput<CollectionSchemaZod<TCollectionSchema>, Options>
+
+export type SchemaReadCollectionReference<
+  TCollectionSchema extends CollectionSchema,
+  Options extends MetaOutputOptions = MetaOutputOptions,
+> = CollectionReference<SchemaDocumentOutput<TCollectionSchema, Options>, SchemaDocumentInput<TCollectionSchema>>
+
+export type SchemaReadDocumentReference<
+  TCollectionSchema extends CollectionSchema,
+  Options extends MetaOutputOptions = MetaOutputOptions,
+> = DocumentReference<SchemaDocumentOutput<TCollectionSchema, Options>, SchemaDocumentInput<TCollectionSchema>>
+
+export type SchemaReadCollectionGroup<
+  TCollectionSchema extends CollectionSchema,
+  Options extends MetaOutputOptions = MetaOutputOptions,
+> = Query<SchemaDocumentOutput<TCollectionSchema, Options>, SchemaDocumentInput<TCollectionSchema>>
+
+export type SchemaWriteCollectionReference<TCollectionSchema extends CollectionSchema> = CollectionReference<
+  SchemaDocumentInput<TCollectionSchema>,
+  SchemaDocumentInput<TCollectionSchema>
+>
+
+export type SchemaWriteDocumentReference<TCollectionSchema extends CollectionSchema> = DocumentReference<
+  SchemaDocumentInput<TCollectionSchema>,
+  SchemaDocumentInput<TCollectionSchema>
+>
