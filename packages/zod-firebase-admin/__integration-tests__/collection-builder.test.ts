@@ -10,6 +10,7 @@ jest.unmock('firebase-admin/firestore')
 
 const TestDocumentZod = z.object({
   name: z.string(),
+  values: z.array(z.string()).optional().default([]),
 })
 
 const TestSubCollectionDocumentZod = z.object({
@@ -114,7 +115,7 @@ describe('collectionsBuilder', () => {
 
       await collection.test('foo').sub.set({ value: 42 }, { merge: false })
 
-      const foo42 = await collection.test('foo').sub.findOrThrow()
+      const foo42 = await collection.test('foo').sub.findOrThrow({ _updateTime: true })
 
       expect(foo42._id).toBe(collection.test.sub.singleDocumentKey)
       expect(foo42.value).toBe(42)
@@ -232,6 +233,32 @@ describe('collectionsBuilder', () => {
       await expect(
         collectionWithSnapshotDataConverter.timestampTransform.findByIdOrThrow('bar'),
       ).resolves.toMatchObject({ timestamp: NOW, sub: { timestamp: NOW } })
+    })
+  })
+
+  describe('readonlyDocuments', () => {
+    beforeEach(async () => {
+      await getFirestore()
+        .doc('test/foo')
+        .set({ name: 'foo', values: ['foo'] })
+      await getFirestore().doc('test/bar').set({ name: 'bar' })
+      await getFirestore()
+        .doc('readOnly/foo')
+        .set({ name: 'foo', values: ['foo'] })
+      await getFirestore().doc('readOnly/bar').set({ name: 'bar' })
+    })
+
+    it('should work', async () => {
+      const readOnlyFoo = await collection.readOnly.findByIdOrThrow('foo')
+      const readOnlyBar = await collection.test.findByIdOrThrow('bar', { readonly: true })
+
+      await expect(collection.test.set('foo', readOnlyFoo)).resolves.not.toThrow()
+      await expect(collection.test.create('test', readOnlyFoo)).resolves.not.toThrow()
+      await expect(collection.test.add(readOnlyFoo)).resolves.not.toThrow()
+
+      await expect(collection.readOnly.set('foo', readOnlyBar)).resolves.not.toThrow()
+      await expect(collection.readOnly.create('test', readOnlyBar)).resolves.not.toThrow()
+      await expect(collection.readOnly.add(readOnlyBar)).resolves.not.toThrow()
     })
   })
 })

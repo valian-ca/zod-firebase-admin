@@ -9,24 +9,18 @@ import {
   type SingleDocumentCollectionFactory,
   singleDocumentCollectionFactory,
 } from './single-document-collection-factory'
-import type { CollectionSchema, SchemaDocumentInput, SchemaDocumentOutput } from './types'
+import type { CollectionSchema } from './types'
 
-type SingleOrMultiDocumentCollectionFactory<
-  Z extends ZodTypeDocumentData = ZodTypeDocumentData,
-  TCollectionSchema extends CollectionSchema<Z> = CollectionSchema<Z>,
-  TInput extends SchemaDocumentInput<Z, TCollectionSchema> = SchemaDocumentInput<Z, TCollectionSchema>,
-  TOutput extends SchemaDocumentOutput<Z, TCollectionSchema> = SchemaDocumentOutput<Z, TCollectionSchema>,
-> = TCollectionSchema['singleDocumentKey'] extends string
-  ? SingleDocumentCollectionFactory<Z, TCollectionSchema, TInput, TOutput>
-  : MultiDocumentCollectionFactory<Z, TCollectionSchema, TInput, TOutput>
+type SingleOrMultiDocumentCollectionFactory<TCollectionSchema extends CollectionSchema> =
+  TCollectionSchema['singleDocumentKey'] extends string
+    ? SingleDocumentCollectionFactory<TCollectionSchema>
+    : MultiDocumentCollectionFactory<TCollectionSchema>
 
 export type CollectionFactory<
   TCollectionName extends string,
   Z extends ZodTypeDocumentData = ZodTypeDocumentData,
   TCollectionSchema extends CollectionSchema<Z> = CollectionSchema<Z>,
-  TInput extends SchemaDocumentInput<Z, TCollectionSchema> = SchemaDocumentInput<Z, TCollectionSchema>,
-  TOutput extends SchemaDocumentOutput<Z, TCollectionSchema> = SchemaDocumentOutput<Z, TCollectionSchema>,
-> = SingleOrMultiDocumentCollectionFactory<Z, TCollectionSchema, TInput, TOutput> & {
+> = SingleOrMultiDocumentCollectionFactory<TCollectionSchema> & {
   readonly collectionName: TCollectionName
   readonly collectionPath: string
   readonly zod: Z
@@ -36,31 +30,18 @@ export const collectionFactory = <
   TCollectionName extends string,
   Z extends ZodTypeDocumentData = ZodTypeDocumentData,
   TCollectionSchema extends CollectionSchema<Z> = CollectionSchema<Z>,
-  TInput extends SchemaDocumentInput<Z, TCollectionSchema> = SchemaDocumentInput<Z, TCollectionSchema>,
-  TOutput extends SchemaDocumentOutput<Z, TCollectionSchema> = SchemaDocumentOutput<Z, TCollectionSchema>,
 >(
   collectionName: TCollectionName,
   { zod, singleDocumentKey, includeDocumentIdForZod }: TCollectionSchema,
   options?: FirestoreZodFactoryOptions,
   parentPath?: [string, string],
 ) => {
-  const factoryOptions = includeDocumentIdForZod !== undefined ? { ...options, includeDocumentIdForZod } : options
+  const factoryOptions = { ...options, includeDocumentIdForZod }
   const collection = (
     typeof singleDocumentKey === 'string'
-      ? singleDocumentCollectionFactory<TCollectionName, Z, TCollectionSchema, TInput, TOutput>(
-          collectionName,
-          zod,
-          singleDocumentKey,
-          factoryOptions,
-          parentPath,
-        )
-      : multiDocumentCollectionFactory<TCollectionName, Z, TCollectionSchema, TInput, TOutput>(
-          collectionName,
-          zod,
-          factoryOptions,
-          parentPath,
-        )
-  ) as SingleOrMultiDocumentCollectionFactory<Z, TCollectionSchema, TInput, TOutput>
+      ? singleDocumentCollectionFactory(collectionName, zod, singleDocumentKey, factoryOptions, parentPath)
+      : multiDocumentCollectionFactory(collectionName, zod, factoryOptions, parentPath)
+  ) as SingleOrMultiDocumentCollectionFactory<TCollectionSchema>
 
   return {
     collectionName,

@@ -1,7 +1,7 @@
-import type { WithFieldValue } from '@firebase/firestore'
 import type { DocumentData, FirestoreDataConverter, QueryDocumentSnapshot } from 'firebase-admin/firestore'
 
-import type { DocumentOutput, ZodTypeDocumentData } from './types'
+import { omitMetadata, type WithFieldValueAndMetadata } from './firestore-omit-meta-data-converter'
+import type { DocumentInput, DocumentOutput, MetaOutputOptions, ZodTypeDocumentData } from './types'
 import type { ZodErrorHandler } from './zod-error-handler'
 
 export type FirestoreZodDataConverterOptions = {
@@ -12,14 +12,16 @@ export type FirestoreZodDataConverterOptions = {
 
 export const firestoreZodDataConverter = <
   Z extends ZodTypeDocumentData,
-  AppModelType extends DocumentOutput<Z> = DocumentOutput<Z>,
-  DbModelType extends DocumentData = DocumentData,
+  OutputOptions extends MetaOutputOptions,
+  AppModelType extends DocumentOutput<Z, OutputOptions> = DocumentOutput<Z, OutputOptions>,
+  DbModelType extends DocumentData = DocumentInput<Z>,
 >(
   zod: Z,
+  outputOptions?: OutputOptions,
   options?: FirestoreZodDataConverterOptions,
 ): FirestoreDataConverter<AppModelType, DbModelType> => ({
-  toFirestore: ({ _id, _readTime, _createTime, _updateTime, ...documentData }) =>
-    documentData as WithFieldValue<DbModelType>,
+  toFirestore: (modelObject) =>
+    omitMetadata<AppModelType, DbModelType>(modelObject as WithFieldValueAndMetadata<AppModelType>),
   fromFirestore: (snapshot) => {
     const data = options?.snapshotDataConverter ? options.snapshotDataConverter(snapshot) : snapshot.data()
     const output = zod.safeParse(
@@ -33,11 +35,10 @@ export const firestoreZodDataConverter = <
     )
     if (!output.success) throw options?.zodErrorHandler ? options.zodErrorHandler(output.error, snapshot) : output.error
     return {
-      // Must be added again because zod.parse might remove it
-      _id: snapshot.id,
-      _readTime: snapshot.readTime,
-      _createTime: snapshot.createTime,
-      _updateTime: snapshot.updateTime,
+      ...(outputOptions?._id !== false ? { _id: snapshot.id } : {}),
+      ...(outputOptions?._createTime ? { _createTime: snapshot.createTime } : {}),
+      ...(outputOptions?._updateTime ? { _updateTime: snapshot.updateTime } : {}),
+      ...(outputOptions?._readTime ? { _readTime: snapshot.readTime } : {}),
       ...output.data,
     } as AppModelType
   },

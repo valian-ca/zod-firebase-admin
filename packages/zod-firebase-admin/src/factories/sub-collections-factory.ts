@@ -1,7 +1,7 @@
 import type { ZodTypeDocumentData } from '../base'
 
-import { collectionGroupQueryHelper } from './collection-group-query-helper'
 import type { FirestoreZodFactoryOptions } from './firestore-zod-factory-options'
+import { schemaGroupQueryHelper } from './schema-group-query-helper'
 import type { CollectionSchema, SubCollection, SubCollections, SubCollectionsSchema } from './types'
 
 export const subCollectionsFactory = <TCollectionSchema>(
@@ -29,7 +29,7 @@ const subCollectionFactory = <
   const subCollection = {
     ...collectionSchema,
     collectionName,
-    group: collectionGroupQueryHelper(collectionName, collectionSchema, options),
+    group: schemaGroupQueryHelper(collectionName, collectionSchema, options),
   }
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars

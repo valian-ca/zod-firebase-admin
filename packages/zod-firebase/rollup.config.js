@@ -14,7 +14,7 @@ export default [
         format: 'esm',
       },
     ],
-    external: ['firebase-admin/firestore'],
+    external: ['firebase/firestore'],
     plugins: [typescript({})],
   },
   {
@@ -30,7 +30,7 @@ export default [
         file: 'lib/index.d.mts',
       },
     ],
-    external: ['firebase-admin/firestore'],
+    external: ['firebase/firestore'],
     plugins: [dts()],
   },
 ]

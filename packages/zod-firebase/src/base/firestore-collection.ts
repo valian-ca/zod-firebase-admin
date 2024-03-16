@@ -3,7 +3,7 @@ import { collection, type CollectionReference, type DocumentData, getFirestore }
 import { type CollectionPath, firestoreCollectionPath } from './firestore-collection-path'
 import { firestoreZodDataConverter } from './firestore-zod-data-converter'
 import type { FirestoreZodOptions } from './firestore-zod-options'
-import type { DocumentOutput, ZodTypeDocumentData } from './types'
+import type { DocumentInput, DocumentOutput, MetaOutputOptions, ZodTypeDocumentData } from './types'
 
 export const firestoreCollection = <AppModelType = DocumentData, DbModelType extends DocumentData = DocumentData>(
   collectionPath: CollectionPath | string,
@@ -12,13 +12,15 @@ export const firestoreCollection = <AppModelType = DocumentData, DbModelType ext
 
 export const firestoreZodCollection = <
   Z extends ZodTypeDocumentData,
-  AppModelType extends DocumentOutput<Z> = DocumentOutput<Z>,
-  DbModelType extends DocumentData = DocumentData,
+  OutputOptions extends MetaOutputOptions,
+  AppModelType extends DocumentOutput<Z, OutputOptions> = DocumentOutput<Z, OutputOptions>,
+  DbModelType extends DocumentData = DocumentInput<Z>,
 >(
   collectionPath: CollectionPath | string,
   zod: Z,
+  outputOptions?: OutputOptions,
   { firestore = getFirestore(), ...options }: FirestoreZodOptions = {},
 ): CollectionReference<AppModelType, DbModelType> =>
   collection(firestore, firestoreCollectionPath(collectionPath)).withConverter(
-    firestoreZodDataConverter<Z, AppModelType, DbModelType>(zod, options),
+    firestoreZodDataConverter<Z, OutputOptions, AppModelType, DbModelType>(zod, outputOptions, options),
   )

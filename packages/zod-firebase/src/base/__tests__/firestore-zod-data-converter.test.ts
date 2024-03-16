@@ -30,6 +30,36 @@ describe('firestoreZodDataConverter', () => {
         expect(
           converter.toFirestore({
             _id: 'id',
+            name: 'name',
+          }),
+        ).toEqual({ name: 'name' })
+      })
+    })
+
+    describe('fromFirestore', () => {
+      it('should parse and add _id', () => {
+        const snapshot = mock<QueryDocumentSnapshot>({
+          id: 'id',
+          metadata: META_DATA_MOCK,
+        })
+        snapshot.data.mockReturnValue({ name: 'name' })
+
+        expect(converter.fromFirestore(snapshot)).toEqual({
+          _id: 'id',
+          name: 'name',
+        })
+      })
+    })
+  })
+
+  describe('with metadata', () => {
+    const converter = firestoreZodDataConverter(TestDocumentZod, { _metadata: true })
+
+    describe('toFirestore', () => {
+      it('should omit _id _metadata', () => {
+        expect(
+          converter.toFirestore({
+            _id: 'id',
             _metadata: META_DATA_MOCK,
             name: 'name',
           }),
@@ -48,7 +78,34 @@ describe('firestoreZodDataConverter', () => {
         expect(converter.fromFirestore(snapshot)).toEqual({
           _id: 'id',
           _metadata: META_DATA_MOCK,
+          name: 'name',
+        })
+      })
+    })
+  })
 
+  describe('without id', () => {
+    const converter = firestoreZodDataConverter(TestDocumentZod, { _id: false })
+
+    describe('toFirestore', () => {
+      it('should omit _id _metadata', () => {
+        expect(
+          converter.toFirestore({
+            name: 'name',
+          }),
+        ).toEqual({ name: 'name' })
+      })
+    })
+
+    describe('fromFirestore', () => {
+      it('should parse data', () => {
+        const snapshot = mock<QueryDocumentSnapshot>({
+          id: 'id',
+          metadata: META_DATA_MOCK,
+        })
+        snapshot.data.mockReturnValue({ name: 'name' })
+
+        expect(converter.fromFirestore(snapshot)).toEqual({
           name: 'name',
         })
       })
@@ -56,7 +113,13 @@ describe('firestoreZodDataConverter', () => {
   })
 
   describe('discriminated union on _id', () => {
-    const converter = firestoreZodDataConverter(TestDiscriminatedUnionDocumentZod, { includeDocumentIdForZod: true })
+    const converter = firestoreZodDataConverter(
+      TestDiscriminatedUnionDocumentZod,
+      {},
+      {
+        includeDocumentIdForZod: true,
+      },
+    )
 
     describe('fromFirestore foo document', () => {
       it('should parse value with _id', () => {
@@ -68,7 +131,6 @@ describe('firestoreZodDataConverter', () => {
 
         expect(converter.fromFirestore(snapshot)).toEqual({
           _id: 'foo',
-          _metadata: META_DATA_MOCK,
           name1: 'name1',
           name2: undefined,
         })
@@ -85,7 +147,6 @@ describe('firestoreZodDataConverter', () => {
 
         expect(converter.fromFirestore(snapshot)).toEqual({
           _id: 'bar',
-          _metadata: META_DATA_MOCK,
           name1: undefined,
           name2: 'name2',
         })
@@ -109,11 +170,15 @@ describe('firestoreZodDataConverter', () => {
     })
 
     describe('with custom error handler', () => {
-      const converter = firestoreZodDataConverter(TestDocumentZod, {
-        zodErrorHandler: (error, snapshot) => {
-          throw new Error(`Error: Invalid input on ${snapshot.id}`)
+      const converter = firestoreZodDataConverter(
+        TestDocumentZod,
+        {},
+        {
+          zodErrorHandler: (error, snapshot) => {
+            throw new Error(`Error: Invalid input on ${snapshot.id}`)
+          },
         },
-      })
+      )
 
       it('should throw error with id', () => {
         const snapshot = mock<QueryDocumentSnapshot>({
@@ -130,9 +195,13 @@ describe('firestoreZodDataConverter', () => {
   describe('snapshotDataConverter', () => {
     it('should return data', () => {
       const snapshotDataConverter = jest.fn().mockImplementation((snapshot: QueryDocumentSnapshot) => snapshot.data())
-      const converter = firestoreZodDataConverter(TestDocumentZod, {
-        snapshotDataConverter,
-      })
+      const converter = firestoreZodDataConverter(
+        TestDocumentZod,
+        {},
+        {
+          snapshotDataConverter,
+        },
+      )
 
       const snapshot = mock<QueryDocumentSnapshot>({
         id: 'id',

@@ -34,3 +34,6 @@ export const addDoc = jest.fn().mockResolvedValue(undefined!)
 export const setDoc = jest.fn().mockResolvedValue(undefined!)
 export const updateDoc = jest.fn().mockResolvedValue(undefined!)
 export const deleteDoc = jest.fn().mockResolvedValue(undefined!)
+
+export const getAggregateFromServer = jest.fn().mockReturnValue(mock())
+export const count = jest.fn().mockReturnValue(mock())

@@ -1,7 +1,4 @@
 import type {
-  CollectionGroup,
-  CollectionReference,
-  DocumentData,
   DocumentReference,
   PartialWithFieldValue,
   Precondition,
@@ -16,102 +13,181 @@ import {
   firestoreCollection,
   firestoreCollectionPath,
   firestoreDocument,
+  firestoreOmitMetaDataConverter,
   firestoreZodCollection,
   firestoreZodCollectionGroup,
   type FirestoreZodDataConverterOptions,
   firestoreZodDocument,
+  type MetaOutputOptions,
   type ZodTypeDocumentData,
 } from '../base'
-import { firestoreZodCollectionQuery, type QueryHelper, queryHelper } from '../query'
+import { applyQuerySpecification, type QuerySpecification } from '../query'
 
 import type { FirestoreZodFactoryOptions } from './firestore-zod-factory-options'
-import type { CollectionSchema, SchemaDocumentInput, SchemaDocumentOutput } from './types'
+import { type SchemaQueryHelper, schemaQueryHelper } from './schema-query-helper'
+import type {
+  CollectionSchema,
+  SchemaDocumentInput,
+  SchemaDocumentOutput,
+  SchemaReadCollectionGroup,
+  SchemaReadCollectionReference,
+  SchemaReadDocumentReference,
+  SchemaWriteCollectionReference,
+  SchemaWriteDocumentReference,
+} from './types'
 
-export type MultiDocumentCollectionFactory<
-  Z extends ZodTypeDocumentData,
-  TCollectionSchema extends CollectionSchema<Z> = CollectionSchema<Z>,
-  TInput extends SchemaDocumentInput<Z, TCollectionSchema> = SchemaDocumentInput<Z, TCollectionSchema>,
-  TOutput extends SchemaDocumentOutput<Z, TCollectionSchema> = SchemaDocumentOutput<Z, TCollectionSchema>,
-  DbModelType extends DocumentData = TInput,
-> = {
+export type MultiDocumentCollectionFactory<TCollectionSchema extends CollectionSchema> = {
   readonly read: {
-    collection(this: void): CollectionReference<TOutput>
-    doc(this: void, id: string): DocumentReference<TOutput>
-    collectionGroup(this: void): CollectionGroup<TOutput>
+    collection<Options extends MetaOutputOptions>(
+      this: void,
+      options?: Options,
+    ): SchemaReadCollectionReference<TCollectionSchema, Options>
+    doc<Options extends MetaOutputOptions>(
+      this: void,
+      id: string,
+      options?: Options,
+    ): SchemaReadDocumentReference<TCollectionSchema, Options>
+    collectionGroup<Options extends MetaOutputOptions>(
+      this: void,
+      options?: Options,
+    ): SchemaReadCollectionGroup<TCollectionSchema, Options>
   }
 
-  findById(this: void, id: string): Promise<TOutput | undefined>
-  findByIdOrThrow(this: void, id: string): Promise<TOutput>
+  findById<Options extends MetaOutputOptions>(
+    this: void,
+    id: string,
+    options?: Options,
+  ): Promise<SchemaDocumentOutput<TCollectionSchema, Options> | undefined>
+  findByIdOrThrow<Options extends MetaOutputOptions>(
+    this: void,
+    id: string,
+    options?: Options,
+  ): Promise<SchemaDocumentOutput<TCollectionSchema, Options>>
 
   readonly write: {
-    collection(this: void): CollectionReference<TInput>
-    doc(this: void, id: string): DocumentReference<TInput>
+    collection(this: void): SchemaWriteCollectionReference<TCollectionSchema>
+    doc(this: void, id: string): SchemaWriteDocumentReference<TCollectionSchema>
   }
 
-  add(this: void, data: WithFieldValue<TInput>): Promise<DocumentReference<TInput>>
-  create(this: void, id: string, data: WithFieldValue<TInput>): Promise<WriteResult>
-  set(this: void, id: string, data: WithFieldValue<TInput>): Promise<WriteResult>
-  set(this: void, id: string, data: PartialWithFieldValue<TInput>, options: SetOptions): Promise<WriteResult>
-  update(this: void, id: string, data: UpdateData<DbModelType>, precondition?: Precondition): Promise<WriteResult>
+  add(
+    this: void,
+    data: WithFieldValue<SchemaDocumentInput<TCollectionSchema>>,
+  ): Promise<DocumentReference<SchemaDocumentInput<TCollectionSchema>>>
+  create(this: void, id: string, data: WithFieldValue<SchemaDocumentInput<TCollectionSchema>>): Promise<WriteResult>
+  set(this: void, id: string, data: WithFieldValue<SchemaDocumentInput<TCollectionSchema>>): Promise<WriteResult>
+  set(
+    this: void,
+    id: string,
+    data: PartialWithFieldValue<SchemaDocumentInput<TCollectionSchema>>,
+    options: SetOptions,
+  ): Promise<WriteResult>
+  update(
+    this: void,
+    id: string,
+    data: UpdateData<SchemaDocumentInput<TCollectionSchema>>,
+    precondition?: Precondition,
+  ): Promise<WriteResult>
   delete(this: void, id: string, precondition?: Precondition): Promise<WriteResult>
-} & QueryHelper<TOutput>
+} & SchemaQueryHelper<TCollectionSchema>
 
 export type MultiDocumentCollectionFactoryOptions = FirestoreZodFactoryOptions & FirestoreZodDataConverterOptions
 
 export const multiDocumentCollectionFactory = <
   TCollectionName extends string,
-  Z extends ZodTypeDocumentData,
+  Z extends ZodTypeDocumentData = ZodTypeDocumentData,
   TCollectionSchema extends CollectionSchema<Z> = CollectionSchema<Z>,
-  TInput extends SchemaDocumentInput<Z, TCollectionSchema> = SchemaDocumentInput<Z, TCollectionSchema>,
-  TOutput extends SchemaDocumentOutput<Z, TCollectionSchema> = SchemaDocumentOutput<Z, TCollectionSchema>,
-  DbModelType extends DocumentData = TInput,
 >(
   collectionName: TCollectionName,
   zod: Z,
   { getFirestore, ...zodDataConverterOptions }: MultiDocumentCollectionFactoryOptions = {},
   parentPath?: [string, string],
-): MultiDocumentCollectionFactory<Z, TCollectionSchema, TInput, TOutput, DbModelType> => {
+): MultiDocumentCollectionFactory<TCollectionSchema> => {
   const collectionPath: CollectionPath = parentPath ? [...parentPath, collectionName] : [collectionName]
   const buildZodOptions = () =>
-    getFirestore ? { ...zodDataConverterOptions, firestore: getFirestore() } : zodDataConverterOptions
-  const set = (id: string, data: PartialWithFieldValue<TInput>, setOptions?: SetOptions) =>
+    getFirestore
+      ? {
+          ...zodDataConverterOptions,
+          firestore: getFirestore(),
+        }
+      : zodDataConverterOptions
+
+  const schemaReadCollection = <Options extends MetaOutputOptions>(options?: Options) =>
+    firestoreZodCollection<
+      Z,
+      Options,
+      SchemaDocumentOutput<TCollectionSchema, Options>,
+      SchemaDocumentInput<TCollectionSchema>
+    >(collectionPath, zod, options, buildZodOptions())
+
+  const schemaReadDoc = <Options extends MetaOutputOptions>(id: string, options?: Options) =>
+    firestoreZodDocument<
+      Z,
+      Options,
+      SchemaDocumentOutput<TCollectionSchema, Options>,
+      SchemaDocumentInput<TCollectionSchema>
+    >(collectionPath, id, zod, options, buildZodOptions())
+
+  const schemaReadCollectionGroup = <Options extends MetaOutputOptions>(options?: Options) =>
+    firestoreZodCollectionGroup<
+      Z,
+      Options,
+      SchemaDocumentOutput<TCollectionSchema, Options>,
+      SchemaDocumentInput<TCollectionSchema>
+    >(collectionName, zod, options, buildZodOptions())
+
+  const schemaWriteCollection = () =>
+    firestoreCollection<SchemaDocumentInput<TCollectionSchema>, SchemaDocumentInput<TCollectionSchema>>(
+      collectionPath,
+      getFirestore?.(),
+    ).withConverter(firestoreOmitMetaDataConverter<SchemaDocumentInput<TCollectionSchema>>())
+
+  const schemaWriteDoc = (id: string): SchemaWriteDocumentReference<TCollectionSchema> =>
+    firestoreDocument<SchemaDocumentInput<TCollectionSchema>, SchemaDocumentInput<TCollectionSchema>>(
+      collectionPath,
+      id,
+      getFirestore?.(),
+    ).withConverter(firestoreOmitMetaDataConverter<SchemaDocumentInput<TCollectionSchema>>())
+
+  const queryFactory = <Options extends MetaOutputOptions>(query: QuerySpecification, options?: Options) =>
+    applyQuerySpecification(schemaReadCollection(options), query)
+  const queryHelper = schemaQueryHelper(queryFactory)
+
+  const set = (
+    id: string,
+    data: PartialWithFieldValue<SchemaDocumentInput<TCollectionSchema>>,
+    setOptions?: SetOptions,
+  ) =>
     setOptions
-      ? firestoreDocument<TInput, DbModelType>(collectionPath, id, getFirestore?.()).set(data, setOptions)
-      : firestoreDocument<TInput, DbModelType>(collectionPath, id, getFirestore?.()).set(data as WithFieldValue<TInput>)
+      ? schemaWriteDoc(id).set(data, setOptions)
+      : schemaWriteDoc(id).set(data as WithFieldValue<SchemaDocumentInput<TCollectionSchema>>)
+
   return {
+    ...queryHelper,
     read: {
-      collection: () => firestoreZodCollection<Z, TOutput, DbModelType>(collectionPath, zod, buildZodOptions()),
-      doc: (id) => firestoreZodDocument<Z, TOutput, DbModelType>(collectionPath, id, zod, buildZodOptions()),
-      collectionGroup: () =>
-        firestoreZodCollectionGroup<Z, TOutput, DbModelType>(collectionName, zod, buildZodOptions()),
+      collection: schemaReadCollection,
+      doc: schemaReadDoc,
+      collectionGroup: schemaReadCollectionGroup,
     },
-    findById: async (id) => {
-      const doc = await firestoreZodDocument<Z, TOutput, DbModelType>(collectionPath, id, zod, buildZodOptions()).get()
+    findById: async <Options extends MetaOutputOptions>(id: string, options?: Options) => {
+      const doc = await schemaReadDoc(id, options).get()
       return doc.data()
     },
-    findByIdOrThrow: async (id) => {
-      const doc = await firestoreZodDocument<Z, TOutput, DbModelType>(collectionPath, id, zod, buildZodOptions()).get()
+    findByIdOrThrow: async <Options extends MetaOutputOptions>(id: string, options?: Options) => {
+      const doc = await schemaReadDoc(id, options).get()
       if (!doc.exists) {
         throw new Error(`Document ${id} not found in collection ${firestoreCollectionPath(collectionPath)}`)
       }
       return doc.data()!
     },
     write: {
-      collection: () => firestoreCollection<TInput, DbModelType>(collectionPath, getFirestore?.()),
-      doc: (id) => firestoreDocument<TInput, DbModelType>(collectionPath, id, getFirestore?.()),
+      collection: schemaWriteCollection,
+      doc: schemaWriteDoc,
     },
-    add: async (data) => firestoreCollection<TInput, DbModelType>(collectionPath, getFirestore?.()).add(data),
-    create: async (id, data) =>
-      firestoreDocument<TInput, DbModelType>(collectionPath, id, getFirestore?.()).create(data),
+    add: async (data) => schemaWriteCollection().add(data),
+    create: async (id, data) => schemaWriteDoc(id).create(data),
     set,
-    update: (id, data, precondition) =>
-      precondition
-        ? firestoreDocument<TInput, DbModelType>(collectionPath, id, getFirestore?.()).update(data, precondition)
-        : firestoreDocument<TInput, DbModelType>(collectionPath, id, getFirestore?.()).update(data),
-    delete: (id, precondition) =>
-      firestoreDocument<TInput, DbModelType>(collectionPath, id, getFirestore?.()).delete(precondition),
-    ...queryHelper((query) =>
-      firestoreZodCollectionQuery<Z, TOutput, DbModelType>(collectionPath, zod, query, buildZodOptions()),
-    ),
+    update: (id: string, data: UpdateData<SchemaDocumentInput<TCollectionSchema>>, precondition?: Precondition) =>
+      precondition ? schemaWriteDoc(id).update(data, precondition) : schemaWriteDoc(id).update(data),
+    delete: (id: string, precondition?: Precondition) => schemaWriteDoc(id).delete(precondition),
   }
 }

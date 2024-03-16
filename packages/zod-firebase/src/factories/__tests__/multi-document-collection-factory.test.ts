@@ -7,7 +7,6 @@ import {
   getDocs,
   getFirestore,
   setDoc,
-  type SnapshotMetadata,
   updateDoc,
 } from 'firebase/firestore'
 import { mock } from 'jest-mock-extended'
@@ -32,9 +31,21 @@ const TestDocumentZod = z.object({
   name: z.string(),
 })
 
-const META_DATA_MOCK = mock<SnapshotMetadata>()
+type TestDocumentReference = ZodDocumentReference<typeof TestDocumentZod>
+type TestCollectionReference = ZodCollectionReference<typeof TestDocumentZod>
+type TestDocumentSnapshot = ZodDocumentSnapshot<typeof TestDocumentZod>
+type TestQuerySnapshot = ZodQuerySnapshot<typeof TestDocumentZod>
 
 describe('multiDocumentCollectionFactory', () => {
+  beforeEach(() => {
+    const collectionRef = mock<CollectionReference>()
+    collectionRef.withConverter.mockReturnThis()
+    jest.mocked(firestoreCollection).mockReturnValue(collectionRef)
+    const documentRef = mock<DocumentReference>()
+    documentRef.withConverter.mockReturnThis()
+    jest.mocked(firestoreDocument).mockReturnValue(documentRef)
+  })
+
   describe('with specified getFirestore option', () => {
     const collection = multiDocumentCollectionFactory('foo', TestDocumentZod, { getFirestore })
     const firestoreZodOptions = { firestore: getFirestore() }
@@ -43,19 +54,25 @@ describe('multiDocumentCollectionFactory', () => {
       it('should invoke firestoreZodCollection', () => {
         collection.read.collection()
 
-        expect(firestoreZodCollection).toHaveBeenCalledWith(['foo'], TestDocumentZod, firestoreZodOptions)
+        expect(firestoreZodCollection).toHaveBeenCalledWith(['foo'], TestDocumentZod, undefined, firestoreZodOptions)
       })
 
       it('should invoke firestoreZodDocument', () => {
         collection.read.doc('id')
 
-        expect(firestoreZodDocument).toHaveBeenCalledWith(['foo'], 'id', TestDocumentZod, firestoreZodOptions)
+        expect(firestoreZodDocument).toHaveBeenCalledWith(
+          ['foo'],
+          'id',
+          TestDocumentZod,
+          undefined,
+          firestoreZodOptions,
+        )
       })
 
       it('should invoke firestoreZodCollectionGroup', () => {
         collection.read.collectionGroup()
 
-        expect(firestoreZodCollectionGroup).toHaveBeenCalledWith('foo', TestDocumentZod, firestoreZodOptions)
+        expect(firestoreZodCollectionGroup).toHaveBeenCalledWith('foo', TestDocumentZod, undefined, firestoreZodOptions)
       })
     })
 
@@ -83,6 +100,7 @@ describe('multiDocumentCollectionFactory', () => {
           expect(firestoreZodCollection).toHaveBeenCalledWith(
             ['root', 'parent', 'foo'],
             TestDocumentZod,
+            undefined,
             firestoreZodOptions,
           )
         })
@@ -94,6 +112,7 @@ describe('multiDocumentCollectionFactory', () => {
             ['root', 'parent', 'foo'],
             'id',
             TestDocumentZod,
+            undefined,
             firestoreZodOptions,
           )
         })
@@ -101,7 +120,12 @@ describe('multiDocumentCollectionFactory', () => {
         it('should invoke firestoreZodCollectionGroup', () => {
           subCollection.read.collectionGroup()
 
-          expect(firestoreZodCollectionGroup).toHaveBeenCalledWith('foo', TestDocumentZod, firestoreZodOptions)
+          expect(firestoreZodCollectionGroup).toHaveBeenCalledWith(
+            'foo',
+            TestDocumentZod,
+            undefined,
+            firestoreZodOptions,
+          )
         })
       })
 
@@ -122,8 +146,8 @@ describe('multiDocumentCollectionFactory', () => {
 
     describe('findById', () => {
       it('should return undefined if document doest not exists', async () => {
-        const documentRef = mock<ZodDocumentReference>()
-        const snapshot = mock<ZodDocumentSnapshot>()
+        const documentRef = mock<TestDocumentReference>()
+        const snapshot = mock<TestDocumentSnapshot>()
         snapshot.exists.mockReturnValue(false)
         jest.mocked(getDoc).mockResolvedValue(snapshot)
         jest.mocked(firestoreZodDocument).mockReturnValue(documentRef)
@@ -132,13 +156,13 @@ describe('multiDocumentCollectionFactory', () => {
       })
 
       it('should return value if document exists', async () => {
-        const documentRef = mock<ZodDocumentReference>()
-        const snapshot = mock<ZodDocumentSnapshot>()
+        const documentRef = mock<TestDocumentReference>()
+        const snapshot = mock<TestDocumentSnapshot>()
         snapshot.exists.mockReturnValue(true)
         jest.mocked(getDoc).mockResolvedValue(snapshot)
         const parsedDocumentValue = {
           _id: 'id',
-          _metadata: META_DATA_MOCK,
+          name: 'foo',
         }
         snapshot.data.mockReturnValue(parsedDocumentValue)
         jest.mocked(firestoreZodDocument).mockReturnValue(documentRef)
@@ -149,8 +173,8 @@ describe('multiDocumentCollectionFactory', () => {
 
     describe('findByIdOrThrow', () => {
       it('should throw if document doest not exists', async () => {
-        const documentRef = mock<ZodDocumentReference>()
-        const snapshot = mock<ZodDocumentSnapshot>()
+        const documentRef = mock<TestDocumentReference>()
+        const snapshot = mock<TestDocumentSnapshot>()
         snapshot.exists.mockReturnValue(false)
         jest.mocked(getDoc).mockResolvedValue(snapshot)
         jest.mocked(firestoreZodDocument).mockReturnValue(documentRef)
@@ -159,13 +183,13 @@ describe('multiDocumentCollectionFactory', () => {
       })
 
       it('should return value if document exists', async () => {
-        const documentRef = mock<ZodDocumentReference>()
-        const snapshot = mock<ZodDocumentSnapshot>()
+        const documentRef = mock<TestDocumentReference>()
+        const snapshot = mock<TestDocumentSnapshot>()
         snapshot.exists.mockReturnValue(true)
         jest.mocked(getDoc).mockResolvedValue(snapshot)
         const parsedDocumentValue = {
           _id: 'id',
-          _metadata: META_DATA_MOCK,
+          name: 'foo',
         }
         snapshot.data.mockReturnValue(parsedDocumentValue)
         jest.mocked(firestoreZodDocument).mockReturnValue(documentRef)
@@ -176,20 +200,21 @@ describe('multiDocumentCollectionFactory', () => {
 
     describe('query', () => {
       it('should invoke firestoreZodCollection', async () => {
-        const collectionRef = mock<ZodCollectionReference>()
-        const snapshot = mock<ZodQuerySnapshot>({ empty: true })
+        const collectionRef = mock<TestCollectionReference>()
+        const snapshot = mock<TestQuerySnapshot>({ empty: true })
         jest.mocked(getDocs).mockResolvedValue(snapshot)
         jest.mocked(firestoreZodCollection).mockReturnValue(collectionRef)
 
         await collection.query({ name: 'test' })
 
-        expect(firestoreZodCollection).toHaveBeenCalledWith(['foo'], TestDocumentZod, firestoreZodOptions)
+        expect(firestoreZodCollection).toHaveBeenCalledWith(['foo'], TestDocumentZod, undefined, firestoreZodOptions)
       })
     })
 
     describe('add', () => {
       it('should invoke add on firestoreCollection', async () => {
         const collectionRef = mock<CollectionReference>()
+        collectionRef.withConverter.mockReturnThis()
         jest.mocked(firestoreCollection).mockReturnValue(collectionRef)
 
         await collection.add({ name: 'test' })
@@ -201,6 +226,7 @@ describe('multiDocumentCollectionFactory', () => {
     describe('set', () => {
       it('should invoke set on firestoreDocument with options', async () => {
         const docRef = mock<DocumentReference>()
+        docRef.withConverter.mockReturnThis()
         jest.mocked(firestoreDocument).mockReturnValue(docRef)
 
         await collection.set('bar', { name: 'test' }, { merge: true })
@@ -211,6 +237,7 @@ describe('multiDocumentCollectionFactory', () => {
 
       it('should invoke set on firestoreDocument without options', async () => {
         const docRef = mock<DocumentReference>()
+        docRef.withConverter.mockReturnThis()
         jest.mocked(firestoreDocument).mockReturnValue(docRef)
 
         await collection.set('bar', { name: 'test' })
@@ -223,6 +250,7 @@ describe('multiDocumentCollectionFactory', () => {
     describe('update', () => {
       it('should invoke update on firestoreDocument', async () => {
         const docRef = mock<DocumentReference>()
+        docRef.withConverter.mockReturnThis()
         jest.mocked(firestoreDocument).mockReturnValue(docRef)
 
         await collection.update('bar', { name: 'test' })
@@ -235,6 +263,7 @@ describe('multiDocumentCollectionFactory', () => {
     describe('delete', () => {
       it('should invoke delete on firestoreDocument', async () => {
         const docRef = mock<DocumentReference>()
+        docRef.withConverter.mockReturnThis()
         jest.mocked(firestoreDocument).mockReturnValue(docRef)
 
         await collection.delete('bar')
@@ -252,19 +281,19 @@ describe('multiDocumentCollectionFactory', () => {
       it('should invoke firestoreZodCollection', () => {
         collection.read.collection()
 
-        expect(firestoreZodCollection).toHaveBeenCalledWith(['foo'], TestDocumentZod, {})
+        expect(firestoreZodCollection).toHaveBeenCalledWith(['foo'], TestDocumentZod, undefined, {})
       })
 
       it('should invoke firestoreZodDocument', () => {
         collection.read.doc('id')
 
-        expect(firestoreZodDocument).toHaveBeenCalledWith(['foo'], 'id', TestDocumentZod, {})
+        expect(firestoreZodDocument).toHaveBeenCalledWith(['foo'], 'id', TestDocumentZod, undefined, {})
       })
 
       it('should invoke firestoreZodCollectionGroup', () => {
         collection.read.collectionGroup()
 
-        expect(firestoreZodCollectionGroup).toHaveBeenCalledWith('foo', TestDocumentZod, {})
+        expect(firestoreZodCollectionGroup).toHaveBeenCalledWith('foo', TestDocumentZod, undefined, {})
       })
     })
 
@@ -289,19 +318,25 @@ describe('multiDocumentCollectionFactory', () => {
         it('should invoke firestoreZodCollection', () => {
           subCollection.read.collection()
 
-          expect(firestoreZodCollection).toHaveBeenCalledWith(['root', 'parent', 'foo'], TestDocumentZod, {})
+          expect(firestoreZodCollection).toHaveBeenCalledWith(['root', 'parent', 'foo'], TestDocumentZod, undefined, {})
         })
 
         it('should invoke firestoreZodDocument', () => {
           subCollection.read.doc('id')
 
-          expect(firestoreZodDocument).toHaveBeenCalledWith(['root', 'parent', 'foo'], 'id', TestDocumentZod, {})
+          expect(firestoreZodDocument).toHaveBeenCalledWith(
+            ['root', 'parent', 'foo'],
+            'id',
+            TestDocumentZod,
+            undefined,
+            {},
+          )
         })
 
         it('should invoke firestoreZodCollectionGroup', () => {
           subCollection.read.collectionGroup()
 
-          expect(firestoreZodCollectionGroup).toHaveBeenCalledWith('foo', TestDocumentZod, {})
+          expect(firestoreZodCollectionGroup).toHaveBeenCalledWith('foo', TestDocumentZod, undefined, {})
         })
       })
 
@@ -321,6 +356,65 @@ describe('multiDocumentCollectionFactory', () => {
     })
   })
 
+  describe('with specified meta options', () => {
+    const collection = multiDocumentCollectionFactory('foo', TestDocumentZod)
+
+    describe('read', () => {
+      it('should invoke firestoreZodCollection', () => {
+        collection.read.collection({ _metadata: true })
+
+        expect(firestoreZodCollection).toHaveBeenCalledWith(['foo'], TestDocumentZod, { _metadata: true }, {})
+      })
+
+      it('should invoke firestoreZodDocument', () => {
+        collection.read.doc('id', { _metadata: true })
+
+        expect(firestoreZodDocument).toHaveBeenCalledWith(['foo'], 'id', TestDocumentZod, { _metadata: true }, {})
+      })
+
+      it('should invoke firestoreZodCollectionGroup', () => {
+        collection.read.collectionGroup({ _metadata: true })
+
+        expect(firestoreZodCollectionGroup).toHaveBeenCalledWith('foo', TestDocumentZod, { _metadata: true }, {})
+      })
+    })
+
+    describe('for sub-collection', () => {
+      const subCollection = multiDocumentCollectionFactory('foo', TestDocumentZod, {}, ['root', 'parent'])
+
+      describe('read', () => {
+        it('should invoke firestoreZodCollection', () => {
+          subCollection.read.collection({ _metadata: true })
+
+          expect(firestoreZodCollection).toHaveBeenCalledWith(
+            ['root', 'parent', 'foo'],
+            TestDocumentZod,
+            { _metadata: true },
+            {},
+          )
+        })
+
+        it('should invoke firestoreZodDocument', () => {
+          subCollection.read.doc('id', { _metadata: true })
+
+          expect(firestoreZodDocument).toHaveBeenCalledWith(
+            ['root', 'parent', 'foo'],
+            'id',
+            TestDocumentZod,
+            { _metadata: true },
+            {},
+          )
+        })
+
+        it('should invoke firestoreZodCollectionGroup', () => {
+          subCollection.read.collectionGroup({ _metadata: true })
+
+          expect(firestoreZodCollectionGroup).toHaveBeenCalledWith('foo', TestDocumentZod, { _metadata: true }, {})
+        })
+      })
+    })
+  })
+
   describe('with specified includeDocumentIdForZod and zodErrorHandler', () => {
     const zodErrorHandler = jest.fn()
     const firestoreZodOptions = {
@@ -333,19 +427,25 @@ describe('multiDocumentCollectionFactory', () => {
       it('should invoke firestoreZodCollection', () => {
         collection.read.collection()
 
-        expect(firestoreZodCollection).toHaveBeenCalledWith(['foo'], TestDocumentZod, firestoreZodOptions)
+        expect(firestoreZodCollection).toHaveBeenCalledWith(['foo'], TestDocumentZod, undefined, firestoreZodOptions)
       })
 
       it('should invoke firestoreZodDocument', () => {
         collection.read.doc('id')
 
-        expect(firestoreZodDocument).toHaveBeenCalledWith(['foo'], 'id', TestDocumentZod, firestoreZodOptions)
+        expect(firestoreZodDocument).toHaveBeenCalledWith(
+          ['foo'],
+          'id',
+          TestDocumentZod,
+          undefined,
+          firestoreZodOptions,
+        )
       })
 
       it('should invoke firestoreZodCollectionGroup', () => {
         collection.read.collectionGroup()
 
-        expect(firestoreZodCollectionGroup).toHaveBeenCalledWith('foo', TestDocumentZod, firestoreZodOptions)
+        expect(firestoreZodCollectionGroup).toHaveBeenCalledWith('foo', TestDocumentZod, undefined, firestoreZodOptions)
       })
     })
 
@@ -362,6 +462,7 @@ describe('multiDocumentCollectionFactory', () => {
           expect(firestoreZodCollection).toHaveBeenCalledWith(
             ['root', 'parent', 'foo'],
             TestDocumentZod,
+            undefined,
             firestoreZodOptions,
           )
         })
@@ -373,6 +474,7 @@ describe('multiDocumentCollectionFactory', () => {
             ['root', 'parent', 'foo'],
             'id',
             TestDocumentZod,
+            undefined,
             firestoreZodOptions,
           )
         })
@@ -380,7 +482,12 @@ describe('multiDocumentCollectionFactory', () => {
         it('should invoke firestoreZodCollectionGroup', () => {
           subCollection.read.collectionGroup()
 
-          expect(firestoreZodCollectionGroup).toHaveBeenCalledWith('foo', TestDocumentZod, firestoreZodOptions)
+          expect(firestoreZodCollectionGroup).toHaveBeenCalledWith(
+            'foo',
+            TestDocumentZod,
+            undefined,
+            firestoreZodOptions,
+          )
         })
       })
     })
