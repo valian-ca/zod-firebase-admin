@@ -9,7 +9,7 @@
   },
   "description": "zod firebase schema",
   "devDependencies": {
-    "firebase": "10.9.0",
+    "firebase": "10.10.0",
     "firebase-functions-test": "3.1.1",
     "jest-mock-extended": "3.0.5"
   },
