@@ -18,7 +18,6 @@
   },
   "exports": {
     ".": {
-      "default": "./lib/index.mjs",
       "import": {
         "default": "./lib/index.mjs",
         "types": "./lib/index.d.mts"
