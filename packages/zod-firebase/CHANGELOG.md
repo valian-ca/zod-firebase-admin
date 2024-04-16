@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.4.0](https://github.com/valian-ca/zod-firebase-admin/compare/zod-firebase-v1.3.0...zod-firebase-v1.4.0) (2024-04-16)
+
+
+### Features
+
+* improve hybrid package ([#164](https://github.com/valian-ca/zod-firebase-admin/issues/164)) ([b147835](https://github.com/valian-ca/zod-firebase-admin/commit/b147835cf3f0eadb95bc957acb1e8ddbf420abb7))
+
 ## [1.3.0](https://github.com/valian-ca/zod-firebase-admin/compare/zod-firebase-v1.2.0...zod-firebase-v1.3.0) (2024-03-16)
 
 
