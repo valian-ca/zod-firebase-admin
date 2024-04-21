@@ -47,6 +47,9 @@
     "type": "git",
     "url": "git+https://github.com/valian-ca/zod-firebase-admin.git"
   },
+  "publishConfig": {
+    "provenance": true
+  },
   "scripts": {
     "compile": "rm -rf ./lib && rollup -c",
     "prepack": "npm run compile",
