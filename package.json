@@ -38,7 +38,7 @@
     "@rollup/plugin-typescript": "11.1.6",
     "@tsconfig/node20": "20.1.4",
     "@types/jest": "29.5.12",
-    "@valian/eslint-config": "0.0.30",
+    "@valian/eslint-config": "0.0.31",
     "eslint": "8.57.0",
     "firebase-functions-test": "3.2.0",
     "firebase-tools": "13.9.0",
