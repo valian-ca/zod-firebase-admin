@@ -20,5 +20,9 @@ module.exports = {
       files: ['__mocks__/*', '__integration-tests__/*'],
       rules: { 'import/no-extraneous-dependencies': ['error', { devDependencies: false }] },
     },
+    {
+      files: ['rollup.config.js'],
+      rules: { 'import/no-extraneous-dependencies': 'off' },
+    },
   ],
 }

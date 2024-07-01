@@ -22,7 +22,7 @@
   "version": "1.0.0",
   "scripts": {
     "prettier": "prettier --check .",
-    "eslint": "eslint --ext .ts,.tsx,.cjs .",
+    "eslint": "eslint --ext .ts,.tsx,.cjs,.js .",
     "lint:md": "markdownlint-cli2 \"**/*.md\" \"#node_modules\"",
     "prepare": "husky",
     "test": "lerna run test",
