@@ -1,5 +1,5 @@
 {
-  ".": "1.0.0",
+  ".": "1.4.0",
   "packages/zod-firebase": "1.4.0",
   "packages/zod-firebase-admin": "1.4.0"
 }
