@@ -1,6 +1,4 @@
 {
-  "releaseType": "node",
-  "plugins": ["node-workspace"],
   "packages": {
     "packages/zod-firebase": {
       "releaseType": "node"
