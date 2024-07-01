@@ -31,7 +31,7 @@
     "firebase": "10.12.2",
     "firebase-functions-test": "3.3.0",
     "jest-mock-extended": "3.0.7",
-    "typescript": "5.4.5"
+    "typescript": "5.5.2"
   },
   "peerDependencies": {
     "firebase": "^10.0.0"
