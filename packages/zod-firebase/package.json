@@ -28,10 +28,10 @@
     "zod": "^3.22.4"
   },
   "devDependencies": {
-    "firebase": "10.12.2",
+    "firebase": "10.13.1",
     "firebase-functions-test": "3.3.0",
     "jest-mock-extended": "3.0.7",
-    "typescript": "5.5.2"
+    "typescript": "5.5.4"
   },
   "peerDependencies": {
     "firebase": "^10.0.0"
