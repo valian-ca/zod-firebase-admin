@@ -8,44 +8,32 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version-file: '.nvmrc'
-          cache: 'npm'
-      - name: Install dependencies
-        run: npm ci
+      - name: setup pnpm
+        uses: ./.github/workflows/actions/setup-pnpm
       - name: eslint
-        run: npm run eslint
+        run: pnpm run eslint
       - name: pettier
-        run: npm run prettier
+        run: pnpm run prettier
 
   type-check:
     name: type check
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version-file: '.nvmrc'
-          cache: 'npm'
-      - name: Install dependencies
-        run: npm ci
+      - name: setup pnpm
+        uses: ./.github/workflows/actions/setup-pnpm
       - name: type-check
-        run: npm run type-check
+        run: pnpm run type-check
 
   tests:
     name: tests
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version-file: '.nvmrc'
-          cache: 'npm'
-      - name: Install dependencies
-        run: npm ci
+      - name: setup pnpm
+        uses: ./.github/workflows/actions/setup-pnpm
       - name: tests
-        run: npm test
+        run: pnpm test
       - name: integration tests
         run: npm run test:integration:ci
 

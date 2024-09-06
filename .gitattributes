@@ -2,4 +2,5 @@
 *.snap linguist-generated
 /LICENSE linguist-generated
 /package-lock.json linguist-generated
+/pnpm-lock.yaml linguist-generated
 /CHANGELOG.md linguist-generated
