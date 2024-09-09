@@ -19,7 +19,7 @@ export type ZodTypeDocumentData<
 
 export type DocumentInput<Z extends ZodTypeDocumentData = ZodTypeDocumentData> = z.input<Z>
 
-export type MetaOutputOptions = {
+export interface MetaOutputOptions {
   readonly _id?: boolean
   readonly _createTime?: true
   readonly _updateTime?: true

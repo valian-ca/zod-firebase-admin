@@ -25,7 +25,7 @@ export type SchemaQueryDocumentSnapshot<
   Options extends MetaOutputOptions = MetaOutputOptions,
 > = QueryDocumentSnapshot<SchemaDocumentOutput<TCollectionSchema, Options>, SchemaDocumentInput<TCollectionSchema>>
 
-export type SchemaQueryHelper<TCollectionSchema extends CollectionSchema> = {
+export interface SchemaQueryHelper<TCollectionSchema extends CollectionSchema> {
   prepare<Options extends MetaOutputOptions>(
     query: QuerySpecification,
     options?: Options,

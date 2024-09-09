@@ -4,14 +4,14 @@ import type { DocumentData, FieldPath, Filter, OrderByDirection, Query, WhereFil
 type WhereTuple = [FieldPath | string, WhereFilterOp, any]
 type OrderByTuple = [FieldPath | string, OrderByDirection] | [FieldPath | string]
 
-export type QuerySpecification = {
+export interface QuerySpecification {
   name: string
-  where?: Array<WhereTuple> | Filter
-  orderBy?: Array<OrderByTuple>
+  where?: WhereTuple[] | Filter
+  orderBy?: OrderByTuple[]
   limit?: number
 }
 
-function isWhereTuple(filter: QuerySpecification['where']): filter is Array<WhereTuple> {
+function isWhereTuple(filter: QuerySpecification['where']): filter is WhereTuple[] {
   return Array.isArray(filter)
 }
 

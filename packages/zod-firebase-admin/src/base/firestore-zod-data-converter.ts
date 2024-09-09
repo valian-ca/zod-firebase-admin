@@ -4,7 +4,7 @@ import { omitMetadata, type WithFieldValueAndMetadata } from './firestore-omit-m
 import type { DocumentInput, DocumentOutput, MetaOutputOptions, ZodTypeDocumentData } from './types'
 import type { ZodErrorHandler } from './zod-error-handler'
 
-export type FirestoreZodDataConverterOptions = {
+export interface FirestoreZodDataConverterOptions {
   readonly includeDocumentIdForZod?: boolean
   readonly zodErrorHandler?: ZodErrorHandler
   readonly snapshotDataConverter?: (snapshot: QueryDocumentSnapshot) => DocumentData

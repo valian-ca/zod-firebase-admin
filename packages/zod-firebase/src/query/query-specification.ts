@@ -14,11 +14,11 @@ import {
 type WhereTuple = [FieldPath | string, WhereFilterOp, unknown]
 type OrderByTuple = [FieldPath | string, OrderByDirection] | [FieldPath | string]
 
-export type QuerySpecification = {
+export interface QuerySpecification {
   name: string
   constraints?: QueryConstraint[]
-  where?: Array<WhereTuple>
-  orderBy?: Array<OrderByTuple>
+  where?: WhereTuple[]
+  orderBy?: OrderByTuple[]
   limit?: number
 }
 

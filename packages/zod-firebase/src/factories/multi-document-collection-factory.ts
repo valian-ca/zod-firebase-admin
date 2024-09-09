@@ -90,14 +90,13 @@ export type MultiDocumentCollectionFactory<TCollectionSchema extends CollectionS
 export type MultiDocumentCollectionFactoryOptions = FirestoreZodFactoryOptions & FirestoreZodDataConverterOptions
 
 export const multiDocumentCollectionFactory = <
-  TCollectionName extends string,
   Z extends ZodTypeDocumentData = ZodTypeDocumentData,
   TCollectionSchema extends CollectionSchema<Z> = CollectionSchema<Z>,
 >(
-  collectionName: TCollectionName,
+  collectionName: string,
   zod: Z,
-  { getFirestore, ...zodDataConverterOptions }: MultiDocumentCollectionFactoryOptions = {},
   parentPath?: [string, string],
+  { getFirestore, ...zodDataConverterOptions }: MultiDocumentCollectionFactoryOptions = {},
 ): MultiDocumentCollectionFactory<TCollectionSchema> => {
   const collectionPath: CollectionPath = parentPath ? [...parentPath, collectionName] : [collectionName]
   const buildZodOptions = () =>

@@ -8,7 +8,6 @@ import type {
 } from 'firebase-admin/firestore'
 import { mock } from 'jest-mock-extended'
 
-// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
 export const { Filter, Timestamp } = jest.requireActual('firebase-admin/firestore')
 
 const mockFirestore = mock<Firestore>()

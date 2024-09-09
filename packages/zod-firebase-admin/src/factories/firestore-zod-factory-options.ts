@@ -2,7 +2,7 @@ import type { DocumentData, getFirestore, QueryDocumentSnapshot } from 'firebase
 
 import type { ZodErrorHandler } from '../base'
 
-export type FirestoreZodFactoryOptions = {
+export interface FirestoreZodFactoryOptions {
   readonly getFirestore?: typeof getFirestore
   readonly zodErrorHandler?: ZodErrorHandler
   readonly snapshotDataConverter?: (snapshot: QueryDocumentSnapshot) => DocumentData

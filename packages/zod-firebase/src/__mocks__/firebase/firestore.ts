@@ -1,7 +1,6 @@
 import type { CollectionReference, DocumentReference, DocumentSnapshot, Query, QuerySnapshot } from 'firebase/firestore'
 import { mock } from 'jest-mock-extended'
 
-// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
 export const { Timestamp } = jest.requireActual('firebase/firestore')
 
 export const getFirestore = jest.fn().mockReturnValue(mock())
