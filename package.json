@@ -37,7 +37,7 @@
     "@tsconfig/node20": "20.1.4",
     "@types/jest": "29.5.12",
     "@valian/eslint-config": "1.0.0",
-    "eslint": "9.9.1",
+    "eslint": "9.10.0",
     "firebase-functions-test": "3.3.0",
     "firebase-tools": "13.16.0",
     "husky": "9.1.5",
