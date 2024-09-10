@@ -1,5 +1,5 @@
 import type { CollectionGroup, CollectionReference, DocumentReference } from 'firebase-admin/firestore'
-import type { ReadonlyDeep } from 'type-fest'
+import type { EmptyObject, ReadonlyDeep } from 'type-fest'
 import type { z } from 'zod'
 
 import type { DocumentOutput, MetaOutputOptions, ReadonlyDocumentOutput, ZodTypeDocumentData } from '../base'
@@ -9,8 +9,7 @@ import type { SchemaQueryHelper } from './schema-query-helper'
 
 export type CollectionSchema<
   Z extends ZodTypeDocumentData = ZodTypeDocumentData,
-  // eslint-disable-next-line @typescript-eslint/ban-types
-  TSubCollectionsSchema extends Schema = {},
+  TSubCollectionsSchema extends Schema = EmptyObject,
 > = {
   readonly zod: Z
   readonly singleDocumentKey?: string
@@ -18,9 +17,7 @@ export type CollectionSchema<
   readonly readonlyDocuments?: true
 } & TSubCollectionsSchema
 
-export type Schema = {
-  [key: string]: CollectionSchema
-}
+export type Schema = Record<string, CollectionSchema>
 
 export type SubCollectionsSchema<TSchema> =
   Omit<TSchema, 'zod' | 'singleDocumentKey' | 'includeDocumentIdForZod' | 'readonlyDocuments'> extends Schema

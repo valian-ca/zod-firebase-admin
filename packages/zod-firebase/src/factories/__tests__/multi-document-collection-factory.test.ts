@@ -47,7 +47,7 @@ describe('multiDocumentCollectionFactory', () => {
   })
 
   describe('with specified getFirestore option', () => {
-    const collection = multiDocumentCollectionFactory('foo', TestDocumentZod, { getFirestore })
+    const collection = multiDocumentCollectionFactory('foo', TestDocumentZod, undefined, { getFirestore })
     const firestoreZodOptions = { firestore: getFirestore() }
 
     describe('read', () => {
@@ -91,7 +91,7 @@ describe('multiDocumentCollectionFactory', () => {
     })
 
     describe('for sub-collection', () => {
-      const subCollection = multiDocumentCollectionFactory('foo', TestDocumentZod, { getFirestore }, ['root', 'parent'])
+      const subCollection = multiDocumentCollectionFactory('foo', TestDocumentZod, ['root', 'parent'], { getFirestore })
 
       describe('read', () => {
         it('should invoke firestoreZodCollection', () => {
@@ -312,7 +312,7 @@ describe('multiDocumentCollectionFactory', () => {
     })
 
     describe('for sub-collection', () => {
-      const subCollection = multiDocumentCollectionFactory('foo', TestDocumentZod, {}, ['root', 'parent'])
+      const subCollection = multiDocumentCollectionFactory('foo', TestDocumentZod, ['root', 'parent'], {})
 
       describe('read', () => {
         it('should invoke firestoreZodCollection', () => {
@@ -380,7 +380,7 @@ describe('multiDocumentCollectionFactory', () => {
     })
 
     describe('for sub-collection', () => {
-      const subCollection = multiDocumentCollectionFactory('foo', TestDocumentZod, {}, ['root', 'parent'])
+      const subCollection = multiDocumentCollectionFactory('foo', TestDocumentZod, ['root', 'parent'], {})
 
       describe('read', () => {
         it('should invoke firestoreZodCollection', () => {
@@ -421,7 +421,7 @@ describe('multiDocumentCollectionFactory', () => {
       includeDocumentIdForZod: true,
       zodErrorHandler,
     }
-    const collection = multiDocumentCollectionFactory('foo', TestDocumentZod, firestoreZodOptions)
+    const collection = multiDocumentCollectionFactory('foo', TestDocumentZod, undefined, firestoreZodOptions)
 
     describe('read', () => {
       it('should invoke firestoreZodCollection', () => {
@@ -450,10 +450,12 @@ describe('multiDocumentCollectionFactory', () => {
     })
 
     describe('for sub-collection', () => {
-      const subCollection = multiDocumentCollectionFactory('foo', TestDocumentZod, firestoreZodOptions, [
-        'root',
-        'parent',
-      ])
+      const subCollection = multiDocumentCollectionFactory(
+        'foo',
+        TestDocumentZod,
+        ['root', 'parent'],
+        firestoreZodOptions,
+      )
 
       describe('read', () => {
         it('should invoke firestoreZodCollection', () => {

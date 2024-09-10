@@ -10,14 +10,12 @@ export const collectionsFactory = <TSchema extends Schema>(
   options?: FirestoreZodFactoryOptions,
   parentPath?: [string, string],
 ) =>
-  Object.entries(schema).reduce(
-    (acc, [collectionName, collectionSchema]) => ({
-      ...acc,
-      // eslint-disable-next-line @typescript-eslint/no-use-before-define
-      [collectionName]: collectionWithSubCollectionsFactory(collectionName, collectionSchema, options, parentPath),
-    }),
-    {} as Collections<TSchema>,
-  )
+  Object.fromEntries(
+    Object.entries(schema).map(([collectionName, collectionSchema]) => [
+      collectionName,
+      collectionWithSubCollectionsFactory(collectionName, collectionSchema, options, parentPath) as CollectionSchema,
+    ]),
+  ) as Collections<TSchema>
 
 export const collectionWithSubCollectionsFactory = <
   TCollectionName extends string,

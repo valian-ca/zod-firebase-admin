@@ -40,7 +40,7 @@ export const collectionFactory = <
   const collection = (
     typeof singleDocumentKey === 'string'
       ? singleDocumentCollectionFactory(collectionName, zod, singleDocumentKey, factoryOptions, parentPath)
-      : multiDocumentCollectionFactory(collectionName, zod, factoryOptions, parentPath)
+      : multiDocumentCollectionFactory(collectionName, zod, parentPath, factoryOptions)
   ) as SingleOrMultiDocumentCollectionFactory<TCollectionSchema>
 
   return {

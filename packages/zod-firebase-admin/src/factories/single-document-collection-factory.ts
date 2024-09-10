@@ -24,7 +24,7 @@ import type {
   SchemaWriteDocumentReference,
 } from './types'
 
-export type SingleDocumentCollectionFactory<TCollectionSchema extends CollectionSchema> = {
+export interface SingleDocumentCollectionFactory<TCollectionSchema extends CollectionSchema> {
   readonly singleDocumentKey: string
 
   readonly read: {
@@ -72,11 +72,10 @@ export type SingleDocumentCollectionFactory<TCollectionSchema extends Collection
 }
 
 export const singleDocumentCollectionFactory = <
-  TCollectionName extends string,
   Z extends ZodTypeDocumentData = ZodTypeDocumentData,
   TCollectionSchema extends CollectionSchema<Z> = CollectionSchema<Z>,
 >(
-  collectionName: TCollectionName,
+  collectionName: string,
   zod: Z,
   singleDocumentKey: string,
   factoryOptions?: MultiDocumentCollectionFactoryOptions,
@@ -91,12 +90,7 @@ export const singleDocumentCollectionFactory = <
     set,
     update,
     delete: deleteDocument,
-  } = multiDocumentCollectionFactory<TCollectionName, Z, TCollectionSchema>(
-    collectionName,
-    zod,
-    factoryOptions,
-    parentPath,
-  )
+  } = multiDocumentCollectionFactory<Z, TCollectionSchema>(collectionName, zod, parentPath, factoryOptions)
   const setOverload = (data: PartialWithFieldValue<SchemaDocumentInput<TCollectionSchema>>, setOptions?: SetOptions) =>
     setOptions
       ? set(singleDocumentKey, data, setOptions)

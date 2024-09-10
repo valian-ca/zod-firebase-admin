@@ -2,11 +2,11 @@ import { type DocumentData, getDocs, type Query, type QuerySnapshot } from 'fire
 
 import type { QuerySpecification } from './query-specification'
 
-export type QueryHelper<AppModelType = DocumentData, DbModelType extends DocumentData = DocumentData> = {
-  prepare(query: QuerySpecification): Query<AppModelType, DbModelType>
-  query(query: QuerySpecification): Promise<QuerySnapshot<AppModelType, DbModelType>>
+export interface QueryHelper<AppModelType = DocumentData, DatabaseModelType extends DocumentData = DocumentData> {
+  prepare(query: QuerySpecification): Query<AppModelType, DatabaseModelType>
+  query(query: QuerySpecification): Promise<QuerySnapshot<AppModelType, DatabaseModelType>>
 
-  findMany(query: QuerySpecification): Promise<Array<AppModelType>>
+  findMany(query: QuerySpecification): Promise<AppModelType[]>
 
   findUnique(query: QuerySpecification): Promise<AppModelType | null>
   findUniqueOrThrow(query: QuerySpecification): Promise<AppModelType>
@@ -15,14 +15,14 @@ export type QueryHelper<AppModelType = DocumentData, DbModelType extends Documen
   findFirstOrThrow(query: QuerySpecification): Promise<AppModelType>
 }
 
-export const queryHelper = <AppModelType, DbModelType extends DocumentData>(
-  queryFactory: (querySpecification: QuerySpecification) => Query<AppModelType, DbModelType>,
-): QueryHelper<AppModelType, DbModelType> => ({
+export const queryHelper = <AppModelType, DatabaseModelType extends DocumentData>(
+  queryFactory: (querySpecification: QuerySpecification) => Query<AppModelType, DatabaseModelType>,
+): QueryHelper<AppModelType, DatabaseModelType> => ({
   prepare: (query) => queryFactory(query),
   query: (query) => getDocs(queryFactory(query)),
   findMany: async (query) => {
     const snapshot = await getDocs(queryFactory(query))
-    return snapshot.docs.map((doc) => doc.data())
+    return snapshot.docs.map((document) => document.data())
   },
   findUnique: async (query) => {
     const snapshot = await getDocs(queryFactory(query))

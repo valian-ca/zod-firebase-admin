@@ -2,13 +2,13 @@ import type { DocumentData, Query, QuerySnapshot } from 'firebase-admin/firestor
 
 import type { QuerySpecification } from './query-specification'
 
-export type QueryHelper<AppModelType = DocumentData, DbModelType extends DocumentData = DocumentData> = {
+export interface QueryHelper<AppModelType = DocumentData, DbModelType extends DocumentData = DocumentData> {
   prepare(query: QuerySpecification): Query<AppModelType, DbModelType>
   query(query: QuerySpecification): Promise<QuerySnapshot<AppModelType, DbModelType>>
 
   count(query: QuerySpecification): Promise<number>
 
-  findMany(query: QuerySpecification): Promise<Array<AppModelType>>
+  findMany(query: QuerySpecification): Promise<AppModelType[]>
 
   findUnique(query: QuerySpecification): Promise<AppModelType | null>
   findUniqueOrThrow(query: QuerySpecification): Promise<AppModelType>

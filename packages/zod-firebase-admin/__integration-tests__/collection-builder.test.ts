@@ -1,6 +1,5 @@
 import { initializeApp } from 'firebase-admin/app'
 import { type DocumentData, FieldValue, getFirestore, Timestamp } from 'firebase-admin/firestore'
-// eslint-disable-next-line import/no-extraneous-dependencies
 import functionsTest from 'firebase-functions-test'
 import { z, ZodError } from 'zod'
 
@@ -140,9 +139,9 @@ describe('collectionsBuilder', () => {
 
       await collection.test('foo').multi.set('bar', { name: 'bar' }, { merge: true })
 
-      const newBar = await collection.test('foo').multi.findByIdOrThrow('bar')
+      const bar = await collection.test('foo').multi.findByIdOrThrow('bar')
 
-      expect(newBar.name).toBe('bar')
+      expect(bar.name).toBe('bar')
     })
 
     it('should provide collection group query', async () => {

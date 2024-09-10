@@ -16,12 +16,13 @@ const TestDocumentZod = z.object({
   name: z.string(),
 })
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const SCHEMA = {
   zod: TestDocumentZod,
 }
 
 type Schema = typeof SCHEMA
-type TestQueryDocumentSnapshot = SchemaQueryDocumentSnapshot<Schema, MetaOutputOptions>
+type TestQueryDocumentSnapshot = SchemaQueryDocumentSnapshot<Schema>
 
 function mockedQueryFactory<
   TCollectionSchema extends CollectionSchema = Schema,

@@ -11,9 +11,9 @@ jobs:
       - name: setup pnpm
         uses: ./.github/workflows/actions/setup-pnpm
       - name: eslint
-        run: pnpm run eslint
+        run: pnpm eslint
       - name: pettier
-        run: pnpm run prettier
+        run: pnpm prettier
 
   type-check:
     name: type check

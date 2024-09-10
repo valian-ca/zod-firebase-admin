@@ -6,11 +6,10 @@ import { schemaQueryHelper } from './schema-query-helper'
 import type { CollectionSchema, SchemaDocumentInput, SchemaDocumentOutput } from './types'
 
 export const schemaGroupQueryHelper = <
-  TCollectionName extends string,
   Z extends ZodTypeDocumentData = ZodTypeDocumentData,
   TCollectionSchema extends CollectionSchema<Z> = CollectionSchema<Z>,
 >(
-  collectionName: TCollectionName,
+  collectionName: string,
   { zod }: TCollectionSchema,
   factoryOptions?: FirestoreZodFactoryOptions,
 ) => {
