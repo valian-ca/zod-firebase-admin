@@ -15,6 +15,13 @@ export interface QueryHelper<AppModelType = DocumentData, DatabaseModelType exte
   findFirstOrThrow(query: QuerySpecification): Promise<AppModelType>
 }
 
+export const findFirst = <AppModelType, DatabaseModelType extends DocumentData>(
+  snapshot: QuerySnapshot<AppModelType, DatabaseModelType>,
+) => {
+  const [doc] = snapshot.docs
+  return doc?.data() ?? null
+}
+
 export const queryHelper = <AppModelType, DatabaseModelType extends DocumentData>(
   queryFactory: (querySpecification: QuerySpecification) => Query<AppModelType, DatabaseModelType>,
 ): QueryHelper<AppModelType, DatabaseModelType> => ({
@@ -29,10 +36,7 @@ export const queryHelper = <AppModelType, DatabaseModelType extends DocumentData
     if (snapshot.size > 1) {
       throw new Error(`Query ${query.name} returned more than one document`)
     }
-    if (snapshot.size === 0) {
-      return null
-    }
-    return snapshot.docs[0].data()
+    return findFirst(snapshot)
   },
   findUniqueOrThrow: async (query) => {
     const snapshot = await getDocs(queryFactory(query))
@@ -42,20 +46,19 @@ export const queryHelper = <AppModelType, DatabaseModelType extends DocumentData
     if (snapshot.size === 0) {
       throw new Error(`Query ${query.name} returned no documents`)
     }
-    return snapshot.docs[0].data()
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    return findFirst(snapshot)!
   },
   findFirst: async (query) => {
     const snapshot = await getDocs(queryFactory(query))
-    if (snapshot.size === 0) {
-      return null
-    }
-    return snapshot.docs[0].data()
+    return findFirst(snapshot)
   },
   findFirstOrThrow: async (query) => {
     const snapshot = await getDocs(queryFactory(query))
     if (snapshot.size === 0) {
       throw new Error(`Query ${query.name} returned no documents`)
     }
-    return snapshot.docs[0].data()
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    return findFirst(snapshot)!
   },
 })

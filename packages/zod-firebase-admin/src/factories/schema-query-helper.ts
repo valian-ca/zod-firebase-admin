@@ -1,7 +1,7 @@
 import type { DocumentSnapshot, Query, QueryDocumentSnapshot, QuerySnapshot } from 'firebase-admin/firestore'
 
 import type { MetaOutputOptions } from '../base'
-import type { QuerySpecification } from '../query'
+import { findFirst, QuerySpecification } from '../query'
 
 import type { CollectionSchema, SchemaDocumentInput, SchemaDocumentOutput } from './types'
 
@@ -89,7 +89,7 @@ export const schemaQueryHelper = <TCollectionSchema extends CollectionSchema>(
     if (snapshot.size === 0) {
       return null
     }
-    return snapshot.docs[0].data()
+    return findFirst(snapshot)
   },
   findUniqueOrThrow: async <Options extends MetaOutputOptions>(query: QuerySpecification, options?: Options) => {
     const snapshot = await queryFactory(query, options).get()
@@ -99,20 +99,22 @@ export const schemaQueryHelper = <TCollectionSchema extends CollectionSchema>(
     if (snapshot.size === 0) {
       throw new Error(`Query ${query.name} returned no documents`)
     }
-    return snapshot.docs[0].data()
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    return findFirst(snapshot)!
   },
   findFirst: async <Options extends MetaOutputOptions>(query: QuerySpecification, options?: Options) => {
     const snapshot = await queryFactory(query, options).get()
     if (snapshot.size === 0) {
       return null
     }
-    return snapshot.docs[0].data()
+    return findFirst(snapshot)
   },
   findFirstOrThrow: async <Options extends MetaOutputOptions>(query: QuerySpecification, options?: Options) => {
     const snapshot = await queryFactory(query, options).get()
     if (snapshot.size === 0) {
       throw new Error(`Query ${query.name} returned no documents`)
     }
-    return snapshot.docs[0].data()
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    return findFirst(snapshot)!
   },
 })
