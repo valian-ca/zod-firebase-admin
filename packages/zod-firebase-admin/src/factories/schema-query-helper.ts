@@ -1,4 +1,9 @@
-import { type DocumentSnapshot, type Query, type QueryDocumentSnapshot, type QuerySnapshot } from 'firebase-admin/firestore'
+import {
+  type DocumentSnapshot,
+  type Query,
+  type QueryDocumentSnapshot,
+  type QuerySnapshot,
+} from 'firebase-admin/firestore'
 
 import { type MetaOutputOptions } from '../base'
 import { type QuerySpecification } from '../query'

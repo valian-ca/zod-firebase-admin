@@ -2,7 +2,12 @@ import { type CollectionReference, type DocumentReference, type Query } from 'fi
 import { type EmptyObject, type ReadonlyDeep } from 'type-fest'
 import { type z } from 'zod'
 
-import { type DocumentOutput, type MetaOutputOptions, type ReadonlyDocumentOutput, type ZodTypeDocumentData } from '../base'
+import {
+  type DocumentOutput,
+  type MetaOutputOptions,
+  type ReadonlyDocumentOutput,
+  type ZodTypeDocumentData,
+} from '../base'
 
 import { type CollectionFactory } from './collection-factory'
 import { type SchemaQueryHelper } from './schema-query-helper'
