@@ -26,17 +26,17 @@ import {
 import { firestoreOmitMetaDataConverter } from '../base/firestore-omit-meta-data-converter'
 import { applyQuerySpecification, type QuerySpecification } from '../query'
 
-import type { FirestoreZodFactoryOptions } from './firestore-zod-factory-options'
+import { type FirestoreZodFactoryOptions } from './firestore-zod-factory-options'
 import { type SchemaQueryHelper, schemaQueryHelper } from './schema-query-helper'
-import type {
-  CollectionSchema,
-  SchemaDocumentInput,
-  SchemaDocumentOutput,
-  SchemaReadCollectionGroup,
-  SchemaReadCollectionReference,
-  SchemaReadDocumentReference,
-  SchemaWriteCollectionReference,
-  SchemaWriteDocumentReference,
+import {
+  type CollectionSchema,
+  type SchemaDocumentInput,
+  type SchemaDocumentOutput,
+  type SchemaReadCollectionGroup,
+  type SchemaReadCollectionReference,
+  type SchemaReadDocumentReference,
+  type SchemaWriteCollectionReference,
+  type SchemaWriteDocumentReference,
 } from './types'
 
 export type MultiDocumentCollectionFactory<TCollectionSchema extends CollectionSchema> = {

@@ -1,6 +1,6 @@
 import { firestoreCollectionPath, type ZodTypeDocumentData } from '../base'
 
-import type { FirestoreZodFactoryOptions } from './firestore-zod-factory-options'
+import { type FirestoreZodFactoryOptions } from './firestore-zod-factory-options'
 import {
   type MultiDocumentCollectionFactory,
   multiDocumentCollectionFactory,
@@ -9,7 +9,7 @@ import {
   type SingleDocumentCollectionFactory,
   singleDocumentCollectionFactory,
 } from './single-document-collection-factory'
-import type { CollectionSchema } from './types'
+import { type CollectionSchema } from './types'
 
 type SingleOrMultiDocumentCollectionFactory<TCollectionSchema extends CollectionSchema> =
   TCollectionSchema['singleDocumentKey'] extends string

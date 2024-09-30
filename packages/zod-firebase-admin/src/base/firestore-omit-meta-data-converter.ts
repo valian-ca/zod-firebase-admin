@@ -1,4 +1,9 @@
-import type { DocumentData, FirestoreDataConverter, Timestamp, WithFieldValue } from 'firebase-admin/firestore'
+import {
+  type DocumentData,
+  type FirestoreDataConverter,
+  type Timestamp,
+  type WithFieldValue,
+} from 'firebase-admin/firestore'
 
 export type WithFieldValueAndMetadata<T extends DocumentData = DocumentData> = WithFieldValue<T> & {
   readonly _id?: string

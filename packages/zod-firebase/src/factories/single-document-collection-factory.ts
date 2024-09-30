@@ -1,20 +1,20 @@
-import type { PartialWithFieldValue, SetOptions, UpdateData, WithFieldValue } from 'firebase/firestore'
+import { type PartialWithFieldValue, type SetOptions, type UpdateData, type WithFieldValue } from 'firebase/firestore'
 
-import type { MetaOutputOptions, ZodTypeDocumentData } from '../base'
+import { type MetaOutputOptions, type ZodTypeDocumentData } from '../base'
 
 import {
   multiDocumentCollectionFactory,
   type MultiDocumentCollectionFactoryOptions,
 } from './multi-document-collection-factory'
-import type {
-  CollectionSchema,
-  SchemaDocumentInput,
-  SchemaDocumentOutput,
-  SchemaReadCollectionGroup,
-  SchemaReadCollectionReference,
-  SchemaReadDocumentReference,
-  SchemaWriteCollectionReference,
-  SchemaWriteDocumentReference,
+import {
+  type CollectionSchema,
+  type SchemaDocumentInput,
+  type SchemaDocumentOutput,
+  type SchemaReadCollectionGroup,
+  type SchemaReadCollectionReference,
+  type SchemaReadDocumentReference,
+  type SchemaWriteCollectionReference,
+  type SchemaWriteDocumentReference,
 } from './types'
 
 export interface SingleDocumentCollectionFactory<TCollectionSchema extends CollectionSchema> {

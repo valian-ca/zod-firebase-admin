@@ -1,11 +1,16 @@
-import type { CollectionReference, DocumentReference, Query } from 'firebase/firestore'
-import type { EmptyObject, ReadonlyDeep } from 'type-fest'
-import type { z } from 'zod'
+import { type CollectionReference, type DocumentReference, type Query } from 'firebase/firestore'
+import { type EmptyObject, type ReadonlyDeep } from 'type-fest'
+import { type z } from 'zod'
 
-import type { DocumentOutput, MetaOutputOptions, ReadonlyDocumentOutput, ZodTypeDocumentData } from '../base'
+import {
+  type DocumentOutput,
+  type MetaOutputOptions,
+  type ReadonlyDocumentOutput,
+  type ZodTypeDocumentData,
+} from '../base'
 
-import type { CollectionFactory } from './collection-factory'
-import type { SchemaQueryHelper } from './schema-query-helper'
+import { type CollectionFactory } from './collection-factory'
+import { type SchemaQueryHelper } from './schema-query-helper'
 
 export type CollectionSchema<
   Z extends ZodTypeDocumentData = ZodTypeDocumentData,

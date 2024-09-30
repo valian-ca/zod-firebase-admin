@@ -6,7 +6,7 @@ import {
   type QuerySnapshot,
 } from 'firebase/firestore'
 import { mock } from 'jest-mock-extended'
-import type { DeepPartial } from 'ts-essentials'
+import { type DeepPartial } from 'ts-essentials'
 
 import { queryHelper } from '../query-helper'
 

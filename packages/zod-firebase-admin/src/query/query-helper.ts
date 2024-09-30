@@ -1,6 +1,6 @@
-import type { DocumentData, Query, QuerySnapshot } from 'firebase-admin/firestore'
+import { type DocumentData, type Query, type QuerySnapshot } from 'firebase-admin/firestore'
 
-import type { QuerySpecification } from './query-specification'
+import { type QuerySpecification } from './query-specification'
 
 export interface QueryHelper<AppModelType = DocumentData, DbModelType extends DocumentData = DocumentData> {
   prepare(query: QuerySpecification): Query<AppModelType, DbModelType>

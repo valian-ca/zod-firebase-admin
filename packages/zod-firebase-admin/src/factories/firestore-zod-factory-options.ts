@@ -1,6 +1,6 @@
-import type { DocumentData, getFirestore, QueryDocumentSnapshot } from 'firebase-admin/firestore'
+import { type DocumentData, type getFirestore, type QueryDocumentSnapshot } from 'firebase-admin/firestore'
 
-import type { ZodErrorHandler } from '../base'
+import { type ZodErrorHandler } from '../base'
 
 export interface FirestoreZodFactoryOptions {
   readonly getFirestore?: typeof getFirestore
