@@ -1,10 +1,10 @@
-import type {
-  CollectionGroup,
-  CollectionReference,
-  DocumentReference,
-  DocumentSnapshot,
-  Firestore,
-  QuerySnapshot,
+import {
+  type CollectionGroup,
+  type CollectionReference,
+  type DocumentReference,
+  type DocumentSnapshot,
+  type Firestore,
+  type QuerySnapshot,
 } from 'firebase-admin/firestore'
 import { mock } from 'jest-mock-extended'
 

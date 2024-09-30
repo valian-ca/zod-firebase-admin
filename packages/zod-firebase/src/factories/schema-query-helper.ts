@@ -9,10 +9,10 @@ import {
   type QuerySnapshot,
 } from 'firebase/firestore'
 
-import type { MetaOutputOptions } from '../base'
-import type { QuerySpecification } from '../query'
+import { type MetaOutputOptions } from '../base'
+import { type QuerySpecification } from '../query'
 
-import type { CollectionSchema, SchemaDocumentInput, SchemaDocumentOutput } from './types'
+import { type CollectionSchema, type SchemaDocumentInput, type SchemaDocumentOutput } from './types'
 
 export type SchemaQuery<TCollectionSchema extends CollectionSchema, Options extends MetaOutputOptions> = Query<
   SchemaDocumentOutput<TCollectionSchema, Options>,

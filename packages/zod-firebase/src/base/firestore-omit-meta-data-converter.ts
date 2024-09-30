@@ -1,4 +1,4 @@
-import type { DocumentData, FirestoreDataConverter, SnapshotMetadata, WithFieldValue } from 'firebase/firestore'
+import { type DocumentData, type FirestoreDataConverter, type SnapshotMetadata, type WithFieldValue } from 'firebase/firestore'
 
 export type WithFieldValueAndMetadata<T extends DocumentData = DocumentData> = WithFieldValue<T> & {
   readonly _id?: string

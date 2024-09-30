@@ -1,14 +1,14 @@
-import type {
-  CollectionReference,
-  DocumentData,
-  DocumentReference,
-  DocumentSnapshot,
-  Query,
-  QuerySnapshot,
-  SnapshotMetadata,
+import {
+  type CollectionReference,
+  type DocumentData,
+  type DocumentReference,
+  type DocumentSnapshot,
+  type Query,
+  type QuerySnapshot,
+  type SnapshotMetadata,
 } from 'firebase/firestore'
-import type { EmptyObject, ReadonlyDeep } from 'type-fest'
-import type { z } from 'zod'
+import { type EmptyObject, type ReadonlyDeep } from 'type-fest'
+import { type z } from 'zod'
 
 export type ZodTypeDocumentData<
   Output extends DocumentData = DocumentData,

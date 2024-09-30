@@ -1,4 +1,4 @@
-import type { DocumentData, FieldPath, Filter, OrderByDirection, Query, WhereFilterOp } from 'firebase-admin/firestore'
+import { type DocumentData, type FieldPath, type Filter, type OrderByDirection, type Query, type WhereFilterOp } from 'firebase-admin/firestore'
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 type WhereTuple = [FieldPath | string, WhereFilterOp, any]

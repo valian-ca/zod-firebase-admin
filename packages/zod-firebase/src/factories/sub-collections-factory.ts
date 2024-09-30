@@ -1,8 +1,8 @@
-import type { ZodTypeDocumentData } from '../base'
+import { type ZodTypeDocumentData } from '../base'
 
-import type { FirestoreZodFactoryOptions } from './firestore-zod-factory-options'
+import { type FirestoreZodFactoryOptions } from './firestore-zod-factory-options'
 import { schemaGroupQueryHelper } from './schema-group-query-helper'
-import type { CollectionSchema, SubCollection, SubCollections, SubCollectionsSchema } from './types'
+import { type CollectionSchema, type SubCollection, type SubCollections, type SubCollectionsSchema } from './types'
 
 export const subCollectionsFactory = <TCollectionSchema>(
   subCollectionsSchema: SubCollectionsSchema<TCollectionSchema>,

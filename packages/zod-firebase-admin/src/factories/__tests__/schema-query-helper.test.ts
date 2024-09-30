@@ -1,16 +1,16 @@
 import { getFirestore, type Query } from 'firebase-admin/firestore'
 import { mock } from 'jest-mock-extended'
-import type { DeepPartial } from 'ts-essentials'
+import { type DeepPartial } from 'ts-essentials'
 import { z } from 'zod'
 
-import type { MetaOutputOptions } from '../../base'
+import { type MetaOutputOptions } from '../../base'
 import {
   type SchemaQuery,
   type SchemaQueryDocumentSnapshot,
   schemaQueryHelper,
   type SchemaQuerySnapshot,
 } from '../schema-query-helper'
-import type { CollectionSchema } from '../types'
+import { type CollectionSchema } from '../types'
 
 const TestDocumentZod = z.object({
   name: z.string(),

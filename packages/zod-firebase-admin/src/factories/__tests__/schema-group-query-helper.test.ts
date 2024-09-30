@@ -2,7 +2,7 @@ import { getFirestore } from 'firebase-admin/firestore'
 import { mock } from 'jest-mock-extended'
 import { z } from 'zod'
 
-import type { ZodQuerySnapshot } from '../../base'
+import { type ZodQuerySnapshot } from '../../base'
 import { schemaGroupQueryHelper } from '../schema-group-query-helper'
 
 const TestDocumentZod = z.object({
