@@ -15,8 +15,8 @@ importers:
         specifier: 19.5.0
         version: 19.5.0
       '@rollup/plugin-typescript':
-        specifier: 12.1.0
-        version: 12.1.0(rollup@4.24.0)(tslib@2.7.0)(typescript@5.6.3)
+        specifier: 12.1.1
+        version: 12.1.1(rollup@4.24.0)(tslib@2.7.0)(typescript@5.6.3)
       '@tsconfig/node20':
         specifier: 20.1.4
         version: 20.1.4
@@ -33,8 +33,8 @@ importers:
         specifier: 3.3.0
         version: 3.3.0(firebase-admin@12.6.0(encoding@0.1.13))(firebase-functions@4.9.0(firebase-admin@12.6.0(encoding@0.1.13)))(jest@29.7.0(@types/node@22.5.4)(ts-node@10.9.2(@types/node@22.5.4)(typescript@5.6.3)))
       firebase-tools:
-        specifier: 13.22.0
-        version: 13.22.0(encoding@0.1.13)
+        specifier: 13.22.1
+        version: 13.22.1(encoding@0.1.13)
       husky:
         specifier: 9.1.6
         version: 9.1.6
@@ -1073,8 +1073,8 @@ packages:
   '@protobufjs/utf8@1.1.0':
     resolution: {integrity: sha512-Vvn3zZrhQZkkBE8LSuW3em98c0FwgO4nxzv6OdSxPKJIEKY2bGbHn+mhGIPerzI4twdxaP8/0+06HBpwf345Lw==}
 
-  '@rollup/plugin-typescript@12.1.0':
-    resolution: {integrity: sha512-Kzs8KGJofe7cfTRODsnG1jNGxSvU8gVoNNd7Z/QaY25AYwe2LSSUpx/kPxqF38NYkpR8de3m51r9uwJpDlz6dg==}
+  '@rollup/plugin-typescript@12.1.1':
+    resolution: {integrity: sha512-t7O653DpfB5MbFrqPe/VcKFFkvRuFNp9qId3xq4Eth5xlyymzxNpye2z8Hrl0RIMuXTSr5GGcFpkdlMeacUiFQ==}
     engines: {node: '>=14.0.0'}
     peerDependencies:
       rollup: ^2.14.0||^3.0.0||^4.0.0
@@ -2844,8 +2844,8 @@ packages:
     peerDependencies:
       firebase-admin: ^10.0.0 || ^11.0.0 || ^12.0.0
 
-  firebase-tools@13.22.0:
-    resolution: {integrity: sha512-oZ5ylhSL+FvhrAL51y5p3O7OS2hS/Qj4Yb7RfsfuVGyxVZu7veZSrjJkKNWLtUXFSC16yzCpsbbQvMpEm5bxiQ==}
+  firebase-tools@13.22.1:
+    resolution: {integrity: sha512-+L2UdveGuYnTId5ThTv21Lp2T9C6fsAsVU0endz2H+evoGftfBhpTfDTNHO8Gl5/0YrSgeqffRgb/cXe7ygJ1g==}
     engines: {node: '>=18.0.0 || >=20.0.0'}
     hasBin: true
 
@@ -5145,11 +5145,6 @@ packages:
   rimraf@4.4.1:
     resolution: {integrity: sha512-Gk8NlF062+T9CqNGn6h4tls3k6T1+/nXdOcSZVikNVtlRdYpA7wRJJMoXmuvOnLW844rPjdQ7JgXCYM6PPC/og==}
     engines: {node: '>=14'}
-    hasBin: true
-
-  rimraf@5.0.7:
-    resolution: {integrity: sha512-nV6YcJo5wbLW77m+8KjH8aB/7/rxQy9SZ0HY5shnwULfS+9nmTtVXAJET5NdZmCzA4fPI/Hm1wo/Po/4mopOdg==}
-    engines: {node: '>=14.18'}
     hasBin: true
 
   rollup-plugin-dts@6.1.1:
@@ -7518,7 +7513,7 @@ snapshots:
 
   '@protobufjs/utf8@1.1.0': {}
 
-  '@rollup/plugin-typescript@12.1.0(rollup@4.24.0)(tslib@2.7.0)(typescript@5.6.3)':
+  '@rollup/plugin-typescript@12.1.1(rollup@4.24.0)(tslib@2.7.0)(typescript@5.6.3)':
     dependencies:
       '@rollup/pluginutils': 5.1.0(rollup@4.24.0)
       resolve: 1.22.8
@@ -9609,7 +9604,7 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  firebase-tools@13.22.0(encoding@0.1.13):
+  firebase-tools@13.22.1(encoding@0.1.13):
     dependencies:
       '@electric-sql/pglite': 0.2.9
       '@google-cloud/cloud-sql-connector': 1.3.4(encoding@0.1.13)
@@ -9661,7 +9656,6 @@ snapshots:
       progress: 2.0.3
       proxy-agent: 6.3.1
       retry: 0.13.1
-      rimraf: 5.0.7
       semver: 7.6.3
       sql-formatter: 15.3.1
       stream-chain: 2.2.5
@@ -12431,10 +12425,6 @@ snapshots:
   rimraf@4.4.1:
     dependencies:
       glob: 9.3.5
-
-  rimraf@5.0.7:
-    dependencies:
-      glob: 10.4.5
 
   rollup-plugin-dts@6.1.1(rollup@4.24.0)(typescript@5.6.3):
     dependencies:
