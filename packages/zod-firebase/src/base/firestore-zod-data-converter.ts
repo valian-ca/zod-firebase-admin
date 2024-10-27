@@ -1,4 +1,4 @@
-import { type DocumentData, type FirestoreDataConverter, type QueryDocumentSnapshot } from 'firebase/firestore'
+import { type DocumentData, type FirestoreDataConverter, type QueryDocumentSnapshot } from '@firebase/firestore'
 
 import { omitMetadata, type WithFieldValueAndMetadata } from './firestore-omit-meta-data-converter'
 import { type DocumentInput, type DocumentOutput, type MetaOutputOptions, type ZodTypeDocumentData } from './types'

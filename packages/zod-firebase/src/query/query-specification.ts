@@ -9,7 +9,7 @@ import {
   type QueryConstraint,
   where as firestoreWhere,
   type WhereFilterOp,
-} from 'firebase/firestore'
+} from '@firebase/firestore'
 
 type WhereTuple = [FieldPath | string, WhereFilterOp, unknown]
 type OrderByTuple = [FieldPath | string, OrderByDirection] | [FieldPath | string]

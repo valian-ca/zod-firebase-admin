@@ -1,4 +1,4 @@
-import { type DocumentData, type getFirestore, type QueryDocumentSnapshot } from 'firebase/firestore'
+import { type DocumentData, type getFirestore, type QueryDocumentSnapshot } from '@firebase/firestore'
 
 import { type ZodErrorHandler } from '../base'
 

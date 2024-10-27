@@ -3,7 +3,7 @@ import {
   type FirestoreDataConverter,
   type SnapshotMetadata,
   type WithFieldValue,
-} from 'firebase/firestore'
+} from '@firebase/firestore'
 
 export type WithFieldValueAndMetadata<T extends DocumentData = DocumentData> = WithFieldValue<T> & {
   readonly _id?: string

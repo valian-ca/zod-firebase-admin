@@ -1,4 +1,4 @@
-import { type Firestore } from 'firebase/firestore'
+import { type Firestore } from '@firebase/firestore'
 
 import { type FirestoreZodDataConverterOptions } from './firestore-zod-data-converter'
 

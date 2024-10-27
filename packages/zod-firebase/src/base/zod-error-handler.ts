@@ -1,4 +1,4 @@
-import { type DocumentData, type QueryDocumentSnapshot } from 'firebase/firestore'
+import { type DocumentData, type QueryDocumentSnapshot } from '@firebase/firestore'
 import { type ZodError } from 'zod'
 
 export type ZodErrorHandler = <T extends DocumentData = DocumentData>(

@@ -14,7 +14,7 @@ export default [
         format: 'esm',
       },
     ],
-    external: ['firebase/firestore'],
+    external: ['firebase/firestore', '@firebase/firestore', 'type-fest', 'zod'],
     plugins: [typescript({})],
   },
   {
@@ -30,7 +30,14 @@ export default [
         file: 'lib/index.d.mts',
       },
     ],
-    external: ['firebase/firestore'],
-    plugins: [dts()],
+    external: ['firebase/firestore', '@firebase/firestore', 'type-fest', 'zod'],
+    plugins: [
+      dts({
+        respectExternal: true,
+        compilerOptions: {
+          strict: false,
+        },
+      }),
+    ],
   },
 ]

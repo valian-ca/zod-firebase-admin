@@ -9,7 +9,7 @@ import {
   type UpdateData,
   updateDoc,
   type WithFieldValue,
-} from 'firebase/firestore'
+} from '@firebase/firestore'
 
 import {
   type CollectionPath,

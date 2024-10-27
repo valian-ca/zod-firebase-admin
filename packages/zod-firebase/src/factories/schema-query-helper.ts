@@ -7,7 +7,7 @@ import {
   type Query,
   type QueryDocumentSnapshot,
   type QuerySnapshot,
-} from 'firebase/firestore'
+} from '@firebase/firestore'
 
 import { type MetaOutputOptions } from '../base'
 import { type QuerySpecification } from '../query'

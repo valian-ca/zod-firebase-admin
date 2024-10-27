@@ -1,4 +1,4 @@
-import { type CollectionReference, type DocumentReference, type Query } from 'firebase/firestore'
+import { type CollectionReference, type DocumentReference, type Query } from '@firebase/firestore'
 import { type EmptyObject, type ReadonlyDeep } from 'type-fest'
 import { type z } from 'zod'
 

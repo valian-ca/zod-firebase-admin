@@ -1,4 +1,4 @@
-import { collection, type CollectionReference, type DocumentData, getFirestore } from 'firebase/firestore'
+import { collection, type CollectionReference, type DocumentData, getFirestore } from '@firebase/firestore'
 
 import { type CollectionPath, firestoreCollectionPath } from './firestore-collection-path'
 import { firestoreZodDataConverter } from './firestore-zod-data-converter'

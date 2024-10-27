@@ -4,7 +4,7 @@ import {
   type DocumentSnapshot,
   type Query,
   type QuerySnapshot,
-} from 'firebase/firestore'
+} from '@firebase/firestore'
 import { mock } from 'jest-mock-extended'
 
 export const { Timestamp } = jest.requireActual('firebase/firestore')

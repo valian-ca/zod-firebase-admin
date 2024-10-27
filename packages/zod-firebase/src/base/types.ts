@@ -6,7 +6,7 @@ import {
   type Query,
   type QuerySnapshot,
   type SnapshotMetadata,
-} from 'firebase/firestore'
+} from '@firebase/firestore'
 import { type EmptyObject, type ReadonlyDeep } from 'type-fest'
 import { type z } from 'zod'
 

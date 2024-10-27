@@ -1,4 +1,4 @@
-import { doc, type DocumentData, type DocumentReference, getFirestore } from 'firebase/firestore'
+import { doc, type DocumentData, type DocumentReference, getFirestore } from '@firebase/firestore'
 
 import { type CollectionPath } from './firestore-collection-path'
 import { firestoreDocumentPath } from './firestore-document-path'

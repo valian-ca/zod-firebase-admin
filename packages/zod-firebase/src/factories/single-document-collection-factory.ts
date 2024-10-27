@@ -1,4 +1,4 @@
-import { type PartialWithFieldValue, type SetOptions, type UpdateData, type WithFieldValue } from 'firebase/firestore'
+import { type PartialWithFieldValue, type SetOptions, type UpdateData, type WithFieldValue } from '@firebase/firestore'
 
 import { type MetaOutputOptions, type ZodTypeDocumentData } from '../base'
 

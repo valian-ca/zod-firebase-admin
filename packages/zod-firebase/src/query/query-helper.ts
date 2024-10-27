@@ -1,4 +1,4 @@
-import { type DocumentData, getDocs, type Query, type QuerySnapshot } from 'firebase/firestore'
+import { type DocumentData, getDocs, type Query, type QuerySnapshot } from '@firebase/firestore'
 
 import { type QuerySpecification } from './query-specification'
 
