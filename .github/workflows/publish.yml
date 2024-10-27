@@ -18,7 +18,10 @@ jobs:
       - name: setup pnpm
         uses: ./.github/workflows/actions/setup-pnpm
 
-      - name: Publish to NPM
-        run: npx lerna publish from-package --no-push --no-private --yes
+      - name: Set publishing config
+        run: pnpm config set '//registry.npmjs.org/:_authToken' "${NODE_AUTH_TOKEN}"
         env:
           NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
+
+      - name: Publish to NPM
+        run: npx lerna publish from-package --no-push --no-private --yes
