@@ -34,6 +34,21 @@ jobs:
         uses: ./.github/workflows/actions/setup-pnpm
       - name: tests
         run: pnpm test
+
+      - name: Upload zod-firebase coverage to Codecov
+        uses: codecov/codecov-action@v4
+        with:
+          directory: ./packages/zod-firebase/coverage
+          flags: firebase
+          token: ${{ secrets.CODECOV_TOKEN }}
+
+      - name: Upload zod-firebase-admin coverage to Codecov
+        uses: codecov/codecov-action@v4
+        with:
+          directory: ./packages/zod-firebase-admin/coverage
+          flags: firebase-admin
+          token: ${{ secrets.CODECOV_TOKEN }}
+
       - name: integration tests
         run: npm run test:integration:ci
 

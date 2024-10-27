@@ -4,6 +4,7 @@ module.exports = {
   testEnvironment: 'node',
   modulePathIgnorePatterns: ['<rootDir>/__integration-tests__/'],
   collectCoverageFrom: ['src/**/*.ts', '!src/index.ts'],
+  coverageReporters: ['text', 'cobertura'],
   coverageThreshold: {
     global: {
       branches: 100,
