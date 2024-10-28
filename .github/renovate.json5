@@ -1,33 +1,33 @@
 {
-  extends: ['config:base', ':semanticCommits', ':semanticCommitTypeAll(chore)'],
-  labels: ['dependencies'],
+  extends: ["config:recommended", ":semanticCommits", ":semanticCommitTypeAll(chore)"],
+  labels: ["dependencies"],
   packageRules: [
     {
-      groupName: 'GitHub Actions Dependencies',
-      matchPackagePatterns: ['.*'],
-      matchManagers: ['github-actions'],
+      groupName: "GitHub Actions Dependencies",
+      matchManagers: ["github-actions"],
+      matchPackageNames: ["/.*/"],
     },
     {
-      groupName: 'Node-based Dev Tools',
-      matchPackagePatterns: ['.*'],
-      matchManagers: ['npm'],
+      groupName: "Node-based Dev Tools",
+      matchManagers: ["npm"],
+      matchPackageNames: ["/.*/"],
     },
     {
-      groupName: 'Node.js',
-      matchPackageNames: ['node'],
-      allowedVersions: '<19.0.0',
+      groupName: "Node.js",
+      matchPackageNames: ["node"],
+      allowedVersions: "<19.0.0",
     },
     {
-      groupName: 'main dependencies',
-      matchPackageNames: ['firebase-admin', 'zod'],
+      groupName: "main dependencies",
+      matchPackageNames: ["firebase-admin", "zod"],
     },
     {
-      groupName: 'Tests',
-      matchPackagePatterns: ['jest'],
+      groupName: "Tests",
+      matchPackageNames: ["/jest/"],
     },
     {
-      groupName: 'Linters',
-      matchPackagePatterns: ['eslint', 'prettier', 'commitlint'],
+      groupName: "Linters",
+      matchPackageNames: ["/eslint/", "/prettier/", "/commitlint/"],
     },
   ],
 }
