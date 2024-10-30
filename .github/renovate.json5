@@ -1,33 +1,31 @@
 {
-  extends: ['config:base', ':semanticCommits', ':semanticCommitTypeAll(chore)'],
+  extends: ['config:recommended', ':semanticCommits', ':semanticCommitTypeAll(chore)'],
   labels: ['dependencies'],
   packageRules: [
     {
       groupName: 'GitHub Actions Dependencies',
-      matchPackagePatterns: ['.*'],
       matchManagers: ['github-actions'],
     },
     {
       groupName: 'Node-based Dev Tools',
-      matchPackagePatterns: ['.*'],
       matchManagers: ['npm'],
     },
     {
       groupName: 'Node.js',
       matchPackageNames: ['node'],
-      allowedVersions: '<19.0.0',
+      allowedVersions: '<21.0.0',
     },
     {
       groupName: 'main dependencies',
-      matchPackageNames: ['firebase-admin', 'zod'],
+      matchPackageNames: ['firebase-admin', 'firebase', 'type-fest', 'zod'],
     },
     {
       groupName: 'Tests',
-      matchPackagePatterns: ['jest'],
+      matchPackageNames: ['/jest/'],
     },
     {
       groupName: 'Linters',
-      matchPackagePatterns: ['eslint', 'prettier', 'commitlint'],
+      matchPackageNames: ['/eslint/', '/prettier/', '/commitlint/'],
     },
   ],
 }
