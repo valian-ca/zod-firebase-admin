@@ -36,14 +36,14 @@ jobs:
         run: pnpm test
 
       - name: Upload zod-firebase coverage to Codecov
-        uses: codecov/codecov-action@v4
+        uses: codecov/codecov-action@v5
         with:
           directory: ./packages/zod-firebase/coverage
           flags: firebase
           token: ${{ secrets.CODECOV_TOKEN }}
 
       - name: Upload zod-firebase-admin coverage to Codecov
-        uses: codecov/codecov-action@v4
+        uses: codecov/codecov-action@v5
         with:
           directory: ./packages/zod-firebase-admin/coverage
           flags: firebase-admin
@@ -57,6 +57,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: DavidAnson/markdownlint-cli2-action@v17
+      - uses: DavidAnson/markdownlint-cli2-action@v18
         with:
           globs: '**/*.md'
