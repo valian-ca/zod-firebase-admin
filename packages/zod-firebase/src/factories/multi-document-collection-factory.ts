@@ -148,7 +148,10 @@ export const multiDocumentCollectionFactory = <
           SchemaDocumentInput<TCollectionSchema>
         >(collectionPath, zod, options, buildZodOptions())
 
-  const schemaReadDoc = <Options extends MetaOutputOptions>(id: string, options?: Options) =>
+  const schemaReadDoc = <Options extends MetaOutputOptions>(
+    id: string,
+    options?: Options,
+  ): SchemaReadDocumentReference<TCollectionSchema, Options> =>
     !options
       ? defaultReadDocument(id)
       : firestoreZodDocument<
@@ -158,7 +161,9 @@ export const multiDocumentCollectionFactory = <
           SchemaDocumentInput<TCollectionSchema>
         >(collectionPath, id, zod, options, buildZodOptions())
 
-  const schemaReadCollectionGroup = <Options extends MetaOutputOptions>(options?: Options) =>
+  const schemaReadCollectionGroup = <Options extends MetaOutputOptions>(
+    options?: Options,
+  ): SchemaReadCollectionGroup<TCollectionSchema, Options> =>
     !options
       ? defaultReadCollectionGroup()
       : firestoreZodCollectionGroup<

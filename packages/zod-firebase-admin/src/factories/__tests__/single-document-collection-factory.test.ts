@@ -1,12 +1,11 @@
 import {
   type CollectionReference,
-  DocumentData,
   type DocumentReference,
   type FirestoreDataConverter,
   getFirestore,
   Timestamp,
 } from 'firebase-admin/firestore'
-import { anyObject, mock } from 'jest-mock-extended'
+import { mock } from 'jest-mock-extended'
 import { z } from 'zod'
 
 import {
@@ -23,8 +22,10 @@ import {
   type ZodDocumentReference,
   type ZodDocumentSnapshot,
 } from '../../base'
-import { SingleDocumentCollectionFactory, singleDocumentCollectionFactory } from '../single-document-collection-factory'
-import { isA } from 'jest-mock-extended/lib/Matchers'
+import {
+  type SingleDocumentCollectionFactory,
+  singleDocumentCollectionFactory,
+} from '../single-document-collection-factory'
 
 jest.mock('../../base')
 

@@ -1,4 +1,5 @@
-import { FirestoreDataConverter, getFirestore } from 'firebase-admin/firestore'
+import { type FirestoreDataConverter, getFirestore } from 'firebase-admin/firestore'
+import { mock } from 'jest-mock-extended'
 import { z } from 'zod'
 
 import {
@@ -6,8 +7,7 @@ import {
   firestoreCollectionGroupWithConverter,
   firestoreZodCollectionGroup,
 } from '../firestore-collection-group'
-import { mock } from 'jest-mock-extended'
-import type { DocumentOutput } from '../types'
+import { type DocumentOutput } from '../types'
 
 const TestDocumentZod = z.object({
   name: z.string(),

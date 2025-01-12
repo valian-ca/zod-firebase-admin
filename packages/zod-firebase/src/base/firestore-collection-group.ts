@@ -9,7 +9,6 @@ import {
 import { firestoreZodDataConverter } from './firestore-zod-data-converter'
 import { type FirestoreZodOptions } from './firestore-zod-options'
 import { type DocumentInput, type DocumentOutput, type MetaOutputOptions, type ZodTypeDocumentData } from './types'
-import { firestoreCollectionWithConverter } from './firestore-collection'
 
 export const firestoreCollectionGroup = <AppModelType = DocumentData, DbModelType extends DocumentData = DocumentData>(
   collectionId: string,

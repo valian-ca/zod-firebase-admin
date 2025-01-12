@@ -2,7 +2,7 @@ import {
   type CollectionReference,
   deleteDoc,
   type DocumentReference,
-  FirestoreDataConverter,
+  type FirestoreDataConverter,
   getDoc,
   getFirestore,
   setDoc,
@@ -13,7 +13,7 @@ import { mock } from 'jest-mock-extended'
 import { z } from 'zod'
 
 import {
-  DocumentOutput,
+  type DocumentOutput,
   firestoreCollection,
   firestoreCollectionGroupWithConverter,
   firestoreCollectionWithConverter,
@@ -26,7 +26,10 @@ import {
   type ZodDocumentReference,
   type ZodDocumentSnapshot,
 } from '../../base'
-import { SingleDocumentCollectionFactory, singleDocumentCollectionFactory } from '../single-document-collection-factory'
+import {
+  type SingleDocumentCollectionFactory,
+  singleDocumentCollectionFactory,
+} from '../single-document-collection-factory'
 
 jest.mock('../../base')
 

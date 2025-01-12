@@ -24,7 +24,10 @@ import {
   type ZodDocumentSnapshot,
   type ZodQuerySnapshot,
 } from '../../base'
-import { MultiDocumentCollectionFactory, multiDocumentCollectionFactory } from '../multi-document-collection-factory'
+import {
+  type MultiDocumentCollectionFactory,
+  multiDocumentCollectionFactory,
+} from '../multi-document-collection-factory'
 
 jest.mock('../../base')
 
