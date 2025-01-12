@@ -2,6 +2,7 @@ import {
   type CollectionReference,
   deleteDoc,
   type DocumentReference,
+  FirestoreDataConverter,
   getDoc,
   getFirestore,
   setDoc,
@@ -12,15 +13,20 @@ import { mock } from 'jest-mock-extended'
 import { z } from 'zod'
 
 import {
+  DocumentOutput,
   firestoreCollection,
+  firestoreCollectionGroupWithConverter,
+  firestoreCollectionWithConverter,
   firestoreDocument,
+  firestoreDocumentWithConverter,
   firestoreZodCollection,
   firestoreZodCollectionGroup,
+  firestoreZodDataConverter,
   firestoreZodDocument,
   type ZodDocumentReference,
   type ZodDocumentSnapshot,
 } from '../../base'
-import { singleDocumentCollectionFactory } from '../single-document-collection-factory'
+import { SingleDocumentCollectionFactory, singleDocumentCollectionFactory } from '../single-document-collection-factory'
 
 jest.mock('../../base')
 
@@ -33,8 +39,10 @@ const META_DATA_MOCK = mock<SnapshotMetadata>()
 type TestDocumentReference = ZodDocumentReference<typeof TestDocumentZod>
 type TestDocumentSnapshot = ZodDocumentSnapshot<typeof TestDocumentZod>
 
+const MockDataConverter = mock<FirestoreDataConverter<DocumentOutput<typeof TestDocumentZod>>>()
+
 describe('singleDocumentCollectionFactory', () => {
-  const collection = singleDocumentCollectionFactory('foo', TestDocumentZod, 'KEY', { getFirestore })
+  let collection: SingleDocumentCollectionFactory<{ zod: typeof TestDocumentZod }>
   const firestoreZodOptions = { firestore: getFirestore() }
 
   beforeEach(() => {
@@ -44,6 +52,8 @@ describe('singleDocumentCollectionFactory', () => {
     const documentRef = mock<DocumentReference>()
     documentRef.withConverter.mockReturnThis()
     jest.mocked(firestoreDocument).mockReturnValue(documentRef)
+    jest.mocked(firestoreZodDataConverter).mockReturnValue(MockDataConverter)
+    collection = singleDocumentCollectionFactory('foo', TestDocumentZod, 'KEY', { getFirestore })
   })
 
   describe('without meta options', () => {
@@ -51,25 +61,19 @@ describe('singleDocumentCollectionFactory', () => {
       it('should invoke firestoreZodCollection', () => {
         collection.read.collection()
 
-        expect(firestoreZodCollection).toHaveBeenCalledWith(['foo'], TestDocumentZod, undefined, firestoreZodOptions)
+        expect(firestoreCollectionWithConverter).toHaveBeenCalledWith(['foo'], MockDataConverter, getFirestore())
       })
 
       it('should invoke firestoreZodDocument', () => {
         collection.read.doc()
 
-        expect(firestoreZodDocument).toHaveBeenCalledWith(
-          ['foo'],
-          'KEY',
-          TestDocumentZod,
-          undefined,
-          firestoreZodOptions,
-        )
+        expect(firestoreDocumentWithConverter).toHaveBeenCalledWith(['foo'], 'KEY', MockDataConverter, getFirestore())
       })
 
       it('should invoke firestoreZodCollectionGroup', () => {
         collection.read.collectionGroup()
 
-        expect(firestoreZodCollectionGroup).toHaveBeenCalledWith('foo', TestDocumentZod, undefined, firestoreZodOptions)
+        expect(firestoreCollectionGroupWithConverter).toHaveBeenCalledWith('foo', MockDataConverter, getFirestore())
       })
     })
 

@@ -1,11 +1,15 @@
-import { collection, getFirestore } from 'firebase/firestore'
+import { collection, FirestoreDataConverter, getFirestore } from 'firebase/firestore'
 import { z } from 'zod'
 
-import { firestoreCollection, firestoreZodCollection } from '../firestore-collection'
+import { firestoreCollection, firestoreCollectionWithConverter, firestoreZodCollection } from '../firestore-collection'
+import { mock } from 'jest-mock-extended'
+import { DocumentOutput } from '../types'
 
 const TestDocumentZod = z.object({
   name: z.string(),
 })
+
+const converter = mock<FirestoreDataConverter<DocumentOutput<typeof TestDocumentZod>>>()
 
 describe('firestoreCollection', () => {
   it('should invoke collection(getFirestore(), name)', () => {
@@ -16,6 +20,20 @@ describe('firestoreCollection', () => {
   it('should invoke collection(getFirestore(), name) for subCollection', () => {
     firestoreCollection(['foo', 'id', 'bar'])
     expect(collection).toHaveBeenCalledWith(getFirestore(), 'foo/id/bar')
+  })
+})
+
+describe('firestoreCollectionWithConverter', () => {
+  it('should invoke collection(getFirestore(), name)', () => {
+    firestoreCollectionWithConverter('foo', converter)
+    expect(collection).toHaveBeenCalledWith(getFirestore(), 'foo')
+    expect(collection(getFirestore(), 'foo').withConverter).toHaveBeenCalledWith(converter)
+  })
+
+  it('should invoke collection(getFirestore(), name) for subCollection', () => {
+    firestoreCollectionWithConverter(['foo', 'id', 'bar'], converter)
+    expect(collection).toHaveBeenCalledWith(getFirestore(), 'foo/id/bar')
+    expect(collection(getFirestore(), 'foo/id/bar').withConverter).toHaveBeenCalledWith(converter)
   })
 })
 

@@ -1,16 +1,33 @@
-import { doc, type DocumentData, type DocumentReference, getFirestore } from '@firebase/firestore'
+import {
+  doc,
+  type DocumentData,
+  type DocumentReference,
+  type FirestoreDataConverter,
+  getFirestore,
+} from '@firebase/firestore'
 
 import { type CollectionPath } from './firestore-collection-path'
 import { firestoreDocumentPath } from './firestore-document-path'
 import { firestoreZodDataConverter } from './firestore-zod-data-converter'
 import { type FirestoreZodOptions } from './firestore-zod-options'
 import { type DocumentInput, type DocumentOutput, type MetaOutputOptions, type ZodTypeDocumentData } from './types'
+import { firestoreCollectionWithConverter } from './firestore-collection'
 
 export const firestoreDocument = <AppModelType = DocumentData, DbModelType extends DocumentData = DocumentData>(
   collectionPath: CollectionPath | string,
   documentId: string,
   firestore = getFirestore(),
 ) => doc(firestore, firestoreDocumentPath(collectionPath, documentId)) as DocumentReference<AppModelType, DbModelType>
+
+export const firestoreDocumentWithConverter = <
+  AppModelType = DocumentData,
+  DbModelType extends DocumentData = DocumentData,
+>(
+  collectionPath: CollectionPath | string,
+  documentId: string,
+  converter: FirestoreDataConverter<AppModelType, DbModelType>,
+  firestore = getFirestore(),
+) => doc(firestore, firestoreDocumentPath(collectionPath, documentId)).withConverter(converter)
 
 export const firestoreZodDocument = <
   Z extends ZodTypeDocumentData,

@@ -37,12 +37,12 @@ describe('collectionWithSubCollectionsFactory', () => {
 
       expect(typeof collectionWithSubCollection).toBe('function')
 
-      collectionWithSubCollection('id').test.read.collection()
+      collectionWithSubCollection('id').test.read.collection({})
 
       expect(firestoreZodCollection).toHaveBeenCalledWith(
         ['foo', 'id', 'test'],
         TestSubCollectionDocumentZod,
-        undefined,
+        {},
         {
           firestore: getFirestore(),
         },
