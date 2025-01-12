@@ -1,4 +1,9 @@
-import { type CollectionGroup, type DocumentData, getFirestore } from 'firebase-admin/firestore'
+import {
+  type CollectionGroup,
+  type DocumentData,
+  type FirestoreDataConverter,
+  getFirestore,
+} from 'firebase-admin/firestore'
 
 import { firestoreZodDataConverter } from './firestore-zod-data-converter'
 import { type FirestoreZodOptions } from './firestore-zod-options'
@@ -8,6 +13,15 @@ export const firestoreCollectionGroup = <AppModelType = DocumentData, DbModelTyp
   collectionId: string,
   firestore = getFirestore(),
 ) => firestore.collectionGroup(collectionId) as CollectionGroup<AppModelType, DbModelType>
+
+export const firestoreCollectionGroupWithConverter = <
+  AppModelType = DocumentData,
+  DbModelType extends DocumentData = DocumentData,
+>(
+  collectionId: string,
+  converter: FirestoreDataConverter<AppModelType, DbModelType>,
+  firestore = getFirestore(),
+) => firestore.collectionGroup(collectionId).withConverter(converter)
 
 export const firestoreZodCollectionGroup = <
   Z extends ZodTypeDocumentData,

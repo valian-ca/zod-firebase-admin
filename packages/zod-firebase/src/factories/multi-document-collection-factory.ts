@@ -14,10 +14,14 @@ import {
 import {
   type CollectionPath,
   firestoreCollection,
+  firestoreCollectionGroupWithConverter,
   firestoreCollectionPath,
+  firestoreCollectionWithConverter,
   firestoreDocument,
+  firestoreDocumentWithConverter,
   firestoreZodCollection,
   firestoreZodCollectionGroup,
+  firestoreZodDataConverter,
   type FirestoreZodDataConverterOptions,
   firestoreZodDocument,
   type MetaOutputOptions,
@@ -107,29 +111,67 @@ export const multiDocumentCollectionFactory = <
         }
       : zodDataConverterOptions
 
-  const schemaReadCollection = <Options extends MetaOutputOptions>(options?: Options) =>
-    firestoreZodCollection<
-      Z,
-      Options,
-      SchemaDocumentOutput<TCollectionSchema, Options>,
+  const defaultConverter = firestoreZodDataConverter<
+    Z,
+    MetaOutputOptions,
+    SchemaDocumentOutput<TCollectionSchema>,
+    SchemaDocumentInput<TCollectionSchema>
+  >(zod, undefined, zodDataConverterOptions)
+  const defaultReadCollection = () =>
+    firestoreCollectionWithConverter<SchemaDocumentOutput<TCollectionSchema>, SchemaDocumentInput<TCollectionSchema>>(
+      collectionPath,
+      defaultConverter,
+      getFirestore?.(),
+    )
+  const defaultReadDocument = (id: string) =>
+    firestoreDocumentWithConverter<SchemaDocumentOutput<TCollectionSchema>, SchemaDocumentInput<TCollectionSchema>>(
+      collectionPath,
+      id,
+      defaultConverter,
+      getFirestore?.(),
+    )
+  const defaultReadCollectionGroup = () =>
+    firestoreCollectionGroupWithConverter<
+      SchemaDocumentOutput<TCollectionSchema>,
       SchemaDocumentInput<TCollectionSchema>
-    >(collectionPath, zod, options, buildZodOptions())
+    >(collectionName, defaultConverter, getFirestore?.())
 
-  const schemaReadDoc = <Options extends MetaOutputOptions>(id: string, options?: Options) =>
-    firestoreZodDocument<
-      Z,
-      Options,
-      SchemaDocumentOutput<TCollectionSchema, Options>,
-      SchemaDocumentInput<TCollectionSchema>
-    >(collectionPath, id, zod, options, buildZodOptions())
+  const schemaReadCollection = <Options extends MetaOutputOptions>(
+    options?: Options,
+  ): SchemaReadCollectionReference<TCollectionSchema, Options> =>
+    !options
+      ? defaultReadCollection()
+      : firestoreZodCollection<
+          Z,
+          Options,
+          SchemaDocumentOutput<TCollectionSchema, Options>,
+          SchemaDocumentInput<TCollectionSchema>
+        >(collectionPath, zod, options, buildZodOptions())
 
-  const schemaReadCollectionGroup = <Options extends MetaOutputOptions>(options?: Options) =>
-    firestoreZodCollectionGroup<
-      Z,
-      Options,
-      SchemaDocumentOutput<TCollectionSchema, Options>,
-      SchemaDocumentInput<TCollectionSchema>
-    >(collectionName, zod, options, buildZodOptions())
+  const schemaReadDoc = <Options extends MetaOutputOptions>(
+    id: string,
+    options?: Options,
+  ): SchemaReadDocumentReference<TCollectionSchema, Options> =>
+    !options
+      ? defaultReadDocument(id)
+      : firestoreZodDocument<
+          Z,
+          Options,
+          SchemaDocumentOutput<TCollectionSchema, Options>,
+          SchemaDocumentInput<TCollectionSchema>
+        >(collectionPath, id, zod, options, buildZodOptions())
+
+  const schemaReadCollectionGroup = <Options extends MetaOutputOptions>(
+    options?: Options,
+  ): SchemaReadCollectionGroup<TCollectionSchema, Options> =>
+    !options
+      ? defaultReadCollectionGroup()
+      : firestoreZodCollectionGroup<
+          Z,
+          Options,
+          SchemaDocumentOutput<TCollectionSchema, Options>,
+          SchemaDocumentInput<TCollectionSchema>
+        >(collectionName, zod, options, buildZodOptions())
 
   const schemaWriteCollection = () =>
     firestoreCollection<SchemaDocumentInput<TCollectionSchema>, SchemaDocumentInput<TCollectionSchema>>(
