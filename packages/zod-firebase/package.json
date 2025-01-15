@@ -32,6 +32,7 @@
     "firebase": "11.1.0",
     "firebase-functions-test": "3.4.0",
     "jest-mock-extended": "3.0.7",
+    "nanoid": "3.3.8",
     "typescript": "5.7.2"
   },
   "peerDependencies": {
@@ -55,7 +56,10 @@
   "scripts": {
     "compile": "rm -rf ./lib && rollup -c",
     "prepack": "npm run compile",
+    "serve": "firebase emulators:start --only firestore --project demo-zod-firebase",
     "test": "jest --coverage",
+    "test:integration": "npm exec jest -- --config=jest.integration.config.cjs --coverage",
+    "test:integration:ci": "firebase emulators:exec --only firestore --project demo-zod-firebase 'npm exec jest -- --config=jest.integration.config.cjs --coverage'",
     "type-check": "tsc"
   }
 }
