@@ -1,73 +1,60 @@
 import { type PartialWithFieldValue, type SetOptions, type UpdateData, type WithFieldValue } from '@firebase/firestore'
+import { type Except } from 'type-fest'
 
-import { type MetaOutputOptions, type ZodTypeDocumentData } from '../base'
-
-import {
-  multiDocumentCollectionFactory,
-  type MultiDocumentCollectionFactoryOptions,
-} from './multi-document-collection-factory'
+import { type MetaOutputOptions } from '../../base'
 import {
   type CollectionSchema,
   type SchemaDocumentInput,
   type SchemaDocumentOutput,
-  type SchemaReadCollectionGroup,
-  type SchemaReadCollectionReference,
+  type SchemaFirestoreFactory,
+  type SchemaFirestoreReadFactory,
+  type SchemaFirestoreWriteFactory,
   type SchemaReadDocumentReference,
-  type SchemaWriteCollectionReference,
   type SchemaWriteDocumentReference,
-} from './types'
+} from '../../schema'
+
+import { multiDocumentCollectionFactory } from './multi-document-collection-factory'
 
 export interface SingleDocumentCollectionFactory<TCollectionSchema extends CollectionSchema> {
   readonly singleDocumentKey: string
 
-  readonly read: {
-    collection<Options extends MetaOutputOptions>(
-      this: void,
-      options?: Options,
-    ): SchemaReadCollectionReference<TCollectionSchema, Options>
+  readonly read: Except<SchemaFirestoreReadFactory<TCollectionSchema>, 'doc'> & {
     doc<Options extends MetaOutputOptions>(
       this: void,
       options?: Options,
     ): SchemaReadDocumentReference<TCollectionSchema, Options>
-    collectionGroup<Options extends MetaOutputOptions>(
-      this: void,
-      options?: Options,
-    ): SchemaReadCollectionGroup<TCollectionSchema, Options>
+  }
+
+  readonly write: Except<SchemaFirestoreWriteFactory<TCollectionSchema>, 'doc'> & {
+    doc(this: void): SchemaWriteDocumentReference<TCollectionSchema>
   }
 
   find<Options extends MetaOutputOptions>(
     this: void,
     options?: Options,
   ): Promise<SchemaDocumentOutput<TCollectionSchema, Options> | undefined>
+
   findOrThrow<Options extends MetaOutputOptions>(
     this: void,
     options?: Options,
   ): Promise<SchemaDocumentOutput<TCollectionSchema, Options>>
 
-  readonly write: {
-    collection(this: void): SchemaWriteCollectionReference<TCollectionSchema>
-    doc(this: void): SchemaWriteDocumentReference<TCollectionSchema>
-  }
-
   set(this: void, data: WithFieldValue<SchemaDocumentInput<TCollectionSchema>>): Promise<void>
+
   set(
     this: void,
     data: PartialWithFieldValue<SchemaDocumentInput<TCollectionSchema>>,
     options: SetOptions,
   ): Promise<void>
+
   update(this: void, data: UpdateData<SchemaDocumentInput<TCollectionSchema>>): Promise<void>
+
   delete(this: void): Promise<void>
 }
 
-export const singleDocumentCollectionFactory = <
-  Z extends ZodTypeDocumentData = ZodTypeDocumentData,
-  TCollectionSchema extends CollectionSchema<Z> = CollectionSchema<Z>,
->(
-  collectionName: string,
-  zod: Z,
+export const singleDocumentCollectionFactory = <TCollectionSchema extends CollectionSchema>(
+  firestoreFactory: SchemaFirestoreFactory<TCollectionSchema>,
   singleDocumentKey: string,
-  factoryOptions?: MultiDocumentCollectionFactoryOptions,
-  parentPath?: [string, string],
 ): SingleDocumentCollectionFactory<TCollectionSchema> => {
   const {
     read,
@@ -77,12 +64,11 @@ export const singleDocumentCollectionFactory = <
     set,
     update,
     delete: deleteDocument,
-  } = multiDocumentCollectionFactory<Z, TCollectionSchema>(collectionName, zod, parentPath, factoryOptions)
-  const setOverload = (data: PartialWithFieldValue<SchemaDocumentInput<TCollectionSchema>>, setOptions?: SetOptions) =>
-    setOptions
-      ? set(singleDocumentKey, data, setOptions)
-      : set(singleDocumentKey, data as WithFieldValue<SchemaDocumentInput<TCollectionSchema>>)
+    ...rest
+  } = multiDocumentCollectionFactory(firestoreFactory)
+
   return {
+    ...rest,
     singleDocumentKey,
     read: {
       ...read,
@@ -94,7 +80,10 @@ export const singleDocumentCollectionFactory = <
       ...write,
       doc: () => write.doc(singleDocumentKey),
     },
-    set: setOverload,
+    set: (data: PartialWithFieldValue<SchemaDocumentInput<TCollectionSchema>>, setOptions?: SetOptions) =>
+      setOptions
+        ? set(singleDocumentKey, data, setOptions)
+        : set(singleDocumentKey, data as WithFieldValue<SchemaDocumentInput<TCollectionSchema>>),
     update: (data) => update(singleDocumentKey, data),
     delete: () => deleteDocument(singleDocumentKey),
   }

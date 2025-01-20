@@ -389,6 +389,44 @@ describe('collectionsBuilder', () => {
           }),
         ),
       ).toBe(false)
+
+      expect(
+        queryEqual(
+          collection
+            .test('bar')
+            .multi('foo')
+            .subSub.prepare({
+              name: 'foo',
+              orderBy: [['name', 'asc']],
+            }),
+          collection
+            .test('bar')
+            .multi('foo')
+            .subSub.prepare({
+              name: 'foo',
+              orderBy: [['name', 'asc']],
+            }),
+        ),
+      ).toBe(true)
+
+      expect(
+        queryEqual(
+          collection
+            .test('bar')
+            .multi('foo')
+            .subSub.prepare({
+              name: 'foo',
+              orderBy: [['name', 'asc']],
+            }),
+          collection
+            .test('bar')
+            .multi('foo')
+            .subSub.prepare({
+              name: 'foo',
+              orderBy: [['name', 'desc']],
+            }),
+        ),
+      ).toBe(false)
     })
   })
 })

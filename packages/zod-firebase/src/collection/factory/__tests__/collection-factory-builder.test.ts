@@ -1,15 +1,15 @@
-import { doc, getDoc, getFirestore, setDoc } from 'firebase/firestore'
+import { doc, getDoc, getFirestore, setDoc } from '@firebase/firestore'
 import { z } from 'zod'
 
-import { collectionFactory } from '../collection-factory'
+import { collectionFactoryBuilder } from '../collection-factory-builder'
 
 const TestDocumentZod = z.object({
   name: z.string(),
 })
 
-describe('collectionFactory', () => {
+describe('collectionFactoryBuilder', () => {
   it('should invoke multiDocumentCollectionFactory when no singleDocumentKey is provided', async () => {
-    const collection = collectionFactory('foo', { zod: TestDocumentZod })
+    const collection = collectionFactoryBuilder('foo', { zod: TestDocumentZod }).build()
 
     await setDoc(collection.write.doc('id'), { name: 'bar' })
 
@@ -17,7 +17,7 @@ describe('collectionFactory', () => {
   })
 
   it('should invoke singleDocumentCollectionFactory when a singleDocumentKey is provided', async () => {
-    const collection = collectionFactory('foo', { zod: TestDocumentZod, singleDocumentKey: 'KEY' })
+    const collection = collectionFactoryBuilder('foo', { zod: TestDocumentZod, singleDocumentKey: 'KEY' }).build()
 
     const documentReference = collection.read.doc()
     await getDoc(documentReference)
