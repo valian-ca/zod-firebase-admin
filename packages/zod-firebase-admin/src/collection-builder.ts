@@ -1,4 +1,6 @@
-import { type Collections, collectionsFactory, type FirestoreZodFactoryOptions, type Schema } from './factories'
+import { rootCollectionsBuilder } from './collection/root-collections-builder'
+import { type Collections } from './collection'
+import { type FirestoreZodFactoryOptions, type Schema } from './schema'
 
 /**
  * Build collections from a schema
@@ -8,4 +10,4 @@ import { type Collections, collectionsFactory, type FirestoreZodFactoryOptions, 
 export const collectionsBuilder = <TSchema extends Schema>(
   schema: TSchema,
   options?: FirestoreZodFactoryOptions,
-): Collections<TSchema> => collectionsFactory(schema, options)
+): Collections<TSchema> => rootCollectionsBuilder(schema, options)

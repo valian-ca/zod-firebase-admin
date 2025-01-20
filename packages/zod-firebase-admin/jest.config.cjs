@@ -3,7 +3,13 @@ module.exports = {
   clearMocks: true,
   testEnvironment: 'node',
   modulePathIgnorePatterns: ['<rootDir>/__integration-tests__/'],
-  collectCoverageFrom: ['src/**/*.ts', '!src/index.ts'],
+  collectCoverageFrom: [
+    'src/**/*.ts',
+    '!src/index.ts',
+    '!src/schema/types/**.ts',
+    '!src/collection/index.ts',
+    '!src/collection/factory/index.ts',
+  ],
   coverageReporters: ['text', 'cobertura'],
   coverageThreshold: {
     global: {

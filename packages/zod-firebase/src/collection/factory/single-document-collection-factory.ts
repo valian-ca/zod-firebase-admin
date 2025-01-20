@@ -74,8 +74,8 @@ export const singleDocumentCollectionFactory = <TCollectionSchema extends Collec
       ...read,
       doc: <Options extends MetaOutputOptions>(options?: Options) => read.doc<Options>(singleDocumentKey, options),
     },
-    find: () => findById(singleDocumentKey),
-    findOrThrow: () => findByIdOrThrow(singleDocumentKey),
+    find: <Options extends MetaOutputOptions>(options?: Options) => findById(singleDocumentKey, options),
+    findOrThrow: <Options extends MetaOutputOptions>(options?: Options) => findByIdOrThrow(singleDocumentKey, options),
     write: {
       ...write,
       doc: () => write.doc(singleDocumentKey),

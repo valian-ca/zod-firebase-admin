@@ -2,7 +2,12 @@ import { deleteDoc, type DocumentReference, getDoc, getFirestore, setDoc, update
 import { mock } from 'jest-mock-extended'
 import { z } from 'zod'
 
-import { firestoreDocument, type ZodDocumentReference, type ZodDocumentSnapshot } from '../../../base'
+import {
+  firestoreDocument,
+  firestoreZodDataConverter,
+  type ZodDocumentReference,
+  type ZodDocumentSnapshot,
+} from '../../../base'
 import { schemaFirestoreFactoryBuilder } from '../../../schema/schema-firestore-factory-builder'
 import { singleDocumentCollectionFactory } from '../single-document-collection-factory'
 
@@ -26,8 +31,9 @@ describe('singleDocumentCollectionFactory', () => {
       const documentRef = mock<TestDocumentReference>()
       jest.mocked(firestoreDocument).mockReturnValue(documentRef)
 
-      collection.read.doc()
+      collection.read.doc({ _id: false })
       expect(firestoreDocument).toHaveBeenCalledWith(['foo'], 'KEY', getFirestore())
+      expect(firestoreZodDataConverter).toHaveBeenCalledWith(TestDocumentZod, { _id: false }, {})
     })
   })
 
@@ -64,7 +70,10 @@ describe('singleDocumentCollectionFactory', () => {
       snapshot.data.mockReturnValue(parsedDocumentValue)
       jest.mocked(firestoreDocument).mockReturnValue(documentRef)
 
-      await expect(collection.find()).resolves.toEqual(parsedDocumentValue)
+      await expect(collection.find({ _id: false })).resolves.toEqual(parsedDocumentValue)
+
+      expect(firestoreDocument).toHaveBeenCalledWith(['foo'], 'KEY', getFirestore())
+      expect(firestoreZodDataConverter).toHaveBeenCalledWith(TestDocumentZod, { _id: false }, {})
     })
   })
 
@@ -91,7 +100,10 @@ describe('singleDocumentCollectionFactory', () => {
       snapshot.data.mockReturnValue(parsedDocumentValue)
       jest.mocked(firestoreDocument).mockReturnValue(documentRef)
 
-      await expect(collection.findOrThrow()).resolves.toEqual(parsedDocumentValue)
+      await expect(collection.findOrThrow({ _id: false })).resolves.toEqual(parsedDocumentValue)
+
+      expect(firestoreDocument).toHaveBeenCalledWith(['foo'], 'KEY', getFirestore())
+      expect(firestoreZodDataConverter).toHaveBeenCalledWith(TestDocumentZod, { _id: false }, {})
     })
   })
 
