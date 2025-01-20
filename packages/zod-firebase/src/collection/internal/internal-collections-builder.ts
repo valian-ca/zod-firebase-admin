@@ -17,7 +17,7 @@ export const internalCollectionsBuilder = <TSchema extends Schema>(
 const internalCollectionBuilder = <TCollectionName extends string, TCollectionSchema extends CollectionSchema>(
   internalCollectionSchema: InternalCollectionSchema<TCollectionName, TCollectionSchema>,
   parentPath: [string, string],
-): Collection<TCollectionName, TCollectionSchema> => {
+) => {
   const collection = internalCollectionSchema.build(parentPath)
 
   const { internalSubSchema } = internalCollectionSchema

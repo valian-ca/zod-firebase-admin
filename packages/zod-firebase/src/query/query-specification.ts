@@ -15,11 +15,11 @@ type WhereTuple = [FieldPath | string, WhereFilterOp, unknown]
 type OrderByTuple = [FieldPath | string, OrderByDirection] | [FieldPath | string]
 
 export interface QuerySpecification {
-  name: string
-  constraints?: QueryConstraint[]
-  where?: WhereTuple[]
-  orderBy?: OrderByTuple[]
-  limit?: number
+  readonly name: string
+  readonly constraints?: QueryConstraint[]
+  readonly where?: WhereTuple[]
+  readonly orderBy?: OrderByTuple[]
+  readonly limit?: number
 }
 
 export const applyQuerySpecification = <AppModelType, DbModelType extends DocumentData = DocumentData>(

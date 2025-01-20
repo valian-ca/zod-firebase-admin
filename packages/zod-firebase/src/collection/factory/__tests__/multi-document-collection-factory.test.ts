@@ -15,7 +15,6 @@ import { z } from 'zod'
 import {
   firestoreCollection,
   firestoreDocument,
-  firestoreZodDocument,
   type ZodCollectionReference,
   type ZodDocumentReference,
   type ZodDocumentSnapshot,
@@ -62,7 +61,7 @@ describe('multiDocumentCollectionFactory', () => {
           name: 'foo',
         }
         snapshot.data.mockReturnValue(parsedDocumentValue)
-        jest.mocked(firestoreZodDocument).mockReturnValue(documentRef)
+        jest.mocked(firestoreDocument).mockReturnValue(documentRef)
 
         await expect(collection.findById('id')).resolves.toEqual(parsedDocumentValue)
       })
@@ -74,7 +73,7 @@ describe('multiDocumentCollectionFactory', () => {
         const snapshot = mock<TestDocumentSnapshot>()
         snapshot.exists.mockReturnValue(false)
         jest.mocked(getDoc).mockResolvedValue(snapshot)
-        jest.mocked(firestoreZodDocument).mockReturnValue(documentRef)
+        jest.mocked(firestoreDocument).mockReturnValue(documentRef)
 
         await expect(collection.findByIdOrThrow('id')).rejects.toThrow()
       })

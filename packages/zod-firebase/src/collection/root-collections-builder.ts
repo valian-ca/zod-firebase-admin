@@ -1,8 +1,7 @@
 import { type CollectionSchema, type FirestoreZodFactoryOptions, type Schema } from '../schema'
 
 import { collectionFactoryBuilder } from './factory/collection-factory-builder'
-import { internalCollectionsBuilder } from './internal/internal-collections-builder'
-import { internalSchemaBuilder } from './internal'
+import { internalCollectionsBuilder, internalSchemaBuilder } from './internal'
 import { subCollectionsSchema } from './sub-collections-schema'
 import { type Collection, type Collections } from './types'
 
