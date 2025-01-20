@@ -1,44 +1,10 @@
-import {
-  type DocumentData,
-  type DocumentReference,
-  type FirestoreDataConverter,
-  getFirestore,
-} from 'firebase-admin/firestore'
+import { type DocumentData, type DocumentReference, getFirestore } from 'firebase-admin/firestore'
 
 import { type CollectionPath } from './firestore-collection-path'
 import { firestoreDocumentPath } from './firestore-document-path'
-import { firestoreZodDataConverter } from './firestore-zod-data-converter'
-import { type FirestoreZodOptions } from './firestore-zod-options'
-import { type DocumentInput, type DocumentOutput, type MetaOutputOptions, type ZodTypeDocumentData } from './types'
 
 export const firestoreDocument = <AppModelType = DocumentData, DbModelType extends DocumentData = DocumentData>(
   collectionPath: CollectionPath | string,
   documentId: string,
   firestore = getFirestore(),
 ) => firestore.doc(firestoreDocumentPath(collectionPath, documentId)) as DocumentReference<AppModelType, DbModelType>
-
-export const firestoreDocumentWithConverter = <
-  AppModelType = DocumentData,
-  DbModelType extends DocumentData = DocumentData,
->(
-  collectionPath: CollectionPath | string,
-  documentId: string,
-  converter: FirestoreDataConverter<AppModelType, DbModelType>,
-  firestore = getFirestore(),
-) => firestore.doc(firestoreDocumentPath(collectionPath, documentId)).withConverter(converter)
-
-export const firestoreZodDocument = <
-  Z extends ZodTypeDocumentData,
-  OutputOptions extends MetaOutputOptions,
-  AppModelType extends DocumentOutput<Z, OutputOptions> = DocumentOutput<Z, OutputOptions>,
-  DbModelType extends DocumentData = DocumentInput<Z>,
->(
-  collectionPath: CollectionPath | string,
-  documentId: string,
-  zod: Z,
-  outputOptions?: OutputOptions,
-  { firestore = getFirestore(), ...options }: FirestoreZodOptions = {},
-): DocumentReference<AppModelType, DbModelType> =>
-  firestore
-    .doc(firestoreDocumentPath(collectionPath, documentId))
-    .withConverter(firestoreZodDataConverter<Z, OutputOptions, AppModelType, DbModelType>(zod, outputOptions, options))

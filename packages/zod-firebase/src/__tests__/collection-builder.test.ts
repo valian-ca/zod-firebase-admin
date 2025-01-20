@@ -1,9 +1,7 @@
-import { getFirestore } from 'firebase/firestore'
+import { getFirestore } from '@firebase/firestore'
 import { z } from 'zod'
 
 import { collectionsBuilder } from '../collection-builder'
-
-// jest.mock('../factories/collection-factory')
 
 const TestDocumentZod = z.object({
   name: z.string(),

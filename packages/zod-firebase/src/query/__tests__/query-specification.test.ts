@@ -1,4 +1,4 @@
-import { limit, orderBy, type Query, where } from 'firebase/firestore'
+import { limit, orderBy, type Query, where } from '@firebase/firestore'
 import { mock } from 'jest-mock-extended'
 
 import { applyQuerySpecification } from '../query-specification'
