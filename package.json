@@ -25,7 +25,7 @@
     "prepare": "husky",
     "test": "lerna run test",
     "type-check": "lerna run type-check",
-    "test:integration:ci": "lerna run test:integration:ci"
+    "test:integration:ci": "lerna run --concurrency 1 test:integration:ci"
   },
   "devDependencies": {
     "@commitlint/cli": "19.7.1",
