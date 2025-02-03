@@ -8,6 +8,7 @@ on:
   workflow_call:
 
 permissions:
+  id-token: write
   contents: read
 
 jobs:
@@ -24,4 +25,7 @@ jobs:
           NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
 
       - name: Publish to NPM
+        env:
+          NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
+          NPM_CONFIG_PROVENANCE: true
         run: npx lerna publish from-package --no-push --no-private --yes

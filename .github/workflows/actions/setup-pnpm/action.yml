@@ -4,12 +4,16 @@ description: Setup pnpm
 runs:
   using: composite
   steps:
-    - run: corepack enable
-      shell: sh
+    - name: Install pnpm
+      uses: pnpm/action-setup@v4
+      with:
+        run_install: false
+
     - name: Setup node
       uses: actions/setup-node@v4
       with:
         node-version-file: .tool-versions
         cache: pnpm
+
     - run: pnpm install --frozen-lockfile
       shell: sh
