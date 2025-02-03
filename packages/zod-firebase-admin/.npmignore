@@ -5,11 +5,8 @@
 /tsconfig.json
 /tsconfig.*.json
 tsconfig.tsbuildinfo
-jest.*.js
+jest.*.cjs
 rollup.config.js
-.eslintrc.js
-.eslintrc.cjs
+eslint.config.mjs
 .gitignore
 firebase.json
-.jest.config.js
-.jest.integration.config.js
