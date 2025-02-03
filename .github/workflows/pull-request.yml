@@ -30,6 +30,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      - name: cache firebase emulator
+        uses: actions/cache@v4
+        with:
+          path: .cache/firebase
+          key: ${{ runner.os }}-firebase-emulator
+
       - name: setup pnpm
         uses: ./.github/workflows/actions/setup-pnpm
       - name: tests
