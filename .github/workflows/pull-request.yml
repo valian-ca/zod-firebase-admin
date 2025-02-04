@@ -9,7 +9,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: setup pnpm
-        uses: ./.github/workflows/actions/setup-pnpm
+        uses: valian-ca/github-workflows/.github/actions/setup-pnpm@main
       - name: eslint
         run: pnpm eslint
       - name: pettier
@@ -21,7 +21,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: setup pnpm
-        uses: ./.github/workflows/actions/setup-pnpm
+        uses: valian-ca/github-workflows/.github/actions/setup-pnpm@main
       - name: type-check
         run: pnpm run type-check
 
@@ -37,7 +37,7 @@ jobs:
           key: ${{ runner.os }}-firebase-emulator
 
       - name: setup pnpm
-        uses: ./.github/workflows/actions/setup-pnpm
+        uses: valian-ca/github-workflows/.github/actions/setup-pnpm@main
       - name: tests
         run: pnpm test
 
