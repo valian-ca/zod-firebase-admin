@@ -17,7 +17,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: setup pnpm
-        uses: ./.github/workflows/actions/setup-pnpm
+        uses: valian-ca/github-workflows/.github/actions/setup-pnpm@main
 
       - name: Set publishing config
         run: pnpm config set '//registry.npmjs.org/:_authToken' "${NODE_AUTH_TOKEN}"
