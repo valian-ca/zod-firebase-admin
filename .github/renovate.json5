@@ -12,6 +12,10 @@
     },
     {
       groupName: 'Node.js',
+      matchPackageNames: ['pnpm'],
+    },
+    {
+      groupName: 'Node.js',
       matchPackageNames: ['node'],
       allowedVersions: '<21.0.0',
     },
