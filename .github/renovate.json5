@@ -17,7 +17,7 @@
     {
       groupName: 'Node.js',
       matchPackageNames: ['node'],
-      allowedVersions: '<21.0.0',
+      allowedVersions: '<23.0.0',
     },
     {
       groupName: 'main dependencies',
