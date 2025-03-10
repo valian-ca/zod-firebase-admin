@@ -32,8 +32,8 @@
     "firebase": "11.4.0",
     "firebase-functions-test": "3.4.0",
     "jest-mock-extended": "3.0.7",
-    "nanoid": "3.3.8",
-    "typescript": "5.7.3"
+    "nanoid": "3.3.9",
+    "typescript": "5.8.2"
   },
   "peerDependencies": {
     "@firebase/firestore": "^4.7.0"
