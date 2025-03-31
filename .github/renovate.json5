@@ -20,6 +20,11 @@
       allowedVersions: '<23.0.0',
     },
     {
+      groupName: 'nanoid',
+      matchPackageNames: ['nanoid'],
+      allowedVersions: '<4.0.0',
+    },
+    {
       groupName: 'main dependencies',
       matchPackageNames: ['firebase-admin', 'firebase', 'type-fest', 'zod'],
     },
