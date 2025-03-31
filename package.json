@@ -43,7 +43,7 @@
     "lerna": "8.2.1",
     "markdownlint-cli2": "0.17.2",
     "prettier": "3.5.3",
-    "rollup": "4.37.0",
+    "rollup": "4.38.0",
     "rollup-plugin-dts": "6.2.1",
     "ts-essentials": "10.0.4",
     "ts-jest": "29.3.0",
