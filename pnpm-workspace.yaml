@@ -1,2 +1,4 @@
 packages:
   - packages/*
+onlyBuiltDependencies:
+  - '@valian/eslint-config'
