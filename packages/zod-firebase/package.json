@@ -29,7 +29,7 @@
     "zod": "^3.23.8"
   },
   "devDependencies": {
-    "firebase": "11.5.0",
+    "firebase": "11.6.0",
     "firebase-functions-test": "3.4.1",
     "jest-mock-extended": "3.0.7",
     "nanoid": "3.3.11",
