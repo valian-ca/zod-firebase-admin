@@ -1,0 +1,13 @@
+{
+  "image": "mcr.microsoft.com/devcontainers/javascript-node:22",
+  "hostRequirements": {
+    "cpus": 4
+  },
+  "waitFor": "onCreateCommand",
+  "updateContentCommand": "pnpm install",
+  "postCreateCommand": "",
+  "postAttachCommand": {},
+  "customizations": {},
+  "portsAttributes": {},
+  "forwardPorts": []
+}
