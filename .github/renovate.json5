@@ -1,5 +1,5 @@
 {
-  extends: ['config:recommended', ':semanticCommits', ':semanticCommitTypeAll(chore)'],
+  extends: ['config:js-lib', ':semanticCommits', ':semanticCommitScope(chore)', ':configMigration'],
   labels: ['dependencies'],
   packageRules: [
     {
