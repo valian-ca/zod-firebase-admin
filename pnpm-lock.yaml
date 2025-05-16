@@ -16,7 +16,7 @@ importers:
         version: 19.8.0
       '@rollup/plugin-typescript':
         specifier: 12.1.2
-        version: 12.1.2(rollup@4.40.1)(tslib@2.8.1)(typescript@5.8.3)
+        version: 12.1.2(rollup@4.40.2)(tslib@2.8.1)(typescript@5.8.3)
       '@tsconfig/node22':
         specifier: 22.0.1
         version: 22.0.1
@@ -33,8 +33,8 @@ importers:
         specifier: 3.4.1
         version: 3.4.1(firebase-admin@13.3.0(encoding@0.1.13))(firebase-functions@4.9.0(firebase-admin@13.3.0(encoding@0.1.13)))(jest@29.7.0(@types/node@22.13.13)(ts-node@10.9.2(@types/node@22.13.13)(typescript@5.8.3)))
       firebase-tools:
-        specifier: 14.2.2
-        version: 14.2.2(encoding@0.1.13)
+        specifier: 14.4.0
+        version: 14.4.0(@types/node@22.13.13)(encoding@0.1.13)
       husky:
         specifier: 9.1.7
         version: 9.1.7
@@ -48,17 +48,17 @@ importers:
         specifier: 8.2.2
         version: 8.2.2(encoding@0.1.13)
       markdownlint-cli2:
-        specifier: 0.17.2
-        version: 0.17.2
+        specifier: 0.18.1
+        version: 0.18.1
       prettier:
         specifier: 3.5.3
         version: 3.5.3
       rollup:
-        specifier: 4.40.1
-        version: 4.40.1
+        specifier: 4.40.2
+        version: 4.40.2
       rollup-plugin-dts:
         specifier: 6.2.1
-        version: 6.2.1(rollup@4.40.1)(typescript@5.8.3)
+        version: 6.2.1(rollup@4.40.2)(typescript@5.8.3)
       ts-essentials:
         specifier: 10.0.4
         version: 10.0.4(typescript@5.8.3)
@@ -749,6 +749,127 @@ packages:
     resolution: {integrity: sha512-H9XAx3hc0BQHY6l+IFSWHDySypcXsvsuLhgYLUGywmJ5pswRVQJUHpOsobnLYp2ZUaUlKiKDrgWWhosOwAEM8Q==}
     engines: {node: '>=6.9.0'}
 
+  '@inquirer/checkbox@4.1.6':
+    resolution: {integrity: sha512-62u896rWCtKKE43soodq5e/QcRsA22I+7/4Ov7LESWnKRO6BVo2A1DFLDmXL9e28TB0CfHc3YtkbPm7iwajqkg==}
+    engines: {node: '>=18'}
+    peerDependencies:
+      '@types/node': '>=18'
+    peerDependenciesMeta:
+      '@types/node':
+        optional: true
+
+  '@inquirer/confirm@5.1.10':
+    resolution: {integrity: sha512-FxbQ9giWxUWKUk2O5XZ6PduVnH2CZ/fmMKMBkH71MHJvWr7WL5AHKevhzF1L5uYWB2P548o1RzVxrNd3dpmk6g==}
+    engines: {node: '>=18'}
+    peerDependencies:
+      '@types/node': '>=18'
+    peerDependenciesMeta:
+      '@types/node':
+        optional: true
+
+  '@inquirer/core@10.1.11':
+    resolution: {integrity: sha512-BXwI/MCqdtAhzNQlBEFE7CEflhPkl/BqvAuV/aK6lW3DClIfYVDWPP/kXuXHtBWC7/EEbNqd/1BGq2BGBBnuxw==}
+    engines: {node: '>=18'}
+    peerDependencies:
+      '@types/node': '>=18'
+    peerDependenciesMeta:
+      '@types/node':
+        optional: true
+
+  '@inquirer/editor@4.2.11':
+    resolution: {integrity: sha512-YoZr0lBnnLFPpfPSNsQ8IZyKxU47zPyVi9NLjCWtna52//M/xuL0PGPAxHxxYhdOhnvY2oBafoM+BI5w/JK7jw==}
+    engines: {node: '>=18'}
+    peerDependencies:
+      '@types/node': '>=18'
+    peerDependenciesMeta:
+      '@types/node':
+        optional: true
+
+  '@inquirer/expand@4.0.13':
+    resolution: {integrity: sha512-HgYNWuZLHX6q5y4hqKhwyytqAghmx35xikOGY3TcgNiElqXGPas24+UzNPOwGUZa5Dn32y25xJqVeUcGlTv+QQ==}
+    engines: {node: '>=18'}
+    peerDependencies:
+      '@types/node': '>=18'
+    peerDependenciesMeta:
+      '@types/node':
+        optional: true
+
+  '@inquirer/figures@1.0.11':
+    resolution: {integrity: sha512-eOg92lvrn/aRUqbxRyvpEWnrvRuTYRifixHkYVpJiygTgVSBIHDqLh0SrMQXkafvULg3ck11V7xvR+zcgvpHFw==}
+    engines: {node: '>=18'}
+
+  '@inquirer/input@4.1.10':
+    resolution: {integrity: sha512-kV3BVne3wJ+j6reYQUZi/UN9NZGZLxgc/tfyjeK3mrx1QI7RXPxGp21IUTv+iVHcbP4ytZALF8vCHoxyNSC6qg==}
+    engines: {node: '>=18'}
+    peerDependencies:
+      '@types/node': '>=18'
+    peerDependenciesMeta:
+      '@types/node':
+        optional: true
+
+  '@inquirer/number@3.0.13':
+    resolution: {integrity: sha512-IrLezcg/GWKS8zpKDvnJ/YTflNJdG0qSFlUM/zNFsdi4UKW/CO+gaJpbMgQ20Q58vNKDJbEzC6IebdkprwL6ew==}
+    engines: {node: '>=18'}
+    peerDependencies:
+      '@types/node': '>=18'
+    peerDependenciesMeta:
+      '@types/node':
+        optional: true
+
+  '@inquirer/password@4.0.13':
+    resolution: {integrity: sha512-NN0S/SmdhakqOTJhDwOpeBEEr8VdcYsjmZHDb0rblSh2FcbXQOr+2IApP7JG4WE3sxIdKytDn4ed3XYwtHxmJQ==}
+    engines: {node: '>=18'}
+    peerDependencies:
+      '@types/node': '>=18'
+    peerDependenciesMeta:
+      '@types/node':
+        optional: true
+
+  '@inquirer/prompts@7.5.1':
+    resolution: {integrity: sha512-5AOrZPf2/GxZ+SDRZ5WFplCA2TAQgK3OYrXCYmJL5NaTu4ECcoWFlfUZuw7Es++6Njv7iu/8vpYJhuzxUH76Vg==}
+    engines: {node: '>=18'}
+    peerDependencies:
+      '@types/node': '>=18'
+    peerDependenciesMeta:
+      '@types/node':
+        optional: true
+
+  '@inquirer/rawlist@4.1.1':
+    resolution: {integrity: sha512-VBUC0jPN2oaOq8+krwpo/mf3n/UryDUkKog3zi+oIi8/e5hykvdntgHUB9nhDM78RubiyR1ldIOfm5ue+2DeaQ==}
+    engines: {node: '>=18'}
+    peerDependencies:
+      '@types/node': '>=18'
+    peerDependenciesMeta:
+      '@types/node':
+        optional: true
+
+  '@inquirer/search@3.0.13':
+    resolution: {integrity: sha512-9g89d2c5Izok/Gw/U7KPC3f9kfe5rA1AJ24xxNZG0st+vWekSk7tB9oE+dJv5JXd0ZSijomvW0KPMoBd8qbN4g==}
+    engines: {node: '>=18'}
+    peerDependencies:
+      '@types/node': '>=18'
+    peerDependenciesMeta:
+      '@types/node':
+        optional: true
+
+  '@inquirer/select@4.2.1':
+    resolution: {integrity: sha512-gt1Kd5XZm+/ddemcT3m23IP8aD8rC9drRckWoP/1f7OL46Yy2FGi8DSmNjEjQKtPl6SV96Kmjbl6p713KXJ/Jg==}
+    engines: {node: '>=18'}
+    peerDependencies:
+      '@types/node': '>=18'
+    peerDependenciesMeta:
+      '@types/node':
+        optional: true
+
+  '@inquirer/type@3.0.6':
+    resolution: {integrity: sha512-/mKVCtVpyBu3IDarv0G+59KC4stsD5mDsGpYh+GKs1NZT88Jh52+cuoA1AtLk2Q0r/quNl+1cSUyLRHBFeD0XA==}
+    engines: {node: '>=18'}
+    peerDependencies:
+      '@types/node': '>=18'
+    peerDependenciesMeta:
+      '@types/node':
+        optional: true
+
   '@isaacs/cliui@8.0.2':
     resolution: {integrity: sha512-O8jcjabXaleOG9DQ0+ARXWZBTfnP4WNAqzuiJK7ll44AmxGKv/J2M4TPjxjY3znBCfvBXFzucm1twdyFybFqEA==}
     engines: {node: '>=12'}
@@ -1145,103 +1266,103 @@ packages:
       rollup:
         optional: true
 
-  '@rollup/rollup-android-arm-eabi@4.40.1':
-    resolution: {integrity: sha512-kxz0YeeCrRUHz3zyqvd7n+TVRlNyTifBsmnmNPtk3hQURUyG9eAB+usz6DAwagMusjx/zb3AjvDUvhFGDAexGw==}
+  '@rollup/rollup-android-arm-eabi@4.40.2':
+    resolution: {integrity: sha512-JkdNEq+DFxZfUwxvB58tHMHBHVgX23ew41g1OQinthJ+ryhdRk67O31S7sYw8u2lTjHUPFxwar07BBt1KHp/hg==}
     cpu: [arm]
     os: [android]
 
-  '@rollup/rollup-android-arm64@4.40.1':
-    resolution: {integrity: sha512-PPkxTOisoNC6TpnDKatjKkjRMsdaWIhyuMkA4UsBXT9WEZY4uHezBTjs6Vl4PbqQQeu6oION1w2voYZv9yquCw==}
+  '@rollup/rollup-android-arm64@4.40.2':
+    resolution: {integrity: sha512-13unNoZ8NzUmnndhPTkWPWbX3vtHodYmy+I9kuLxN+F+l+x3LdVF7UCu8TWVMt1POHLh6oDHhnOA04n8oJZhBw==}
     cpu: [arm64]
     os: [android]
 
-  '@rollup/rollup-darwin-arm64@4.40.1':
-    resolution: {integrity: sha512-VWXGISWFY18v/0JyNUy4A46KCFCb9NVsH+1100XP31lud+TzlezBbz24CYzbnA4x6w4hx+NYCXDfnvDVO6lcAA==}
+  '@rollup/rollup-darwin-arm64@4.40.2':
+    resolution: {integrity: sha512-Gzf1Hn2Aoe8VZzevHostPX23U7N5+4D36WJNHK88NZHCJr7aVMG4fadqkIf72eqVPGjGc0HJHNuUaUcxiR+N/w==}
     cpu: [arm64]
     os: [darwin]
 
-  '@rollup/rollup-darwin-x64@4.40.1':
-    resolution: {integrity: sha512-nIwkXafAI1/QCS7pxSpv/ZtFW6TXcNUEHAIA9EIyw5OzxJZQ1YDrX+CL6JAIQgZ33CInl1R6mHet9Y/UZTg2Bw==}
+  '@rollup/rollup-darwin-x64@4.40.2':
+    resolution: {integrity: sha512-47N4hxa01a4x6XnJoskMKTS8XZ0CZMd8YTbINbi+w03A2w4j1RTlnGHOz/P0+Bg1LaVL6ufZyNprSg+fW5nYQQ==}
     cpu: [x64]
     os: [darwin]
 
-  '@rollup/rollup-freebsd-arm64@4.40.1':
-    resolution: {integrity: sha512-BdrLJ2mHTrIYdaS2I99mriyJfGGenSaP+UwGi1kB9BLOCu9SR8ZpbkmmalKIALnRw24kM7qCN0IOm6L0S44iWw==}
+  '@rollup/rollup-freebsd-arm64@4.40.2':
+    resolution: {integrity: sha512-8t6aL4MD+rXSHHZUR1z19+9OFJ2rl1wGKvckN47XFRVO+QL/dUSpKA2SLRo4vMg7ELA8pzGpC+W9OEd1Z/ZqoQ==}
     cpu: [arm64]
     os: [freebsd]
 
-  '@rollup/rollup-freebsd-x64@4.40.1':
-    resolution: {integrity: sha512-VXeo/puqvCG8JBPNZXZf5Dqq7BzElNJzHRRw3vjBE27WujdzuOPecDPc/+1DcdcTptNBep3861jNq0mYkT8Z6Q==}
+  '@rollup/rollup-freebsd-x64@4.40.2':
+    resolution: {integrity: sha512-C+AyHBzfpsOEYRFjztcYUFsH4S7UsE9cDtHCtma5BK8+ydOZYgMmWg1d/4KBytQspJCld8ZIujFMAdKG1xyr4Q==}
     cpu: [x64]
     os: [freebsd]
 
-  '@rollup/rollup-linux-arm-gnueabihf@4.40.1':
-    resolution: {integrity: sha512-ehSKrewwsESPt1TgSE/na9nIhWCosfGSFqv7vwEtjyAqZcvbGIg4JAcV7ZEh2tfj/IlfBeZjgOXm35iOOjadcg==}
+  '@rollup/rollup-linux-arm-gnueabihf@4.40.2':
+    resolution: {integrity: sha512-de6TFZYIvJwRNjmW3+gaXiZ2DaWL5D5yGmSYzkdzjBDS3W+B9JQ48oZEsmMvemqjtAFzE16DIBLqd6IQQRuG9Q==}
     cpu: [arm]
     os: [linux]
 
-  '@rollup/rollup-linux-arm-musleabihf@4.40.1':
-    resolution: {integrity: sha512-m39iO/aaurh5FVIu/F4/Zsl8xppd76S4qoID8E+dSRQvTyZTOI2gVk3T4oqzfq1PtcvOfAVlwLMK3KRQMaR8lg==}
+  '@rollup/rollup-linux-arm-musleabihf@4.40.2':
+    resolution: {integrity: sha512-urjaEZubdIkacKc930hUDOfQPysezKla/O9qV+O89enqsqUmQm8Xj8O/vh0gHg4LYfv7Y7UsE3QjzLQzDYN1qg==}
     cpu: [arm]
     os: [linux]
 
-  '@rollup/rollup-linux-arm64-gnu@4.40.1':
-    resolution: {integrity: sha512-Y+GHnGaku4aVLSgrT0uWe2o2Rq8te9hi+MwqGF9r9ORgXhmHK5Q71N757u0F8yU1OIwUIFy6YiJtKjtyktk5hg==}
+  '@rollup/rollup-linux-arm64-gnu@4.40.2':
+    resolution: {integrity: sha512-KlE8IC0HFOC33taNt1zR8qNlBYHj31qGT1UqWqtvR/+NuCVhfufAq9fxO8BMFC22Wu0rxOwGVWxtCMvZVLmhQg==}
     cpu: [arm64]
     os: [linux]
 
-  '@rollup/rollup-linux-arm64-musl@4.40.1':
-    resolution: {integrity: sha512-jEwjn3jCA+tQGswK3aEWcD09/7M5wGwc6+flhva7dsQNRZZTe30vkalgIzV4tjkopsTS9Jd7Y1Bsj6a4lzz8gQ==}
+  '@rollup/rollup-linux-arm64-musl@4.40.2':
+    resolution: {integrity: sha512-j8CgxvfM0kbnhu4XgjnCWJQyyBOeBI1Zq91Z850aUddUmPeQvuAy6OiMdPS46gNFgy8gN1xkYyLgwLYZG3rBOg==}
     cpu: [arm64]
     os: [linux]
 
-  '@rollup/rollup-linux-loongarch64-gnu@4.40.1':
-    resolution: {integrity: sha512-ySyWikVhNzv+BV/IDCsrraOAZ3UaC8SZB67FZlqVwXwnFhPihOso9rPOxzZbjp81suB1O2Topw+6Ug3JNegejQ==}
+  '@rollup/rollup-linux-loongarch64-gnu@4.40.2':
+    resolution: {integrity: sha512-Ybc/1qUampKuRF4tQXc7G7QY9YRyeVSykfK36Y5Qc5dmrIxwFhrOzqaVTNoZygqZ1ZieSWTibfFhQ5qK8jpWxw==}
     cpu: [loong64]
     os: [linux]
 
-  '@rollup/rollup-linux-powerpc64le-gnu@4.40.1':
-    resolution: {integrity: sha512-BvvA64QxZlh7WZWqDPPdt0GH4bznuL6uOO1pmgPnnv86rpUpc8ZxgZwcEgXvo02GRIZX1hQ0j0pAnhwkhwPqWg==}
+  '@rollup/rollup-linux-powerpc64le-gnu@4.40.2':
+    resolution: {integrity: sha512-3FCIrnrt03CCsZqSYAOW/k9n625pjpuMzVfeI+ZBUSDT3MVIFDSPfSUgIl9FqUftxcUXInvFah79hE1c9abD+Q==}
     cpu: [ppc64]
     os: [linux]
 
-  '@rollup/rollup-linux-riscv64-gnu@4.40.1':
-    resolution: {integrity: sha512-EQSP+8+1VuSulm9RKSMKitTav89fKbHymTf25n5+Yr6gAPZxYWpj3DzAsQqoaHAk9YX2lwEyAf9S4W8F4l3VBQ==}
+  '@rollup/rollup-linux-riscv64-gnu@4.40.2':
+    resolution: {integrity: sha512-QNU7BFHEvHMp2ESSY3SozIkBPaPBDTsfVNGx3Xhv+TdvWXFGOSH2NJvhD1zKAT6AyuuErJgbdvaJhYVhVqrWTg==}
     cpu: [riscv64]
     os: [linux]
 
-  '@rollup/rollup-linux-riscv64-musl@4.40.1':
-    resolution: {integrity: sha512-n/vQ4xRZXKuIpqukkMXZt9RWdl+2zgGNx7Uda8NtmLJ06NL8jiHxUawbwC+hdSq1rrw/9CghCpEONor+l1e2gA==}
+  '@rollup/rollup-linux-riscv64-musl@4.40.2':
+    resolution: {integrity: sha512-5W6vNYkhgfh7URiXTO1E9a0cy4fSgfE4+Hl5agb/U1sa0kjOLMLC1wObxwKxecE17j0URxuTrYZZME4/VH57Hg==}
     cpu: [riscv64]
     os: [linux]
 
-  '@rollup/rollup-linux-s390x-gnu@4.40.1':
-    resolution: {integrity: sha512-h8d28xzYb98fMQKUz0w2fMc1XuGzLLjdyxVIbhbil4ELfk5/orZlSTpF/xdI9C8K0I8lCkq+1En2RJsawZekkg==}
+  '@rollup/rollup-linux-s390x-gnu@4.40.2':
+    resolution: {integrity: sha512-B7LKIz+0+p348JoAL4X/YxGx9zOx3sR+o6Hj15Y3aaApNfAshK8+mWZEf759DXfRLeL2vg5LYJBB7DdcleYCoQ==}
     cpu: [s390x]
     os: [linux]
 
-  '@rollup/rollup-linux-x64-gnu@4.40.1':
-    resolution: {integrity: sha512-XiK5z70PEFEFqcNj3/zRSz/qX4bp4QIraTy9QjwJAb/Z8GM7kVUsD0Uk8maIPeTyPCP03ChdI+VVmJriKYbRHQ==}
+  '@rollup/rollup-linux-x64-gnu@4.40.2':
+    resolution: {integrity: sha512-lG7Xa+BmBNwpjmVUbmyKxdQJ3Q6whHjMjzQplOs5Z+Gj7mxPtWakGHqzMqNER68G67kmCX9qX57aRsW5V0VOng==}
     cpu: [x64]
     os: [linux]
 
-  '@rollup/rollup-linux-x64-musl@4.40.1':
-    resolution: {integrity: sha512-2BRORitq5rQ4Da9blVovzNCMaUlyKrzMSvkVR0D4qPuOy/+pMCrh1d7o01RATwVy+6Fa1WBw+da7QPeLWU/1mQ==}
+  '@rollup/rollup-linux-x64-musl@4.40.2':
+    resolution: {integrity: sha512-tD46wKHd+KJvsmije4bUskNuvWKFcTOIM9tZ/RrmIvcXnbi0YK/cKS9FzFtAm7Oxi2EhV5N2OpfFB348vSQRXA==}
     cpu: [x64]
     os: [linux]
 
-  '@rollup/rollup-win32-arm64-msvc@4.40.1':
-    resolution: {integrity: sha512-b2bcNm9Kbde03H+q+Jjw9tSfhYkzrDUf2d5MAd1bOJuVplXvFhWz7tRtWvD8/ORZi7qSCy0idW6tf2HgxSXQSg==}
+  '@rollup/rollup-win32-arm64-msvc@4.40.2':
+    resolution: {integrity: sha512-Bjv/HG8RRWLNkXwQQemdsWw4Mg+IJ29LK+bJPW2SCzPKOUaMmPEppQlu/Fqk1d7+DX3V7JbFdbkh/NMmurT6Pg==}
     cpu: [arm64]
     os: [win32]
 
-  '@rollup/rollup-win32-ia32-msvc@4.40.1':
-    resolution: {integrity: sha512-DfcogW8N7Zg7llVEfpqWMZcaErKfsj9VvmfSyRjCyo4BI3wPEfrzTtJkZG6gKP/Z92wFm6rz2aDO7/JfiR/whA==}
+  '@rollup/rollup-win32-ia32-msvc@4.40.2':
+    resolution: {integrity: sha512-dt1llVSGEsGKvzeIO76HToiYPNPYPkmjhMHhP00T9S4rDern8P2ZWvWAQUEJ+R1UdMWJ/42i/QqJ2WV765GZcA==}
     cpu: [ia32]
     os: [win32]
 
-  '@rollup/rollup-win32-x64-msvc@4.40.1':
-    resolution: {integrity: sha512-ECyOuDeH3C1I8jH2MK1RtBJW+YPMvSfT0a5NN0nHfQYnDSJ6tUiZH3gzwVP5/Kfh/+Tt7tpWVF9LXNTnhTJ3kA==}
+  '@rollup/rollup-win32-x64-msvc@4.40.2':
+    resolution: {integrity: sha512-bwspbWB04XJpeElvsp+DCylKfF4trJDa2Y9Go8O6A7YLX2LIKGcNK/CYImJN6ZP4DcuOHB4Utl3iCbnR62DudA==}
     cpu: [x64]
     os: [win32]
 
@@ -1779,9 +1900,6 @@ packages:
   array-flatten@1.1.1:
     resolution: {integrity: sha512-PCVAQswWemu6UdxsDFFX/+gVeYqKAod3D3UVm91jHwynguOwAvYPhx8nNlM++NqRcK6CxxpUafjmhIdKiHibqg==}
 
-  array-flatten@3.0.0:
-    resolution: {integrity: sha512-zPMVc3ZYlGLNk4mpK1NzP2wg0ml9t7fUgDsayR5Y5rSzxQilzR9FGu/EH2jQOcKSAeAfWeylyW8juy3OkWRvNA==}
-
   array-ify@1.0.0:
     resolution: {integrity: sha512-c5AMf34bKdvPhQ7tBGhqkgKNUzMr4WUs+WDtC2ZUGOUncbxKMTvqxYctiseW3+L4bA8ec+GcZ6/A/FW4m8ukng==}
 
@@ -2109,6 +2227,10 @@ packages:
   cli-width@3.0.0:
     resolution: {integrity: sha512-FxqpkPPwu1HjuN93Omfm4h8uIanXofW0RxVEW3k5RKx+mJJYSthzNhp32Kzxxy3YAEZ/Dc/EWN1vZRY0+kOhbw==}
     engines: {node: '>= 10'}
+
+  cli-width@4.1.0:
+    resolution: {integrity: sha512-ouuZd4/dm2Sw5Gmqy6bGyNNNe1qt9RpmxveLSO7KcgsTnU7RXfsw+/bukWGo1abgBiMAic068rclZsO4IWmmxQ==}
+    engines: {node: '>= 12'}
 
   cliui@7.0.4:
     resolution: {integrity: sha512-OcRE68cOsVMXp1Yvonl/fzkQOyjLSu/8bhPDfQt0e0/Eb283TKP20Fs2MqoPsr9SwA595rRCA+QMzYc9nBP+JQ==}
@@ -3071,8 +3193,8 @@ packages:
     peerDependencies:
       firebase-admin: ^10.0.0 || ^11.0.0 || ^12.0.0
 
-  firebase-tools@14.2.2:
-    resolution: {integrity: sha512-fWbDRtDwVw1WA/LQFH5BDiDrbanT1zOQ2y0KG6cX0LEzm3AmHPc7yCtb1o5SIU01/PcVMYSFueiIX5BH4Nz1ng==}
+  firebase-tools@14.4.0:
+    resolution: {integrity: sha512-avJJrEoWdlntCc1OWo55pt53CDWPmTMMkh4vKsQEgMxVPLIesUg2OqP3XdlUZuOe4o2yP/58r+73BTyJjQKoVA==}
     engines: {node: '>=20.0.0 || >=22.0.0'}
     hasBin: true
 
@@ -3323,8 +3445,8 @@ packages:
     resolution: {integrity: sha512-jhIXaOzy1sb8IyocaruWSn1TjmnBVs8Ayhcy83rmxNJ8q2uWKCAj3CnJY+KpGSXCueAPc0i05kVvVKtP1t9S3g==}
     engines: {node: '>=10'}
 
-  globby@14.0.2:
-    resolution: {integrity: sha512-s3Fq41ZVh7vbbe2PN3nrW7yC7U7MFVc5c98/iTl9c2GawNMKx/J648KQRW6WKkuU8GIbbh2IXfIRQjOZnXcTnw==}
+  globby@14.1.0:
+    resolution: {integrity: sha512-0Ia46fDOaT7k4og1PDW4YbodWWr3scS2vAr2lTbsplOt2WkKp0vQbkI9wKis/T5LV/dqPjO3bpS/z6GTJB82LA==}
     engines: {node: '>=18'}
 
   google-auth-library@9.14.2:
@@ -3480,6 +3602,10 @@ packages:
     resolution: {integrity: sha512-hsBTNUqQTDwkWtcdYI2i06Y/nUBEsNEDJKjWdigLvegy8kDuJAS8uRlpkkcQpyEXL0Z/pjDy5HBmMjRCJ2gq+g==}
     engines: {node: '>= 4'}
 
+  ignore@7.0.4:
+    resolution: {integrity: sha512-gJzzk+PQNznz8ysRrC0aOkBNVRBDtE1n53IqyqEf3PXrYwomFs5q4pGMizBMJF+ykh03insJ27hB8gSrD2Hn8A==}
+    engines: {node: '>= 4'}
+
   import-fresh@3.3.0:
     resolution: {integrity: sha512-veYYhQa+D1QBKznvhUHxb8faxlrwUnxseDAbAp457E0wLNio2bOSKnjYDhMj+YiAq61xrMGhQk9iXVk5FzgQMw==}
     engines: {node: '>=6'}
@@ -3533,12 +3659,6 @@ packages:
   init-package-json@6.0.3:
     resolution: {integrity: sha512-Zfeb5ol+H+eqJWHTaGca9BovufyGeIfr4zaaBorPmJBMrJ+KBnN+kQx2ZtXdsotUTgldHmHQV44xvUWOUA7E2w==}
     engines: {node: ^16.14.0 || >=18.0.0}
-
-  inquirer-autocomplete-prompt@2.0.1:
-    resolution: {integrity: sha512-jUHrH0btO7j5r8DTQgANf2CBkTZChoVySD8zF/wp5fZCOLIuUbleXhf4ZY5jNBOc1owA3gdfWtfZuppfYBhcUg==}
-    engines: {node: '>=12'}
-    peerDependencies:
-      inquirer: ^8.0.0
 
   inquirer@8.2.6:
     resolution: {integrity: sha512-M1WuAmb7pn9zdFRtQYk26ZBoY043Sse0wVDdk4Bppr+JOXyQYybdtvK+l9wUibhtjdjvtoiNy8tk+EgsYIUqKg==}
@@ -4389,14 +4509,14 @@ packages:
     peerDependencies:
       markdownlint-cli2: '>=0.0.4'
 
-  markdownlint-cli2@0.17.2:
-    resolution: {integrity: sha512-XH06ZOi8wCrtOSSj3p8y3yJzwgzYOSa7lglNyS3fP05JPRzRGyjauBb5UvlLUSCGysMmULS1moxdRHHudV+g/Q==}
-    engines: {node: '>=18'}
+  markdownlint-cli2@0.18.1:
+    resolution: {integrity: sha512-/4Osri9QFGCZOCTkfA8qJF+XGjKYERSHkXzxSyS1hd3ZERJGjvsUao2h4wdnvpHp6Tu2Jh/bPHM0FE9JJza6ng==}
+    engines: {node: '>=20'}
     hasBin: true
 
-  markdownlint@0.37.4:
-    resolution: {integrity: sha512-u00joA/syf3VhWh6/ybVFkib5Zpj2e5KB/cfCei8fkSRuums6nyisTWGqjTWIOFoFwuXoTBQQiqlB4qFKp8ncQ==}
-    engines: {node: '>=18'}
+  markdownlint@0.38.0:
+    resolution: {integrity: sha512-xaSxkaU7wY/0852zGApM8LdlIfGCW8ETZ0Rr62IQtAnUMlMuifsg09vWJcNYeL4f0anvr8Vo4ZQar8jGpV0btQ==}
+    engines: {node: '>=20'}
 
   marked-terminal@7.1.0:
     resolution: {integrity: sha512-+pvwa14KZL74MVXjYdPR3nSInhGhNvPce/3mqLVZT2oUvt654sL1XImFuLZ1pkA866IYZ3ikDTOFUIC7XzpZZg==}
@@ -4450,11 +4570,11 @@ packages:
     resolution: {integrity: sha512-iclAHeNqNm68zFtnZ0e+1L2yUIdvzNoauKU4WBA3VvH/vPFieF7qfRlwUZU+DA9P9bPXIS90ulxoUoCH23sV2w==}
     engines: {node: '>= 0.6'}
 
-  micromark-core-commonmark@2.0.2:
-    resolution: {integrity: sha512-FKjQKbxd1cibWMM1P9N+H8TwlgGgSkWZMmfuVucLCHaYqeSvJ0hFeHsIa65pA2nYbes0f8LDHPMrd9X7Ujxg9w==}
+  micromark-core-commonmark@2.0.3:
+    resolution: {integrity: sha512-RDBrHEMSxVFLg6xvnXmb1Ayr2WzLAWjeSATAoxwKYJV94TeNavgoIdA0a9ytzDSVzBy2YKFK+emCPOEibLeCrg==}
 
-  micromark-extension-directive@3.0.2:
-    resolution: {integrity: sha512-wjcXHgk+PPdmvR58Le9d7zQYWy+vKEU9Se44p2CrCDPiLr2FMyiT4Fyb5UFKFC66wGB3kPlgD7q3TnoqPS7SZA==}
+  micromark-extension-directive@4.0.0:
+    resolution: {integrity: sha512-/C2nqVmXXmiseSSuCdItCMho7ybwwop6RrrRPk0KbOHW21JKoCldC+8rFOaundDoRBUWBnJJcxeA/Kvi34WQXg==}
 
   micromark-extension-gfm-autolink-literal@2.1.0:
     resolution: {integrity: sha512-oOg7knzhicgQ3t4QCjCWgTmfNhvQbDDnJeVu9v81r7NltNCVmhPy1fJRX27pISafdjL+SVc4d3l48Gb6pbRypw==}
@@ -4462,8 +4582,8 @@ packages:
   micromark-extension-gfm-footnote@2.1.0:
     resolution: {integrity: sha512-/yPhxI1ntnDNsiHtzLKYnE3vf9JZ6cAisqVDauhp4CEHxlb4uoOTxOCJ+9s51bIB8U1N1FJ1RXOKTIlD5B/gqw==}
 
-  micromark-extension-gfm-table@2.1.0:
-    resolution: {integrity: sha512-Ub2ncQv+fwD70/l4ou27b4YzfNaCJOvyX4HxXU15m7mpYY+rjuWzsLIPZHJL253Z643RpbcP1oeIJlQ/SKW67g==}
+  micromark-extension-gfm-table@2.1.1:
+    resolution: {integrity: sha512-t2OU/dXXioARrC6yWfJ4hqB7rct14e8f7m0cbI5hUmDyyIlwv5vEtooptH8INkbLzOatzKuVbQmAYcbWoyz6Dg==}
 
   micromark-extension-math@3.1.0:
     resolution: {integrity: sha512-lvEqd+fHjATVs+2v/8kg9i5Q0AP2k85H0WUOwpIVvUML8BapsMvh1XAogmQjOCsLpoKRCVQqEkQBB3NhVBcsOg==}
@@ -4519,11 +4639,11 @@ packages:
   micromark-util-symbol@2.0.1:
     resolution: {integrity: sha512-vs5t8Apaud9N28kgCrRUdEed4UJ+wWNvicHLPxCa9ENlYuAY31M0ETy5y1vA33YoNPDFTghEbnh6efaE8h4x0Q==}
 
-  micromark-util-types@2.0.1:
-    resolution: {integrity: sha512-534m2WhVTddrcKVepwmVEVnUAmtrx9bfIjNoQHRqfnvdaHQiFytEhJoTgpWJvDEXCO5gLTQh3wYC1PgOJA4NSQ==}
+  micromark-util-types@2.0.2:
+    resolution: {integrity: sha512-Yw0ECSpJoViF1qTU4DC6NwtC4aWGt1EkzaQB8KPPyCRR8z9TWeV0HbEFGTO+ZY1wB22zmxnJqhPyTpOVCpeHTA==}
 
-  micromark@4.0.1:
-    resolution: {integrity: sha512-eBPdkcoCNvYcxQOAKAlceo5SNdzZWfF+FcSupREAzdAh9rRmE239CEQAiTwIgblwnoM8zzj35sZ5ZwvSEOF6Kw==}
+  micromark@4.0.2:
+    resolution: {integrity: sha512-zpe98Q6kvavpCr1NPVSCMebCKfD7CA2NqZ+rykeNhONIJBpc1tFKt9hucLGwha3jNTNI8lHpctWJWoimVF4PfA==}
 
   micromatch@4.0.8:
     resolution: {integrity: sha512-PXwfBhYu0hBCPw8Dn0E+WDYb7af3dSLVWKi3HGv84IdF4TyFoC0ysxFd0Goxw7nSv4T/PzEJQxsYsEiFCKo2BA==}
@@ -4684,6 +4804,10 @@ packages:
   mute-stream@1.0.0:
     resolution: {integrity: sha512-avsJQhyd+680gKXyG/sQc0nXaC6rBkPOfyHYcFb9+hdkqQkR9bdnkJ0AMZhke0oesPqIO+mFFJ+IdBc7mst4IA==}
     engines: {node: ^14.17.0 || ^16.13.0 || >=18.0.0}
+
+  mute-stream@2.0.0:
+    resolution: {integrity: sha512-WWdIxpyjEn+FhQJQQv9aQAYlHoNVdzIzUySNV1gHUPDSdZJ3yZn7pAAbQcV7B56Mvu881q9FZV+0Vx2xC44VWA==}
+    engines: {node: ^18.17.0 || >=20.5.0}
 
   mz@2.7.0:
     resolution: {integrity: sha512-z81GNO7nnYMEhrGh9LeymoE4+Yr0Wn5McHIZMK5cfQCl+NDX08sCZgUc9/6MHni9IWuFLm1Z3HTCXu2z9fN62Q==}
@@ -5103,9 +5227,9 @@ packages:
     resolution: {integrity: sha512-gDKb8aZMDeD/tZWs9P6+q0J9Mwkdl6xMV8TjnGP3qJVJ06bdMgkbBlLU8IdfOsIsFz2BW1rNVT3XuNEl8zPAvw==}
     engines: {node: '>=8'}
 
-  path-type@5.0.0:
-    resolution: {integrity: sha512-5HviZNaZcfqP95rwpv+1HDgUamezbqdSYTyzjTvwtJSnIH+3vnbmWsItli8OFEndS984VT55M3jduxZbX351gg==}
-    engines: {node: '>=12'}
+  path-type@6.0.0:
+    resolution: {integrity: sha512-Vj7sf++t5pBD637NSfkxpHSMfWaeig5+DKWLhcqIYx6mWQz5hdJTGDVMQiJcw1ZYkhs7AazKDGpRVji1LJCZUQ==}
+    engines: {node: '>=18'}
 
   pg-cloudflare@1.1.1:
     resolution: {integrity: sha512-xWPagP/4B6BgFO+EKz3JONXv3YDgvkbVrGw2mTo3D6tVDQRh1e7cqVGvyR3BE+eQgAvx1XhW/iEASj4/jCWl3Q==}
@@ -5542,14 +5666,10 @@ packages:
       rollup: ^3.29.4 || ^4
       typescript: ^4.5 || ^5.0
 
-  rollup@4.40.1:
-    resolution: {integrity: sha512-C5VvvgCCyfyotVITIAv+4efVytl5F7wt+/I2i9q9GZcEXW9BP52YYOXC58igUi+LFZVHukErIIqQSWwv/M3WRw==}
+  rollup@4.40.2:
+    resolution: {integrity: sha512-tfUOg6DTP4rhQ3VjOO6B4wyrJnGOX85requAXvqYTHsOgb2TFJdZ3aWpT8W2kPoypSGP7dZUyzxJ9ee4buM5Fg==}
     engines: {node: '>=18.0.0', npm: '>=8.0.0'}
     hasBin: true
-
-  router@2.0.0:
-    resolution: {integrity: sha512-dIM5zVoG8xhC6rnSN8uoAgFARwTE7BQs8YwHEvK0VCmfxQXMaOuA1uiR1IPwsW7JyK5iTt7Od/TC9StasS2NPQ==}
-    engines: {node: '>= 0.10'}
 
   router@2.2.0:
     resolution: {integrity: sha512-nLTrUKm2UyiL7rlhapu/Zl45FwNgkZGaCpZbIHajDYgwlJCOzLSk+cIPAnsEqV955GjILJnKbdQC1nVPz+gAYQ==}
@@ -6179,6 +6299,10 @@ packages:
     resolution: {integrity: sha512-lRfVq8fE8gz6QMBuDM6a+LO3IAzTi05H6gCVaUpir2E1Rwpo4ZUog45KpNXKC/Mn3Yb9UDuHumeFTo9iV/D9FQ==}
     engines: {node: '>=18'}
 
+  unicorn-magic@0.3.0:
+    resolution: {integrity: sha512-+QBBXBCvifc56fsbuxZQ6Sic3wqqc3WWaqxs58gvJrcOuN83HGTCwz3oS5phzU9LthRNE9VrJCFCLUgHeeFnfA==}
+    engines: {node: '>=18'}
+
   unique-filename@3.0.0:
     resolution: {integrity: sha512-afXhuC55wkAmZ0P18QsVE6kp8JaxrEokN2HGIoIVv2ijHQd419H0+6EigAFcIzXeMIkcIkNBpB3L/DXB3cTS/g==}
     engines: {node: ^14.17.0 || ^16.13.0 || >=18.0.0}
@@ -6455,6 +6579,10 @@ packages:
   yocto-queue@1.1.1:
     resolution: {integrity: sha512-b4JR1PFR10y1mKjhHY9LaGo6tmrgjit7hxVIeAmyMw3jegXR4dhYqLaQF5zMXZxY7tLpMyJeLjr1C4rLmkVe8g==}
     engines: {node: '>=12.20'}
+
+  yoctocolors-cjs@2.1.2:
+    resolution: {integrity: sha512-cYVsTjKl8b+FrnidjibDWskAv7UKOfcwaVZdp/it9n1s9fU3IkgDbhdIRKCW4JDsAlECJY0ytoVPT3sK6kideA==}
+    engines: {node: '>=18'}
 
   zip-stream@6.0.1:
     resolution: {integrity: sha512-zK7YHHz4ZXpW89AHXUPbQVGKI7uvkd3hzusTdotCg1UxyaVtg0zFJSTfW/Dq5f7OBBVnq6cZIaC8Ti4hb6dtCA==}
@@ -7324,6 +7452,122 @@ snapshots:
 
   '@hutson/parse-repository-url@3.0.2': {}
 
+  '@inquirer/checkbox@4.1.6(@types/node@22.13.13)':
+    dependencies:
+      '@inquirer/core': 10.1.11(@types/node@22.13.13)
+      '@inquirer/figures': 1.0.11
+      '@inquirer/type': 3.0.6(@types/node@22.13.13)
+      ansi-escapes: 4.3.2
+      yoctocolors-cjs: 2.1.2
+    optionalDependencies:
+      '@types/node': 22.13.13
+
+  '@inquirer/confirm@5.1.10(@types/node@22.13.13)':
+    dependencies:
+      '@inquirer/core': 10.1.11(@types/node@22.13.13)
+      '@inquirer/type': 3.0.6(@types/node@22.13.13)
+    optionalDependencies:
+      '@types/node': 22.13.13
+
+  '@inquirer/core@10.1.11(@types/node@22.13.13)':
+    dependencies:
+      '@inquirer/figures': 1.0.11
+      '@inquirer/type': 3.0.6(@types/node@22.13.13)
+      ansi-escapes: 4.3.2
+      cli-width: 4.1.0
+      mute-stream: 2.0.0
+      signal-exit: 4.1.0
+      wrap-ansi: 6.2.0
+      yoctocolors-cjs: 2.1.2
+    optionalDependencies:
+      '@types/node': 22.13.13
+
+  '@inquirer/editor@4.2.11(@types/node@22.13.13)':
+    dependencies:
+      '@inquirer/core': 10.1.11(@types/node@22.13.13)
+      '@inquirer/type': 3.0.6(@types/node@22.13.13)
+      external-editor: 3.1.0
+    optionalDependencies:
+      '@types/node': 22.13.13
+
+  '@inquirer/expand@4.0.13(@types/node@22.13.13)':
+    dependencies:
+      '@inquirer/core': 10.1.11(@types/node@22.13.13)
+      '@inquirer/type': 3.0.6(@types/node@22.13.13)
+      yoctocolors-cjs: 2.1.2
+    optionalDependencies:
+      '@types/node': 22.13.13
+
+  '@inquirer/figures@1.0.11': {}
+
+  '@inquirer/input@4.1.10(@types/node@22.13.13)':
+    dependencies:
+      '@inquirer/core': 10.1.11(@types/node@22.13.13)
+      '@inquirer/type': 3.0.6(@types/node@22.13.13)
+    optionalDependencies:
+      '@types/node': 22.13.13
+
+  '@inquirer/number@3.0.13(@types/node@22.13.13)':
+    dependencies:
+      '@inquirer/core': 10.1.11(@types/node@22.13.13)
+      '@inquirer/type': 3.0.6(@types/node@22.13.13)
+    optionalDependencies:
+      '@types/node': 22.13.13
+
+  '@inquirer/password@4.0.13(@types/node@22.13.13)':
+    dependencies:
+      '@inquirer/core': 10.1.11(@types/node@22.13.13)
+      '@inquirer/type': 3.0.6(@types/node@22.13.13)
+      ansi-escapes: 4.3.2
+    optionalDependencies:
+      '@types/node': 22.13.13
+
+  '@inquirer/prompts@7.5.1(@types/node@22.13.13)':
+    dependencies:
+      '@inquirer/checkbox': 4.1.6(@types/node@22.13.13)
+      '@inquirer/confirm': 5.1.10(@types/node@22.13.13)
+      '@inquirer/editor': 4.2.11(@types/node@22.13.13)
+      '@inquirer/expand': 4.0.13(@types/node@22.13.13)
+      '@inquirer/input': 4.1.10(@types/node@22.13.13)
+      '@inquirer/number': 3.0.13(@types/node@22.13.13)
+      '@inquirer/password': 4.0.13(@types/node@22.13.13)
+      '@inquirer/rawlist': 4.1.1(@types/node@22.13.13)
+      '@inquirer/search': 3.0.13(@types/node@22.13.13)
+      '@inquirer/select': 4.2.1(@types/node@22.13.13)
+    optionalDependencies:
+      '@types/node': 22.13.13
+
+  '@inquirer/rawlist@4.1.1(@types/node@22.13.13)':
+    dependencies:
+      '@inquirer/core': 10.1.11(@types/node@22.13.13)
+      '@inquirer/type': 3.0.6(@types/node@22.13.13)
+      yoctocolors-cjs: 2.1.2
+    optionalDependencies:
+      '@types/node': 22.13.13
+
+  '@inquirer/search@3.0.13(@types/node@22.13.13)':
+    dependencies:
+      '@inquirer/core': 10.1.11(@types/node@22.13.13)
+      '@inquirer/figures': 1.0.11
+      '@inquirer/type': 3.0.6(@types/node@22.13.13)
+      yoctocolors-cjs: 2.1.2
+    optionalDependencies:
+      '@types/node': 22.13.13
+
+  '@inquirer/select@4.2.1(@types/node@22.13.13)':
+    dependencies:
+      '@inquirer/core': 10.1.11(@types/node@22.13.13)
+      '@inquirer/figures': 1.0.11
+      '@inquirer/type': 3.0.6(@types/node@22.13.13)
+      ansi-escapes: 4.3.2
+      yoctocolors-cjs: 2.1.2
+    optionalDependencies:
+      '@types/node': 22.13.13
+
+  '@inquirer/type@3.0.6(@types/node@22.13.13)':
+    optionalDependencies:
+      '@types/node': 22.13.13
+
   '@isaacs/cliui@8.0.2':
     dependencies:
       string-width: 5.1.2
@@ -7944,81 +8188,81 @@ snapshots:
 
   '@protobufjs/utf8@1.1.0': {}
 
-  '@rollup/plugin-typescript@12.1.2(rollup@4.40.1)(tslib@2.8.1)(typescript@5.8.3)':
+  '@rollup/plugin-typescript@12.1.2(rollup@4.40.2)(tslib@2.8.1)(typescript@5.8.3)':
     dependencies:
-      '@rollup/pluginutils': 5.1.0(rollup@4.40.1)
+      '@rollup/pluginutils': 5.1.0(rollup@4.40.2)
       resolve: 1.22.10
       typescript: 5.8.3
     optionalDependencies:
-      rollup: 4.40.1
+      rollup: 4.40.2
       tslib: 2.8.1
 
-  '@rollup/pluginutils@5.1.0(rollup@4.40.1)':
+  '@rollup/pluginutils@5.1.0(rollup@4.40.2)':
     dependencies:
       '@types/estree': 1.0.7
       estree-walker: 2.0.2
       picomatch: 2.3.1
     optionalDependencies:
-      rollup: 4.40.1
+      rollup: 4.40.2
 
-  '@rollup/rollup-android-arm-eabi@4.40.1':
+  '@rollup/rollup-android-arm-eabi@4.40.2':
     optional: true
 
-  '@rollup/rollup-android-arm64@4.40.1':
+  '@rollup/rollup-android-arm64@4.40.2':
     optional: true
 
-  '@rollup/rollup-darwin-arm64@4.40.1':
+  '@rollup/rollup-darwin-arm64@4.40.2':
     optional: true
 
-  '@rollup/rollup-darwin-x64@4.40.1':
+  '@rollup/rollup-darwin-x64@4.40.2':
     optional: true
 
-  '@rollup/rollup-freebsd-arm64@4.40.1':
+  '@rollup/rollup-freebsd-arm64@4.40.2':
     optional: true
 
-  '@rollup/rollup-freebsd-x64@4.40.1':
+  '@rollup/rollup-freebsd-x64@4.40.2':
     optional: true
 
-  '@rollup/rollup-linux-arm-gnueabihf@4.40.1':
+  '@rollup/rollup-linux-arm-gnueabihf@4.40.2':
     optional: true
 
-  '@rollup/rollup-linux-arm-musleabihf@4.40.1':
+  '@rollup/rollup-linux-arm-musleabihf@4.40.2':
     optional: true
 
-  '@rollup/rollup-linux-arm64-gnu@4.40.1':
+  '@rollup/rollup-linux-arm64-gnu@4.40.2':
     optional: true
 
-  '@rollup/rollup-linux-arm64-musl@4.40.1':
+  '@rollup/rollup-linux-arm64-musl@4.40.2':
     optional: true
 
-  '@rollup/rollup-linux-loongarch64-gnu@4.40.1':
+  '@rollup/rollup-linux-loongarch64-gnu@4.40.2':
     optional: true
 
-  '@rollup/rollup-linux-powerpc64le-gnu@4.40.1':
+  '@rollup/rollup-linux-powerpc64le-gnu@4.40.2':
     optional: true
 
-  '@rollup/rollup-linux-riscv64-gnu@4.40.1':
+  '@rollup/rollup-linux-riscv64-gnu@4.40.2':
     optional: true
 
-  '@rollup/rollup-linux-riscv64-musl@4.40.1':
+  '@rollup/rollup-linux-riscv64-musl@4.40.2':
     optional: true
 
-  '@rollup/rollup-linux-s390x-gnu@4.40.1':
+  '@rollup/rollup-linux-s390x-gnu@4.40.2':
     optional: true
 
-  '@rollup/rollup-linux-x64-gnu@4.40.1':
+  '@rollup/rollup-linux-x64-gnu@4.40.2':
     optional: true
 
-  '@rollup/rollup-linux-x64-musl@4.40.1':
+  '@rollup/rollup-linux-x64-musl@4.40.2':
     optional: true
 
-  '@rollup/rollup-win32-arm64-msvc@4.40.1':
+  '@rollup/rollup-win32-arm64-msvc@4.40.2':
     optional: true
 
-  '@rollup/rollup-win32-ia32-msvc@4.40.1':
+  '@rollup/rollup-win32-ia32-msvc@4.40.2':
     optional: true
 
-  '@rollup/rollup-win32-x64-msvc@4.40.1':
+  '@rollup/rollup-win32-x64-msvc@4.40.2':
     optional: true
 
   '@sigstore/bundle@2.3.2':
@@ -8619,8 +8863,6 @@ snapshots:
 
   array-flatten@1.1.1: {}
 
-  array-flatten@3.0.0: {}
-
   array-ify@1.0.0: {}
 
   array-includes@3.1.8:
@@ -9033,6 +9275,8 @@ snapshots:
 
   cli-width@3.0.0: {}
 
+  cli-width@4.1.0: {}
+
   cliui@7.0.4:
     dependencies:
       string-width: 4.2.3
@@ -9124,7 +9368,7 @@ snapshots:
 
   compressible@2.0.18:
     dependencies:
-      mime-db: 1.52.0
+      mime-db: 1.54.0
 
   compression@1.7.4:
     dependencies:
@@ -9976,7 +10220,7 @@ snapshots:
       openapi3-ts: 3.2.0
       promise-breaker: 6.0.0
       pump: 3.0.0
-      qs: 6.13.0
+      qs: 6.14.0
       raw-body: 2.5.2
       semver: 7.7.1
     transitivePeerDependencies:
@@ -10231,11 +10475,12 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  firebase-tools@14.2.2(encoding@0.1.13):
+  firebase-tools@14.4.0(@types/node@22.13.13)(encoding@0.1.13):
     dependencies:
       '@electric-sql/pglite': 0.2.16
       '@google-cloud/cloud-sql-connector': 1.3.4(encoding@0.1.13)
       '@google-cloud/pubsub': 4.7.0(encoding@0.1.13)
+      '@inquirer/prompts': 7.5.1(@types/node@22.13.13)
       '@modelcontextprotocol/sdk': 1.10.2
       abort-controller: 3.0.0
       ajv: 8.17.1
@@ -10264,8 +10509,7 @@ snapshots:
       gaxios: 6.7.1(encoding@0.1.13)
       glob: 10.4.5
       google-auth-library: 9.14.2(encoding@0.1.13)
-      inquirer: 8.2.6
-      inquirer-autocomplete-prompt: 2.0.1(inquirer@8.2.6)
+      ignore: 7.0.4
       js-yaml: 3.14.1
       jsonwebtoken: 9.0.2
       leven: 3.1.0
@@ -10305,6 +10549,7 @@ snapshots:
       zod: 3.24.3
       zod-to-json-schema: 3.24.5(zod@3.24.3)
     transitivePeerDependencies:
+      - '@types/node'
       - bufferutil
       - encoding
       - pg-native
@@ -10619,14 +10864,14 @@ snapshots:
       merge2: 1.4.1
       slash: 3.0.0
 
-  globby@14.0.2:
+  globby@14.1.0:
     dependencies:
       '@sindresorhus/merge-streams': 2.3.0
       fast-glob: 3.3.3
-      ignore: 5.3.2
-      path-type: 5.0.0
+      ignore: 7.0.4
+      path-type: 6.0.0
       slash: 5.1.0
-      unicorn-magic: 0.1.0
+      unicorn-magic: 0.3.0
 
   google-auth-library@9.14.2(encoding@0.1.13):
     dependencies:
@@ -10805,6 +11050,8 @@ snapshots:
 
   ignore@5.3.2: {}
 
+  ignore@7.0.4: {}
+
   import-fresh@3.3.0:
     dependencies:
       parent-module: 1.0.1
@@ -10851,15 +11098,6 @@ snapshots:
       validate-npm-package-name: 5.0.1
     transitivePeerDependencies:
       - bluebird
-
-  inquirer-autocomplete-prompt@2.0.1(inquirer@8.2.6):
-    dependencies:
-      ansi-escapes: 4.3.2
-      figures: 3.2.0
-      inquirer: 8.2.6
-      picocolors: 1.1.1
-      run-async: 2.4.1
-      rxjs: 7.8.1
 
   inquirer@8.2.6:
     dependencies:
@@ -11993,32 +12231,32 @@ snapshots:
       punycode.js: 2.3.1
       uc.micro: 2.1.0
 
-  markdownlint-cli2-formatter-default@0.0.5(markdownlint-cli2@0.17.2):
+  markdownlint-cli2-formatter-default@0.0.5(markdownlint-cli2@0.18.1):
     dependencies:
-      markdownlint-cli2: 0.17.2
+      markdownlint-cli2: 0.18.1
 
-  markdownlint-cli2@0.17.2:
+  markdownlint-cli2@0.18.1:
     dependencies:
-      globby: 14.0.2
+      globby: 14.1.0
       js-yaml: 4.1.0
       jsonc-parser: 3.3.1
-      markdownlint: 0.37.4
-      markdownlint-cli2-formatter-default: 0.0.5(markdownlint-cli2@0.17.2)
+      markdown-it: 14.1.0
+      markdownlint: 0.38.0
+      markdownlint-cli2-formatter-default: 0.0.5(markdownlint-cli2@0.18.1)
       micromatch: 4.0.8
     transitivePeerDependencies:
       - supports-color
 
-  markdownlint@0.37.4:
+  markdownlint@0.38.0:
     dependencies:
-      markdown-it: 14.1.0
-      micromark: 4.0.1
-      micromark-core-commonmark: 2.0.2
-      micromark-extension-directive: 3.0.2
+      micromark: 4.0.2
+      micromark-core-commonmark: 2.0.3
+      micromark-extension-directive: 4.0.0
       micromark-extension-gfm-autolink-literal: 2.1.0
       micromark-extension-gfm-footnote: 2.1.0
-      micromark-extension-gfm-table: 2.1.0
+      micromark-extension-gfm-table: 2.1.1
       micromark-extension-math: 3.1.0
-      micromark-util-types: 2.0.1
+      micromark-util-types: 2.0.2
     transitivePeerDependencies:
       - supports-color
 
@@ -12068,7 +12306,7 @@ snapshots:
 
   methods@1.1.2: {}
 
-  micromark-core-commonmark@2.0.2:
+  micromark-core-commonmark@2.0.3:
     dependencies:
       decode-named-character-reference: 1.0.2
       devlop: 1.1.0
@@ -12085,16 +12323,16 @@ snapshots:
       micromark-util-resolve-all: 2.0.1
       micromark-util-subtokenize: 2.0.3
       micromark-util-symbol: 2.0.1
-      micromark-util-types: 2.0.1
+      micromark-util-types: 2.0.2
 
-  micromark-extension-directive@3.0.2:
+  micromark-extension-directive@4.0.0:
     dependencies:
       devlop: 1.1.0
       micromark-factory-space: 2.0.1
       micromark-factory-whitespace: 2.0.1
       micromark-util-character: 2.1.1
       micromark-util-symbol: 2.0.1
-      micromark-util-types: 2.0.1
+      micromark-util-types: 2.0.2
       parse-entities: 4.0.2
 
   micromark-extension-gfm-autolink-literal@2.1.0:
@@ -12102,26 +12340,26 @@ snapshots:
       micromark-util-character: 2.1.1
       micromark-util-sanitize-uri: 2.0.1
       micromark-util-symbol: 2.0.1
-      micromark-util-types: 2.0.1
+      micromark-util-types: 2.0.2
 
   micromark-extension-gfm-footnote@2.1.0:
     dependencies:
       devlop: 1.1.0
-      micromark-core-commonmark: 2.0.2
+      micromark-core-commonmark: 2.0.3
       micromark-factory-space: 2.0.1
       micromark-util-character: 2.1.1
       micromark-util-normalize-identifier: 2.0.1
       micromark-util-sanitize-uri: 2.0.1
       micromark-util-symbol: 2.0.1
-      micromark-util-types: 2.0.1
+      micromark-util-types: 2.0.2
 
-  micromark-extension-gfm-table@2.1.0:
+  micromark-extension-gfm-table@2.1.1:
     dependencies:
       devlop: 1.1.0
       micromark-factory-space: 2.0.1
       micromark-util-character: 2.1.1
       micromark-util-symbol: 2.0.1
-      micromark-util-types: 2.0.1
+      micromark-util-types: 2.0.2
 
   micromark-extension-math@3.1.0:
     dependencies:
@@ -12131,44 +12369,44 @@ snapshots:
       micromark-factory-space: 2.0.1
       micromark-util-character: 2.1.1
       micromark-util-symbol: 2.0.1
-      micromark-util-types: 2.0.1
+      micromark-util-types: 2.0.2
 
   micromark-factory-destination@2.0.1:
     dependencies:
       micromark-util-character: 2.1.1
       micromark-util-symbol: 2.0.1
-      micromark-util-types: 2.0.1
+      micromark-util-types: 2.0.2
 
   micromark-factory-label@2.0.1:
     dependencies:
       devlop: 1.1.0
       micromark-util-character: 2.1.1
       micromark-util-symbol: 2.0.1
-      micromark-util-types: 2.0.1
+      micromark-util-types: 2.0.2
 
   micromark-factory-space@2.0.1:
     dependencies:
       micromark-util-character: 2.1.1
-      micromark-util-types: 2.0.1
+      micromark-util-types: 2.0.2
 
   micromark-factory-title@2.0.1:
     dependencies:
       micromark-factory-space: 2.0.1
       micromark-util-character: 2.1.1
       micromark-util-symbol: 2.0.1
-      micromark-util-types: 2.0.1
+      micromark-util-types: 2.0.2
 
   micromark-factory-whitespace@2.0.1:
     dependencies:
       micromark-factory-space: 2.0.1
       micromark-util-character: 2.1.1
       micromark-util-symbol: 2.0.1
-      micromark-util-types: 2.0.1
+      micromark-util-types: 2.0.2
 
   micromark-util-character@2.1.1:
     dependencies:
       micromark-util-symbol: 2.0.1
-      micromark-util-types: 2.0.1
+      micromark-util-types: 2.0.2
 
   micromark-util-chunked@2.0.1:
     dependencies:
@@ -12178,12 +12416,12 @@ snapshots:
     dependencies:
       micromark-util-character: 2.1.1
       micromark-util-symbol: 2.0.1
-      micromark-util-types: 2.0.1
+      micromark-util-types: 2.0.2
 
   micromark-util-combine-extensions@2.0.1:
     dependencies:
       micromark-util-chunked: 2.0.1
-      micromark-util-types: 2.0.1
+      micromark-util-types: 2.0.2
 
   micromark-util-decode-numeric-character-reference@2.0.2:
     dependencies:
@@ -12199,7 +12437,7 @@ snapshots:
 
   micromark-util-resolve-all@2.0.1:
     dependencies:
-      micromark-util-types: 2.0.1
+      micromark-util-types: 2.0.2
 
   micromark-util-sanitize-uri@2.0.1:
     dependencies:
@@ -12212,19 +12450,19 @@ snapshots:
       devlop: 1.1.0
       micromark-util-chunked: 2.0.1
       micromark-util-symbol: 2.0.1
-      micromark-util-types: 2.0.1
+      micromark-util-types: 2.0.2
 
   micromark-util-symbol@2.0.1: {}
 
-  micromark-util-types@2.0.1: {}
+  micromark-util-types@2.0.2: {}
 
-  micromark@4.0.1:
+  micromark@4.0.2:
     dependencies:
       '@types/debug': 4.1.12
       debug: 4.4.0
       decode-named-character-reference: 1.0.2
       devlop: 1.1.0
-      micromark-core-commonmark: 2.0.2
+      micromark-core-commonmark: 2.0.3
       micromark-factory-space: 2.0.1
       micromark-util-character: 2.1.1
       micromark-util-chunked: 2.0.1
@@ -12236,7 +12474,7 @@ snapshots:
       micromark-util-sanitize-uri: 2.0.1
       micromark-util-subtokenize: 2.0.3
       micromark-util-symbol: 2.0.1
-      micromark-util-types: 2.0.1
+      micromark-util-types: 2.0.2
     transitivePeerDependencies:
       - supports-color
 
@@ -12384,6 +12622,8 @@ snapshots:
   mute-stream@0.0.8: {}
 
   mute-stream@1.0.0: {}
+
+  mute-stream@2.0.0: {}
 
   mz@2.7.0:
     dependencies:
@@ -12896,7 +13136,7 @@ snapshots:
 
   path-type@4.0.0: {}
 
-  path-type@5.0.0: {}
+  path-type@6.0.0: {}
 
   pg-cloudflare@1.1.1:
     optional: true
@@ -13355,49 +13595,39 @@ snapshots:
     dependencies:
       glob: 9.3.5
 
-  rollup-plugin-dts@6.2.1(rollup@4.40.1)(typescript@5.8.3):
+  rollup-plugin-dts@6.2.1(rollup@4.40.2)(typescript@5.8.3):
     dependencies:
       magic-string: 0.30.17
-      rollup: 4.40.1
+      rollup: 4.40.2
       typescript: 5.8.3
     optionalDependencies:
       '@babel/code-frame': 7.26.2
 
-  rollup@4.40.1:
+  rollup@4.40.2:
     dependencies:
       '@types/estree': 1.0.7
     optionalDependencies:
-      '@rollup/rollup-android-arm-eabi': 4.40.1
-      '@rollup/rollup-android-arm64': 4.40.1
-      '@rollup/rollup-darwin-arm64': 4.40.1
-      '@rollup/rollup-darwin-x64': 4.40.1
-      '@rollup/rollup-freebsd-arm64': 4.40.1
-      '@rollup/rollup-freebsd-x64': 4.40.1
-      '@rollup/rollup-linux-arm-gnueabihf': 4.40.1
-      '@rollup/rollup-linux-arm-musleabihf': 4.40.1
-      '@rollup/rollup-linux-arm64-gnu': 4.40.1
-      '@rollup/rollup-linux-arm64-musl': 4.40.1
-      '@rollup/rollup-linux-loongarch64-gnu': 4.40.1
-      '@rollup/rollup-linux-powerpc64le-gnu': 4.40.1
-      '@rollup/rollup-linux-riscv64-gnu': 4.40.1
-      '@rollup/rollup-linux-riscv64-musl': 4.40.1
-      '@rollup/rollup-linux-s390x-gnu': 4.40.1
-      '@rollup/rollup-linux-x64-gnu': 4.40.1
-      '@rollup/rollup-linux-x64-musl': 4.40.1
-      '@rollup/rollup-win32-arm64-msvc': 4.40.1
-      '@rollup/rollup-win32-ia32-msvc': 4.40.1
-      '@rollup/rollup-win32-x64-msvc': 4.40.1
+      '@rollup/rollup-android-arm-eabi': 4.40.2
+      '@rollup/rollup-android-arm64': 4.40.2
+      '@rollup/rollup-darwin-arm64': 4.40.2
+      '@rollup/rollup-darwin-x64': 4.40.2
+      '@rollup/rollup-freebsd-arm64': 4.40.2
+      '@rollup/rollup-freebsd-x64': 4.40.2
+      '@rollup/rollup-linux-arm-gnueabihf': 4.40.2
+      '@rollup/rollup-linux-arm-musleabihf': 4.40.2
+      '@rollup/rollup-linux-arm64-gnu': 4.40.2
+      '@rollup/rollup-linux-arm64-musl': 4.40.2
+      '@rollup/rollup-linux-loongarch64-gnu': 4.40.2
+      '@rollup/rollup-linux-powerpc64le-gnu': 4.40.2
+      '@rollup/rollup-linux-riscv64-gnu': 4.40.2
+      '@rollup/rollup-linux-riscv64-musl': 4.40.2
+      '@rollup/rollup-linux-s390x-gnu': 4.40.2
+      '@rollup/rollup-linux-x64-gnu': 4.40.2
+      '@rollup/rollup-linux-x64-musl': 4.40.2
+      '@rollup/rollup-win32-arm64-msvc': 4.40.2
+      '@rollup/rollup-win32-ia32-msvc': 4.40.2
+      '@rollup/rollup-win32-x64-msvc': 4.40.2
       fsevents: 2.3.3
-
-  router@2.0.0:
-    dependencies:
-      array-flatten: 3.0.0
-      is-promise: 4.0.0
-      methods: 1.1.2
-      parseurl: 1.3.3
-      path-to-regexp: 8.2.0
-      setprototypeof: 1.2.0
-      utils-merge: 1.0.1
 
   router@2.2.0:
     dependencies:
@@ -13826,7 +14056,7 @@ snapshots:
       on-finished: 2.4.1
       on-headers: 1.0.2
       path-to-regexp: 1.9.0
-      router: 2.0.0
+      router: 2.2.0
       update-notifier-cjs: 5.1.6(encoding@0.1.13)
     optionalDependencies:
       re2: 1.20.9
@@ -14132,6 +14362,8 @@ snapshots:
   unicode-emoji-modifier-base@1.0.0: {}
 
   unicorn-magic@0.1.0: {}
+
+  unicorn-magic@0.3.0: {}
 
   unique-filename@3.0.0:
     dependencies:
@@ -14460,6 +14692,8 @@ snapshots:
   yocto-queue@0.1.0: {}
 
   yocto-queue@1.1.1: {}
+
+  yoctocolors-cjs@2.1.2: {}
 
   zip-stream@6.0.1:
     dependencies:
