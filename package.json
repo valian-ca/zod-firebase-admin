@@ -46,7 +46,7 @@
     "rollup": "4.40.1",
     "rollup-plugin-dts": "6.2.1",
     "ts-essentials": "10.0.4",
-    "ts-jest": "29.3.2",
+    "ts-jest": "29.3.4",
     "ts-node": "10.9.2",
     "typescript": "5.8.3"
   },
