@@ -1,4 +1,6 @@
 packages:
   - packages/*
 onlyBuiltDependencies:
+  - '@firebase/util'
   - '@valian/eslint-config'
+  - unrs-resolver

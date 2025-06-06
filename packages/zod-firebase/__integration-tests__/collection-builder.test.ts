@@ -236,7 +236,7 @@ describe('collectionsBuilder', () => {
     })
 
     it('should convert date', async () => {
-      await expect(collection.timestampTransform.findByIdOrThrow('bar')).rejects.toThrow(ZodError)
+      await expect(collection.timestampTransform.findByIdOrThrow('bar')).rejects.toBeInstanceOf(ZodError)
 
       await expect(
         collectionWithSnapshotDataConverter.timestampTransform.findByIdOrThrow('bar'),
