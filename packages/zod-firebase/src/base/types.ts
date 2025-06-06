@@ -8,13 +8,12 @@ import {
   type SnapshotMetadata,
 } from '@firebase/firestore'
 import { type EmptyObject, type ReadonlyDeep } from 'type-fest'
-import { type z } from 'zod'
+import { type z } from 'zod/v4'
 
 export type ZodTypeDocumentData<
   Output extends DocumentData = DocumentData,
   Input extends DocumentData = Output,
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-> = z.ZodType<Output, any, Input>
+> = z.ZodType<Output, Input>
 
 export type DocumentInput<Z extends ZodTypeDocumentData = ZodTypeDocumentData> = z.input<Z>
 

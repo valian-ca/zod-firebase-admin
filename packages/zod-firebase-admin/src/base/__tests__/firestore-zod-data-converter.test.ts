@@ -1,6 +1,6 @@
 import { type QueryDocumentSnapshot, Timestamp } from 'firebase-admin/firestore'
 import { mock } from 'jest-mock-extended'
-import { z, ZodError } from 'zod'
+import { z, ZodError } from 'zod/v4'
 
 import { firestoreZodDataConverter } from '../firestore-zod-data-converter'
 

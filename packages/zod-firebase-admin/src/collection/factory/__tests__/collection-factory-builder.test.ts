@@ -1,5 +1,5 @@
 import { getFirestore } from 'firebase-admin/firestore'
-import { z } from 'zod'
+import { z } from 'zod/v4'
 
 import { collectionFactoryBuilder } from '../collection-factory-builder'
 
