@@ -11,7 +11,7 @@ import {
 import { initializeApp } from 'firebase/app'
 import functionsTest from 'firebase-functions-test'
 import { nanoid } from 'nanoid'
-import { z, ZodError } from 'zod'
+import { z, ZodError } from 'zod/v4'
 
 import { type Collections, collectionsBuilder } from '../src'
 

@@ -1,6 +1,6 @@
 import { type CollectionReference, type DocumentReference, getFirestore, Timestamp } from 'firebase-admin/firestore'
 import { mock } from 'jest-mock-extended'
-import { z } from 'zod'
+import { z } from 'zod/v4'
 
 import {
   firestoreCollection,

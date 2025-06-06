@@ -1,6 +1,6 @@
 import { deleteDoc, type DocumentReference, getDoc, getFirestore, setDoc, updateDoc } from '@firebase/firestore'
 import { mock } from 'jest-mock-extended'
-import { z } from 'zod'
+import { z } from 'zod/v4'
 
 import {
   firestoreDocument,

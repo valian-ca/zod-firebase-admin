@@ -1,5 +1,5 @@
 import { doc, getDoc, getFirestore, setDoc } from '@firebase/firestore'
-import { z } from 'zod'
+import { z } from 'zod/v4'
 
 import { collectionFactoryBuilder } from '../collection-factory-builder'
 

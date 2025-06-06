@@ -1,6 +1,6 @@
 import { type QueryDocumentSnapshot, type SnapshotMetadata } from '@firebase/firestore'
 import { mock } from 'jest-mock-extended'
-import { z, ZodError } from 'zod'
+import { z, ZodError } from 'zod/v4'
 
 import { firestoreZodDataConverter } from '../firestore-zod-data-converter'
 

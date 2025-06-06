@@ -1,7 +1,7 @@
 import { initializeApp } from 'firebase-admin/app'
 import { type DocumentData, FieldValue, getFirestore, Timestamp } from 'firebase-admin/firestore'
 import functionsTest from 'firebase-functions-test'
-import { z, ZodError } from 'zod'
+import { z, ZodError } from 'zod/v4'
 
 import { collectionsBuilder } from '../src'
 
