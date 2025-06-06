@@ -28,13 +28,13 @@
     "test:integration:ci": "lerna run --concurrency 1 test:integration:ci"
   },
   "devDependencies": {
-    "@commitlint/cli": "19.8.0",
-    "@commitlint/config-conventional": "19.8.0",
+    "@commitlint/cli": "19.8.1",
+    "@commitlint/config-conventional": "19.8.1",
     "@rollup/plugin-typescript": "12.1.2",
     "@tsconfig/node22": "22.0.1",
     "@types/jest": "29.5.14",
-    "@valian/eslint-config": "1.5.1",
-    "eslint": "9.26.0",
+    "@valian/eslint-config": "1.5.2",
+    "eslint": "9.28.0",
     "firebase-functions-test": "3.4.1",
     "firebase-tools": "14.2.2",
     "husky": "9.1.7",
