@@ -14,8 +14,7 @@ import { type z } from 'zod'
 export type ZodTypeDocumentData<
   Output extends DocumentData = DocumentData,
   Input extends DocumentData = Output,
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-> = z.ZodType<Output, any, Input>
+> = z.ZodType<Output, Input>
 
 export type DocumentInput<Z extends ZodTypeDocumentData = ZodTypeDocumentData> = z.input<Z>
 
