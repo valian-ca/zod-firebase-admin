@@ -40,7 +40,7 @@ export const schemaFirestoreZodDataConverterFactory = <TCollectionSchema extends
     }
     const memoizedConverter = memoized.get(outputOptions)
     if (memoizedConverter) {
-      return memoizedConverter
+      return memoizedConverter as SchemaFirestoreDataConverter<TCollectionSchema, TOutputOptions>
     }
     const converter = schemaFirestoreZodDataConverter(schema, outputOptions, converterOptions)
     memoized.set(outputOptions, converter)

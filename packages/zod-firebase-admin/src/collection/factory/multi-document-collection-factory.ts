@@ -1,5 +1,4 @@
 import {
-  type DocumentReference,
   type PartialWithFieldValue,
   type Precondition,
   type SetOptions,
@@ -14,6 +13,7 @@ import {
   type SchemaDocumentInput,
   type SchemaDocumentOutput,
   type SchemaFirestoreFactory,
+  type SchemaWriteDocumentReference,
 } from '../../schema'
 
 export interface MultiDocumentCollectionFactory<TCollectionSchema extends CollectionSchema>
@@ -33,7 +33,7 @@ export interface MultiDocumentCollectionFactory<TCollectionSchema extends Collec
   add(
     this: void,
     data: WithFieldValue<SchemaDocumentInput<TCollectionSchema>>,
-  ): Promise<DocumentReference<SchemaDocumentInput<TCollectionSchema>>>
+  ): Promise<SchemaWriteDocumentReference<TCollectionSchema>>
 
   create(this: void, id: string, data: WithFieldValue<SchemaDocumentInput<TCollectionSchema>>): Promise<WriteResult>
 
