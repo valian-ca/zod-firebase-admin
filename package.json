@@ -38,7 +38,7 @@
     "firebase-functions-test": "3.4.1",
     "firebase-tools": "14.11.0",
     "husky": "9.1.7",
-    "jest": "30.0.4",
+    "jest": "30.0.5",
     "jest-mock-extended": "4.0.0",
     "lerna": "8.2.3",
     "markdownlint-cli2": "0.18.1",
