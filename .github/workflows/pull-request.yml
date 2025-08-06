@@ -4,7 +4,7 @@ on:
 
 jobs:
   lint:
-    name: eslint & prettier
+    name: lint
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -12,8 +12,14 @@ jobs:
         uses: valian-ca/github-workflows/.github/actions/setup-pnpm@main
       - name: eslint
         run: pnpm eslint
-      - name: pettier
+      - name: prettier
         run: pnpm prettier
+      - name: build (for publint)
+        run: pnpm build
+      - name: publint zod-firebase
+        run: pnpm publint ./packages/zod-firebase
+      - name: publint zod-firebase-admin
+        run: pnpm publint ./packages/zod-firebase-admin
 
   type-check:
     name: type check

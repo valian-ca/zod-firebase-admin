@@ -1,5 +1,5 @@
 {
-  extends: ['config:js-lib', ':semanticCommits', ':configMigration'],
+  extends: ['config:js-lib', 'config:semverAllMonthly', ':semanticCommits'],
   labels: ['dependencies'],
   packageRules: [
     {

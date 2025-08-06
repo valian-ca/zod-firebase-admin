@@ -29,18 +29,20 @@
     "zod": "^3.23.8"
   },
   "devDependencies": {
-    "firebase-admin": "13.4.0",
-    "firebase-functions-test": "3.4.1",
-    "jest-mock-extended": "4.0.0",
-    "typescript": "5.8.3"
+    "firebase-admin": "^13.4.0",
+    "firebase-functions-test": "^3.4.1",
+    "jest-mock-extended": "^4.0.0"
   },
   "peerDependencies": {
     "firebase-admin": "^11.0.0 || ^12.0.0 || ^13.0.0"
   },
   "exports": {
     ".": {
+      "types": {
+        "import": "./lib/index.d.mts",
+        "require": "./lib/index.d.cts"
+      },
       "import": "./lib/index.mjs",
-      "types": "./lib/index.d.mts",
       "require": "./lib/index.cjs",
       "default": "./lib/index.mjs"
     }
@@ -53,8 +55,8 @@
     "node": ">= 22.0.0"
   },
   "scripts": {
-    "compile": "rm -rf ./lib && rollup -c",
-    "prepack": "npm run compile",
+    "build": "rm -rf ./lib && rollup -c",
+    "prepack": "npm run build",
     "serve": "firebase emulators:start --only firestore --project demo-zod-firebase-admin",
     "test": "jest --coverage",
     "test:integration": "npm exec jest -- --config=jest.integration.config.cjs --coverage",
