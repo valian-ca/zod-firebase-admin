@@ -6,10 +6,16 @@ jobs:
   lint:
     name: lint
     runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        zod: ['^3', '^4']
     steps:
       - uses: actions/checkout@v4
       - name: setup pnpm
         uses: valian-ca/github-workflows/.github/actions/setup-pnpm@main
+      - name: Install Zod ${{ matrix.zod }} at workspace root
+        run: pnpm add -Dw zod@${{ matrix.zod }}
       - name: eslint
         run: pnpm eslint
       - name: prettier
@@ -24,16 +30,26 @@ jobs:
   type-check:
     name: type check
     runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        zod: ['^3', '^4']
     steps:
       - uses: actions/checkout@v4
       - name: setup pnpm
         uses: valian-ca/github-workflows/.github/actions/setup-pnpm@main
+      - name: Install Zod ${{ matrix.zod }} at workspace root
+        run: pnpm add -Dw zod@${{ matrix.zod }}
       - name: type-check
         run: pnpm run type-check
 
   tests:
     name: tests
     runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        zod: ['^3', '^4']
     steps:
       - uses: actions/checkout@v4
       - name: cache firebase emulator
@@ -44,6 +60,8 @@ jobs:
 
       - name: setup pnpm
         uses: valian-ca/github-workflows/.github/actions/setup-pnpm@main
+      - name: Install Zod ${{ matrix.zod }} at workspace root
+        run: pnpm add -Dw zod@${{ matrix.zod }}
       - name: tests
         run: pnpm test
 

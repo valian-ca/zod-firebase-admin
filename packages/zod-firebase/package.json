@@ -25,8 +25,7 @@
   ],
   "license": "MIT",
   "dependencies": {
-    "type-fest": "^4.26.1",
-    "zod": "^4.0.0"
+    "type-fest": "^4.26.1"
   },
   "devDependencies": {
     "firebase": "^11.10.0",
@@ -35,7 +34,8 @@
     "nanoid": "^3.3.11"
   },
   "peerDependencies": {
-    "@firebase/firestore": "^4.7.0"
+    "@firebase/firestore": "^4.7.0",
+    "zod": "^3.23.0 || ^4.0.0"
   },
   "exports": {
     ".": {
