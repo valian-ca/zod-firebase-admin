@@ -6,16 +6,31 @@ jobs:
   lint:
     name: lint
     runs-on: ubuntu-latest
+    env:
+      PNPM_CONFIG_FROZEN_LOCKFILE: false
     strategy:
       fail-fast: false
       matrix:
-        zod: ['^3', '^4']
+        zod: ['zod@^3', 'zod@^4']
+        firebase: ['firebase@^11', 'firebase@^12']
+        firebase_admin: ['firebase-admin@^12', 'firebase-admin@^13']
+        exclude:
+          - firebase: 'firebase@^11'
+            firebase_admin: 'firebase-admin@^12'
+          - firebase: 'firebase@^12'
+            firebase_admin: 'firebase-admin@^13'
     steps:
       - uses: actions/checkout@v4
       - name: setup pnpm
         uses: valian-ca/github-workflows/.github/actions/setup-pnpm@main
       - name: Install Zod ${{ matrix.zod }} at workspace root
-        run: pnpm add -Dw zod@${{ matrix.zod }}
+        run: pnpm add -Dw ${{ matrix.zod }}
+      - name: Install Firebase ${{ matrix.firebase }} for zod-firebase
+        run: pnpm -C packages/zod-firebase add -D ${{ matrix.firebase }}
+      - name: Install Firebase Admin ${{ matrix.firebase_admin }} for zod-firebase-admin
+        run: pnpm -C packages/zod-firebase-admin add -D ${{ matrix.firebase_admin }}
+      - name: dedupe
+        run: pnpm dedupe
       - name: eslint
         run: pnpm eslint
       - name: prettier
@@ -30,26 +45,50 @@ jobs:
   type-check:
     name: type check
     runs-on: ubuntu-latest
+    env:
+      PNPM_CONFIG_FROZEN_LOCKFILE: false
     strategy:
       fail-fast: false
       matrix:
-        zod: ['^3', '^4']
+        zod: ['zod@^3', 'zod@^4']
+        firebase: ['firebase@^11', 'firebase@^12']
+        firebase_admin: ['firebase-admin@^12', 'firebase-admin@^13']
+        exclude:
+          - firebase: 'firebase@^11'
+            firebase_admin: 'firebase-admin@^12'
+          - firebase: 'firebase@^12'
+            firebase_admin: 'firebase-admin@^13'
     steps:
       - uses: actions/checkout@v4
       - name: setup pnpm
         uses: valian-ca/github-workflows/.github/actions/setup-pnpm@main
       - name: Install Zod ${{ matrix.zod }} at workspace root
-        run: pnpm add -Dw zod@${{ matrix.zod }}
+        run: pnpm add -Dw ${{ matrix.zod }}
+      - name: Install Firebase ${{ matrix.firebase }} for zod-firebase
+        run: pnpm -C packages/zod-firebase add -D ${{ matrix.firebase }}
+      - name: Install Firebase Admin ${{ matrix.firebase_admin }} for zod-firebase-admin
+        run: pnpm -C packages/zod-firebase-admin add -D ${{ matrix.firebase_admin }}
+      - name: dedupe
+        run: pnpm dedupe
       - name: type-check
         run: pnpm run type-check
 
   tests:
     name: tests
     runs-on: ubuntu-latest
+    env:
+      PNPM_CONFIG_FROZEN_LOCKFILE: false
     strategy:
       fail-fast: false
       matrix:
-        zod: ['^3', '^4']
+        zod: ['zod@^3', 'zod@^4']
+        firebase: ['firebase@^11', 'firebase@^12']
+        firebase_admin: ['firebase-admin@^12', 'firebase-admin@^13']
+        exclude:
+          - firebase: 'firebase@^11'
+            firebase_admin: 'firebase-admin@^12'
+          - firebase: 'firebase@^12'
+            firebase_admin: 'firebase-admin@^13'
     steps:
       - uses: actions/checkout@v4
       - name: cache firebase emulator
@@ -61,7 +100,13 @@ jobs:
       - name: setup pnpm
         uses: valian-ca/github-workflows/.github/actions/setup-pnpm@main
       - name: Install Zod ${{ matrix.zod }} at workspace root
-        run: pnpm add -Dw zod@${{ matrix.zod }}
+        run: pnpm add -Dw ${{ matrix.zod }}
+      - name: Install Firebase ${{ matrix.firebase }} for zod-firebase
+        run: pnpm -C packages/zod-firebase add -D ${{ matrix.firebase }}
+      - name: Install Firebase Admin ${{ matrix.firebase_admin }} for zod-firebase-admin
+        run: pnpm -C packages/zod-firebase-admin add -D ${{ matrix.firebase_admin }}
+      - name: dedupe
+        run: pnpm dedupe
       - name: tests
         run: pnpm test
 
@@ -69,14 +114,14 @@ jobs:
         uses: codecov/codecov-action@v5
         with:
           directory: ./packages/zod-firebase/coverage
-          flags: firebase
+          flags: firebase-${{ matrix.zod }}-${{ matrix.firebase }}
           token: ${{ secrets.CODECOV_TOKEN }}
 
       - name: Upload zod-firebase-admin coverage to Codecov
         uses: codecov/codecov-action@v5
         with:
           directory: ./packages/zod-firebase-admin/coverage
-          flags: firebase-admin
+          flags: firebase-admin-${{ matrix.zod }}-${{ matrix.firebase_admin }}
           token: ${{ secrets.CODECOV_TOKEN }}
 
       - name: integration tests
