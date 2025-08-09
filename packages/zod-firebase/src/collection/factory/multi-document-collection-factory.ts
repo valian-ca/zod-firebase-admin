@@ -90,8 +90,7 @@ export const multiDocumentCollectionFactory = <TCollectionSchema extends Collect
   ) => {
     const doc = await getDoc(firestoreFactory.read.doc(id))
     if (doc.exists()) {
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      return doc.data()!
+      return doc.data()
     }
     if (schema.includeDocumentIdForZod) {
       return schema.zod.parse({
