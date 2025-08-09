@@ -23,15 +23,15 @@ export interface MetaOutputOptions {
   readonly readonly?: true
 }
 
-export type MetaOutput<Options extends MetaOutputOptions> = (Options['_id'] extends false
+export type MetaOutput<Options extends MetaOutputOptions> = (Options extends { _id: false }
   ? EmptyObject
   : { readonly _id: string }) &
-  (Options['_metadata'] extends true ? { readonly _metadata: SnapshotMetadata } : EmptyObject)
+  (Options extends { _metadata: true } ? { readonly _metadata: SnapshotMetadata } : EmptyObject)
 
 export type DocumentOutput<
   Z extends ZodTypeDocumentData,
   OutputOptions extends MetaOutputOptions = MetaOutputOptions,
-> = (OutputOptions['readonly'] extends true ? ReadonlyDeep<z.output<Z>> : z.output<Z>) & MetaOutput<OutputOptions>
+> = (OutputOptions extends { readonly: true } ? ReadonlyDeep<z.output<Z>> : z.output<Z>) & MetaOutput<OutputOptions>
 
 export type ReadonlyDocumentOutput<
   Z extends ZodTypeDocumentData,

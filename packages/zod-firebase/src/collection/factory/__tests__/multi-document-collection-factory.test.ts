@@ -38,6 +38,7 @@ type TestQuerySnapshot = ZodQuerySnapshot<typeof TestDocumentZod>
 describe('multiDocumentCollectionFactory', () => {
   const collection = multiDocumentCollectionFactory(
     schemaFirestoreFactoryBuilder('foo', { zod: TestDocumentZod }, { getFirestore }).build(),
+    { zod: TestDocumentZod },
   )
 
   describe('findById', () => {
@@ -97,6 +98,73 @@ describe('multiDocumentCollectionFactory', () => {
 
       expect(firestoreDocument).toHaveBeenCalledWith(['foo'], 'id', getFirestore())
       expect(firestoreZodDataConverter).toHaveBeenCalledWith(TestDocumentZod, { _id: false }, {})
+    })
+  })
+
+  describe('findByIdWithFallback', () => {
+    it('should return existing document if it exists', async () => {
+      const documentRef = mock<TestDocumentReference>()
+      const snapshot = mock<TestDocumentSnapshot>()
+      snapshot.exists.mockReturnValue(true)
+      jest.mocked(getDoc).mockResolvedValue(snapshot)
+      const parsedDocumentValue = {
+        _id: 'id',
+        name: 'bar',
+      }
+      snapshot.data.mockReturnValue(parsedDocumentValue)
+      jest.mocked(firestoreDocument).mockReturnValue(documentRef)
+
+      await expect(collection.findByIdWithFallback('id', { name: 'fallback' })).resolves.toEqual(parsedDocumentValue)
+
+      expect(firestoreDocument).toHaveBeenCalledWith(['foo'], 'id', getFirestore())
+    })
+
+    it('should return fallback with injected _id when document does not exist (default schema)', async () => {
+      const documentRef = mock<TestDocumentReference>()
+      const snapshot = mock<TestDocumentSnapshot>()
+      snapshot.exists.mockReturnValue(false)
+      jest.mocked(getDoc).mockResolvedValue(snapshot)
+      jest.mocked(firestoreDocument).mockReturnValue(documentRef)
+
+      await expect(collection.findByIdWithFallback('id', { name: 'fallback' })).resolves.toEqual({
+        _id: 'id',
+        name: 'fallback',
+      })
+
+      expect(firestoreDocument).toHaveBeenCalledWith(['foo'], 'id', getFirestore())
+    })
+
+    it('should parse fallback with _id via zod when includeDocumentIdForZod is true', async () => {
+      const TestDocumentZodWithId = z.discriminatedUnion('_id', [
+        z.object({ _id: z.literal('string'), value: z.string() }),
+        z.object({ _id: z.literal('number'), value: z.number() }),
+      ])
+      type TestDocumentReferenceWithId = ZodDocumentReference<typeof TestDocumentZodWithId>
+      type TestDocumentSnapshotWithId = ZodDocumentSnapshot<typeof TestDocumentZodWithId>
+
+      const schema = { zod: TestDocumentZodWithId, includeDocumentIdForZod: true } as const
+      const collectionWithId = multiDocumentCollectionFactory(
+        schemaFirestoreFactoryBuilder('foo', schema, { getFirestore }).build(),
+        schema,
+      )
+
+      const documentRef = mock<TestDocumentReferenceWithId>()
+      const snapshot = mock<TestDocumentSnapshotWithId>()
+      snapshot.exists.mockReturnValue(false)
+      jest.mocked(getDoc).mockResolvedValue(snapshot)
+      jest.mocked(firestoreDocument).mockReturnValue(documentRef as unknown as TestDocumentReference)
+
+      await expect(collectionWithId.findByIdWithFallback('string', { value: 'fallback' })).resolves.toEqual({
+        _id: 'string',
+        value: 'fallback',
+      })
+      await expect(collectionWithId.findByIdWithFallback('number', { value: 42 })).resolves.toEqual({
+        _id: 'number',
+        value: 42,
+      })
+
+      expect(firestoreDocument).toHaveBeenNthCalledWith(1, ['foo'], 'string', getFirestore())
+      expect(firestoreDocument).toHaveBeenNthCalledWith(2, ['foo'], 'number', getFirestore())
     })
   })
 

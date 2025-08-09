@@ -23,6 +23,7 @@ type TestDocumentSnapshot = ZodDocumentSnapshot<typeof TestDocumentZod>
 describe('singleDocumentCollectionFactory', () => {
   const collection = singleDocumentCollectionFactory(
     schemaFirestoreFactoryBuilder('foo', { zod: TestDocumentZod }, { getFirestore }).build(),
+    { zod: TestDocumentZod },
     'KEY',
   )
 
@@ -111,6 +112,43 @@ describe('singleDocumentCollectionFactory', () => {
 
       expect(firestoreDocument).toHaveBeenCalledWith(['foo'], 'KEY', getFirestore())
       expect(firestoreZodDataConverter).toHaveBeenCalledWith(TestDocumentZod, { _id: false }, {})
+    })
+  })
+
+  describe('findWithFallback', () => {
+    it('should return existing document if it exists', async () => {
+      const documentRef = mock<TestDocumentReference>()
+      documentRef.withConverter.mockReturnThis()
+      const snapshot = mock<TestDocumentSnapshot>({ exists: true })
+      documentRef.get.mockResolvedValue(snapshot)
+      const parsedDocumentValue = {
+        _id: 'id',
+        _createTime: Timestamp.now(),
+        _updateTime: Timestamp.now(),
+        _readTime: Timestamp.now(),
+        name: 'bar',
+      }
+      snapshot.data.mockReturnValue(parsedDocumentValue)
+      jest.mocked(firestoreDocument).mockReturnValue(documentRef)
+
+      await expect(collection.findWithFallback({ name: 'fallback' })).resolves.toEqual(parsedDocumentValue)
+
+      expect(firestoreDocument).toHaveBeenCalledWith(['foo'], 'KEY', getFirestore())
+    })
+
+    it('should return fallback with injected _id when document does not exist (default schema)', async () => {
+      const documentRef = mock<TestDocumentReference>()
+      documentRef.withConverter.mockReturnThis()
+      const snapshot = mock<TestDocumentSnapshot>({ exists: false })
+      documentRef.get.mockResolvedValue(snapshot)
+      jest.mocked(firestoreDocument).mockReturnValue(documentRef)
+
+      await expect(collection.findWithFallback({ name: 'fallback' })).resolves.toEqual({
+        _id: 'KEY',
+        name: 'fallback',
+      })
+
+      expect(firestoreDocument).toHaveBeenCalledWith(['foo'], 'KEY', getFirestore())
     })
   })
 

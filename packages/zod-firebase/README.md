@@ -84,6 +84,64 @@ const adults = await collections.users.findMany({
 await collections.users.delete(userRef.id)
 ```
 
+### Fallback reads
+
+Return a document if it exists or a validated fallback when it does not.
+
+```typescript
+// Multi-document collection: findByIdWithFallback(id, fallback)
+const post = await collections.posts.findByIdWithFallback('post123', {
+  title: 'Untitled',
+  content: '',
+  authorId: 'anonymous',
+  publishedAt: new Date(),
+  likes: 0,
+})
+// If the document exists, you get its data; otherwise you get:
+// { _id: 'post123', title: 'Untitled', content: '', ... }
+
+// Single-document collection: findWithFallback(fallback)
+const userId = 'user123'
+const profile = await collections.users(userId).profile.findWithFallback({
+  bio: 'This user has not set up a bio yet',
+  avatar: undefined,
+})
+// If the document does not exist, you get { _id: 'profile', ...fallback }
+```
+
+When your schema validates document IDs (includeDocumentIdForZod), the fallback is validated
+with the injected `_id`:
+
+```typescript
+const UserWithIdSchema = z.discriminatedUnion('_id', [
+  z.object({
+    _id: z.literal('admin'),
+    name: z.string(),
+    role: z.literal('administrator'),
+  }),
+  z.object({
+    _id: z.string(),
+    name: z.string(),
+    role: z.literal('user'),
+  }),
+])
+
+const schema = {
+  users: {
+    zod: UserWithIdSchema,
+    includeDocumentIdForZod: true,
+  },
+} as const
+
+const collections = collectionsBuilder(schema)
+
+// Fallback excludes _id; it will be injected and validated by Zod
+const admin = await collections.users.findByIdWithFallback('admin', {
+  name: 'System',
+  role: 'administrator',
+})
+```
+
 ### Sub-Collections
 
 You can define nested sub-collections with full type safety:

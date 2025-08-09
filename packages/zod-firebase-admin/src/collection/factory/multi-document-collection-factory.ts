@@ -1,4 +1,5 @@
 import {
+  type DocumentData,
   type PartialWithFieldValue,
   type Precondition,
   type SetOptions,
@@ -6,6 +7,7 @@ import {
   type WithFieldValue,
   type WriteResult,
 } from 'firebase-admin/firestore'
+import { type Except } from 'type-fest'
 
 import { type MetaOutputOptions } from '../../base'
 import {
@@ -15,6 +17,13 @@ import {
   type SchemaFirestoreFactory,
   type SchemaWriteDocumentReference,
 } from '../../schema'
+
+export type SchemaFallbackValue<
+  TCollectionSchema extends CollectionSchema,
+  TDocumentId extends string = string,
+> = TCollectionSchema extends { includeDocumentIdForZod: true }
+  ? Except<Extract<SchemaDocumentInput<TCollectionSchema>, { _id: TDocumentId }>, '_id'>
+  : SchemaDocumentInput<TCollectionSchema>
 
 export interface MultiDocumentCollectionFactory<TCollectionSchema extends CollectionSchema>
   extends SchemaFirestoreFactory<TCollectionSchema> {
@@ -29,6 +38,12 @@ export interface MultiDocumentCollectionFactory<TCollectionSchema extends Collec
     id: string,
     options?: Options,
   ): Promise<SchemaDocumentOutput<TCollectionSchema, Options>>
+
+  findByIdWithFallback<TDocumentId extends string>(
+    this: void,
+    id: TDocumentId,
+    fallback: SchemaFallbackValue<TCollectionSchema, TDocumentId>,
+  ): Promise<SchemaDocumentOutput<TCollectionSchema>>
 
   add(
     this: void,
@@ -58,6 +73,7 @@ export interface MultiDocumentCollectionFactory<TCollectionSchema extends Collec
 
 export const multiDocumentCollectionFactory = <TCollectionSchema extends CollectionSchema>(
   firestoreFactory: SchemaFirestoreFactory<TCollectionSchema>,
+  schema: TCollectionSchema,
 ): MultiDocumentCollectionFactory<TCollectionSchema> => ({
   ...firestoreFactory,
   findById: async <Options extends MetaOutputOptions>(id: string, options?: Options) => {
@@ -72,6 +88,26 @@ export const multiDocumentCollectionFactory = <TCollectionSchema extends Collect
     }
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     return doc.data()!
+  },
+  findByIdWithFallback: async <TDocumentId extends string>(
+    id: TDocumentId,
+    fallback: SchemaFallbackValue<TCollectionSchema, TDocumentId>,
+  ) => {
+    const doc = await firestoreFactory.read.doc(id).get()
+    if (doc.exists) {
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      return doc.data()!
+    }
+    if (schema.includeDocumentIdForZod) {
+      return schema.zod.parse({
+        _id: id,
+        ...(fallback as DocumentData),
+      }) as SchemaDocumentOutput<TCollectionSchema>
+    }
+    return {
+      _id: id,
+      ...schema.zod.parse(fallback),
+    } as SchemaDocumentOutput<TCollectionSchema>
   },
   add: async (data) => firestoreFactory.write.collection().add(data),
   create: async (id, data) => firestoreFactory.write.doc(id).create(data),

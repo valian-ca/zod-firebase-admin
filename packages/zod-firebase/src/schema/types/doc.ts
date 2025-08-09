@@ -20,6 +20,6 @@ export type SchemaDocumentInput<TCollectionSchema extends CollectionSchema> =
 export type SchemaDocumentOutput<
   TCollectionSchema extends CollectionSchema,
   Options extends MetaOutputOptions = MetaOutputOptions,
-> = TCollectionSchema['readonlyDocuments'] extends true
+> = TCollectionSchema extends { readonlyDocuments: true }
   ? ReadonlyDocumentOutput<CollectionSchemaZod<TCollectionSchema>, Options>
   : DocumentOutput<CollectionSchemaZod<TCollectionSchema>, Options>
