@@ -67,7 +67,7 @@ jobs:
         firebase_admin: ['firebase-admin@^12', 'firebase-admin@^13']
         exclude:
           - firebase: 'firebase@^11'
-            firebase_admin: 'firebase-admin@^12'
+            firebase_admin: 'firebase-admin@^13'
           - firebase: 'firebase@^12'
             firebase_admin: 'firebase-admin@^12'
     steps:
