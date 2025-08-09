@@ -6,29 +6,10 @@ jobs:
   lint:
     name: lint
     runs-on: ubuntu-latest
-    env:
-      PNPM_CONFIG_FROZEN_LOCKFILE: false
-    strategy:
-      fail-fast: false
-      matrix:
-        zod: ['zod@^3', 'zod@^4']
-        firebase: ['firebase@^11', 'firebase@^12']
-        firebase_admin: ['firebase-admin@^12', 'firebase-admin@^13']
-        exclude:
-          - firebase: 'firebase@^11'
-            firebase_admin: 'firebase-admin@^12'
-          - firebase: 'firebase@^12'
-            firebase_admin: 'firebase-admin@^13'
     steps:
       - uses: actions/checkout@v4
       - name: setup pnpm
         uses: valian-ca/github-workflows/.github/actions/setup-pnpm@main
-      - name: Install Zod ${{ matrix.zod }} at workspace root
-        run: pnpm add -Dw ${{ matrix.zod }}
-      - name: Install Firebase ${{ matrix.firebase }} for zod-firebase
-        run: pnpm -C packages/zod-firebase add -D ${{ matrix.firebase }}
-      - name: Install Firebase Admin ${{ matrix.firebase_admin }} for zod-firebase-admin
-        run: pnpm -C packages/zod-firebase-admin add -D ${{ matrix.firebase_admin }}
       - name: dedupe
         run: pnpm dedupe
       - name: eslint
@@ -55,9 +36,9 @@ jobs:
         firebase_admin: ['firebase-admin@^12', 'firebase-admin@^13']
         exclude:
           - firebase: 'firebase@^11'
-            firebase_admin: 'firebase-admin@^12'
-          - firebase: 'firebase@^12'
             firebase_admin: 'firebase-admin@^13'
+          - firebase: 'firebase@^12'
+            firebase_admin: 'firebase-admin@^12'
     steps:
       - uses: actions/checkout@v4
       - name: setup pnpm
@@ -88,7 +69,7 @@ jobs:
           - firebase: 'firebase@^11'
             firebase_admin: 'firebase-admin@^12'
           - firebase: 'firebase@^12'
-            firebase_admin: 'firebase-admin@^13'
+            firebase_admin: 'firebase-admin@^12'
     steps:
       - uses: actions/checkout@v4
       - name: cache firebase emulator

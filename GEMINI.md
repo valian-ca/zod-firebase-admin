@@ -6,8 +6,8 @@ This document provides an overview of the `zod-firebase-admin` project, its stru
 
 This is a TypeScript monorepo that provides Zod-based schemas for Firestore. It contains two packages:
 
--   `zod-firebase-admin`: For use with the `firebase-admin` SDK (server-side).
--   `zod-firebase`: For use with the `firebase` SDK (client-side).
+- `zod-firebase-admin`: For use with the `firebase-admin` SDK (server-side).
+- `zod-firebase`: For use with the `firebase` SDK (client-side).
 
 The core functionality of these packages is to provide a type-safe way to interact with Firestore collections and documents, using Zod for schema validation.
 
@@ -19,47 +19,47 @@ This project uses `pnpm` as its package manager and `lerna` to manage the monore
 
 ### Key Commands
 
--   **Install dependencies:**
-    ```bash
-    pnpm install
-    ```
--   **Build all packages:**
-    ```bash
-    pnpm run compile
-    ```
--   **Run tests:**
-    ```bash
-    pnpm test
-    ```
--   **Run integration tests:**
-    ```bash
-    pnpm test:integration:ci
-    ```
--   **Type-check all packages:**
-    ```bash
-    pnpm run type-check
-    ```
--   **Lint all packages:**
-    ```bash
-    pnpm run eslint
-    ```
--   **Check formatting:**
-    ```bash
-    pnpm run prettier
-    ```
+- **Install dependencies:**
+  ```bash
+  pnpm install
+  ```
+- **Build all packages:**
+  ```bash
+  pnpm run compile
+  ```
+- **Run tests:**
+  ```bash
+  pnpm test
+  ```
+- **Run integration tests:**
+  ```bash
+  pnpm test:integration:ci
+  ```
+- **Type-check all packages:**
+  ```bash
+  pnpm run type-check
+  ```
+- **Lint all packages:**
+  ```bash
+  pnpm run eslint
+  ```
+- **Check formatting:**
+  ```bash
+  pnpm run prettier
+  ```
 
 ## Development Conventions
 
 ### Coding Style
 
--   **Formatting:** The project uses Prettier for code formatting. There is a `.prettierrc.json` file in the root of the project with the configuration.
--   **Linting:** The project uses ESLint for linting. The configuration is in `eslint.config.mjs`.
--   **Commit Messages:** The project follows the Conventional Commits specification. This is enforced by `commitlint` and a `husky` pre-commit hook.
+- **Formatting:** The project uses Prettier for code formatting. There is a `.prettierrc.json` file in the root of the project with the configuration.
+- **Linting:** The project uses ESLint for linting. The configuration is in `eslint.config.mjs`.
+- **Commit Messages:** The project follows the Conventional Commits specification. This is enforced by `commitlint` and a `husky` pre-commit hook.
 
 ### Testing
 
--   **Unit Tests:** Each package has its own Jest configuration for unit tests (`jest.config.cjs`).
--   **Integration Tests:** Each package also has a configuration for integration tests (`jest.integration.config.cjs`) that use the Firebase emulator.
+- **Unit Tests:** Each package has its own Jest configuration for unit tests (`jest.config.cjs`).
+- **Integration Tests:** Each package also has a configuration for integration tests (`jest.integration.config.cjs`) that use the Firebase emulator.
 
 ### Architecture
 
