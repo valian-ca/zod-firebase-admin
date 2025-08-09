@@ -32,7 +32,7 @@ export const schemaFirestoreFactoryBuilder = <TCollectionSchema extends Collecti
     const read = readBuilder.build(parentPath)
     const write = writeBuilder.build(parentPath)
     return {
-      ...schemaFirestoreQueryFactory(read.collection),
+      ...schemaFirestoreQueryFactory(read.collection, collectionName),
       read,
       write,
     }

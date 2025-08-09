@@ -22,7 +22,7 @@ describe('schemaFirestoreQueryFactory', () => {
       const firestoreQuery = mock<Query>()
       const queryBuilder = jest.fn().mockReturnValue(firestoreQuery)
 
-      schemaFirestoreQueryFactory(queryBuilder).prepare({ name: 'test' })
+      schemaFirestoreQueryFactory(queryBuilder, 'foo').prepare({ name: 'test' })
 
       expect(applyQuerySpecification).toHaveBeenCalledWith(firestoreQuery, { name: 'test' })
 
@@ -33,7 +33,7 @@ describe('schemaFirestoreQueryFactory', () => {
       const firestoreQuery = mock<Query>()
       const queryBuilder = jest.fn().mockReturnValue(firestoreQuery)
 
-      schemaFirestoreQueryFactory(queryBuilder).prepare({ name: 'test' }, { _id: false })
+      schemaFirestoreQueryFactory(queryBuilder, 'foo').prepare({ name: 'test' }, { _id: false })
 
       expect(applyQuerySpecification).toHaveBeenCalledWith(firestoreQuery, { name: 'test' })
 
@@ -44,7 +44,7 @@ describe('schemaFirestoreQueryFactory', () => {
   describe('query', () => {
     it('returns the query snapshot', async () => {
       const queryBuilder = mockedQueryBuilder()
-      await schemaFirestoreQueryFactory(queryBuilder).query({ name: 'test' })
+      await schemaFirestoreQueryFactory(queryBuilder, 'foo').query({ name: 'test' })
 
       expect(queryBuilder().get).toHaveBeenCalled()
     })
@@ -60,7 +60,7 @@ describe('schemaFirestoreQueryFactory', () => {
       firestoreAggregateQuery.get.mockResolvedValue(firestoreAggregateQuerySnapshot)
       firestoreQuery.count.mockReturnValue(firestoreAggregateQuery)
       const queryBuilder = jest.fn().mockReturnValue(firestoreQuery)
-      await expect(schemaFirestoreQueryFactory(queryBuilder).count({ name: 'test' })).resolves.toBe(1)
+      await expect(schemaFirestoreQueryFactory(queryBuilder, 'foo').count({ name: 'test' })).resolves.toBe(1)
     })
   })
 
@@ -72,7 +72,7 @@ describe('schemaFirestoreQueryFactory', () => {
         size: 2,
         docs: [queryDocumentSnapshot1, queryDocumentSnapshot2],
       })
-      await schemaFirestoreQueryFactory(queryBuilder).findMany({ name: 'test' })
+      await schemaFirestoreQueryFactory(queryBuilder, 'foo').findMany({ name: 'test' })
 
       expect(queryDocumentSnapshot1.data).toHaveBeenCalled()
       expect(queryDocumentSnapshot2.data).toHaveBeenCalled()
@@ -84,7 +84,7 @@ describe('schemaFirestoreQueryFactory', () => {
       const queryBuilder = mockedQueryBuilder({
         size: 2,
       })
-      await expect(schemaFirestoreQueryFactory(queryBuilder).findUnique({ name: 'test' })).rejects.toThrow(
+      await expect(schemaFirestoreQueryFactory(queryBuilder, 'foo').findUnique({ name: 'test' })).rejects.toThrow(
         'Query test returned more than one document',
       )
     })
@@ -93,7 +93,7 @@ describe('schemaFirestoreQueryFactory', () => {
       const queryBuilder = mockedQueryBuilder({
         size: 0,
       })
-      await expect(schemaFirestoreQueryFactory(queryBuilder).findUnique({ name: 'test' })).resolves.toBeNull()
+      await expect(schemaFirestoreQueryFactory(queryBuilder, 'foo').findUnique({ name: 'test' })).resolves.toBeNull()
     })
 
     it('returns the the uniq document data', async () => {
@@ -102,7 +102,7 @@ describe('schemaFirestoreQueryFactory', () => {
         size: 1,
         docs: [queryDocumentSnapshot],
       })
-      await schemaFirestoreQueryFactory(queryBuilder).findUnique({ name: 'test' })
+      await schemaFirestoreQueryFactory(queryBuilder, 'foo').findUnique({ name: 'test' })
 
       expect(queryDocumentSnapshot.data).toHaveBeenCalled()
     })
@@ -113,18 +113,18 @@ describe('schemaFirestoreQueryFactory', () => {
       const queryBuilder = mockedQueryBuilder({
         size: 2,
       })
-      await expect(schemaFirestoreQueryFactory(queryBuilder).findUniqueOrThrow({ name: 'test' })).rejects.toThrow(
-        'Query test returned more than one document',
-      )
+      await expect(
+        schemaFirestoreQueryFactory(queryBuilder, 'foo').findUniqueOrThrow({ name: 'test' }),
+      ).rejects.toThrow('Query test returned more than one document')
     })
 
     it('throw when the query returns no documents', async () => {
       const queryBuilder = mockedQueryBuilder({
         size: 0,
       })
-      await expect(schemaFirestoreQueryFactory(queryBuilder).findUniqueOrThrow({ name: 'test' })).rejects.toThrow(
-        'Query test returned no documents',
-      )
+      await expect(
+        schemaFirestoreQueryFactory(queryBuilder, 'foo').findUniqueOrThrow({ name: 'test' }),
+      ).rejects.toThrow('Query test returned no documents')
     })
 
     it('returns the the uniq document data', async () => {
@@ -133,7 +133,7 @@ describe('schemaFirestoreQueryFactory', () => {
         size: 1,
         docs: [queryDocumentSnapshot],
       })
-      await schemaFirestoreQueryFactory(queryBuilder).findUniqueOrThrow({ name: 'test' })
+      await schemaFirestoreQueryFactory(queryBuilder, 'foo').findUniqueOrThrow({ name: 'test' })
 
       expect(queryDocumentSnapshot.data).toHaveBeenCalled()
     })
@@ -144,7 +144,7 @@ describe('schemaFirestoreQueryFactory', () => {
       const queryBuilder = mockedQueryBuilder({
         size: 0,
       })
-      await expect(schemaFirestoreQueryFactory(queryBuilder).findFirst({ name: 'test' })).resolves.toBeNull()
+      await expect(schemaFirestoreQueryFactory(queryBuilder, 'foo').findFirst({ name: 'test' })).resolves.toBeNull()
     })
 
     it('returns only the first document data', async () => {
@@ -154,7 +154,7 @@ describe('schemaFirestoreQueryFactory', () => {
         size: 2,
         docs: [queryDocumentSnapshot1, queryDocumentSnapshot2],
       })
-      await schemaFirestoreQueryFactory(queryBuilder).findFirst({ name: 'test' })
+      await schemaFirestoreQueryFactory(queryBuilder, 'foo').findFirst({ name: 'test' })
 
       expect(queryDocumentSnapshot1.data).toHaveBeenCalled()
       expect(queryDocumentSnapshot2.data).not.toHaveBeenCalled()
@@ -166,7 +166,7 @@ describe('schemaFirestoreQueryFactory', () => {
       const queryBuilder = mockedQueryBuilder({
         size: 0,
       })
-      await expect(schemaFirestoreQueryFactory(queryBuilder).findFirstOrThrow({ name: 'test' })).rejects.toThrow(
+      await expect(schemaFirestoreQueryFactory(queryBuilder, 'foo').findFirstOrThrow({ name: 'test' })).rejects.toThrow(
         'Query test returned no documents',
       )
     })
@@ -178,7 +178,7 @@ describe('schemaFirestoreQueryFactory', () => {
         size: 2,
         docs: [queryDocumentSnapshot1, queryDocumentSnapshot2],
       })
-      await schemaFirestoreQueryFactory(queryBuilder).findFirstOrThrow({ name: 'test' })
+      await schemaFirestoreQueryFactory(queryBuilder, 'foo').findFirstOrThrow({ name: 'test' })
 
       expect(queryDocumentSnapshot1.data).toHaveBeenCalled()
       expect(queryDocumentSnapshot2.data).not.toHaveBeenCalled()

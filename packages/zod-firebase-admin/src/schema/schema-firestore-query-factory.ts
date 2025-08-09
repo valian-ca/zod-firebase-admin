@@ -5,7 +5,9 @@ import { type CollectionSchema, type SchemaFirestoreQueryFactory, type SchemaQue
 
 export const schemaFirestoreQueryFactory = <TCollectionSchema extends CollectionSchema>(
   queryBuilder: <Options extends MetaOutputOptions>(options?: Options) => SchemaQuery<TCollectionSchema, Options>,
+  collectionName: string,
 ): SchemaFirestoreQueryFactory<TCollectionSchema> => ({
+  collectionName,
   prepare: (query, options) => applyQuerySpecification(queryBuilder(options), query),
   query: <Options extends MetaOutputOptions>(query: QuerySpecification, options?: Options) =>
     applyQuerySpecification(queryBuilder(options), query).get(),

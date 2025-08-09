@@ -33,10 +33,10 @@ export const collectionFactoryBuilder = <TCollectionName extends string, TCollec
     ) as SingleOrMultiDocumentCollectionFactory<TCollectionSchema>
 
     return {
-      collectionName,
       collectionPath: parentPath ? firestoreCollectionPath([...parentPath, collectionName]) : collectionName,
       ...schema,
       ...collection,
+      collectionName,
     }
   }
   return {

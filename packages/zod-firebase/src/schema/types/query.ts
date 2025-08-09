@@ -34,6 +34,8 @@ export type SchemaQueryDocumentSnapshot<
 > = QueryDocumentSnapshot<SchemaDocumentOutput<TCollectionSchema, Options>, SchemaDocumentInput<TCollectionSchema>>
 
 export interface SchemaFirestoreQueryFactory<TCollectionSchema extends CollectionSchema> {
+  readonly collectionName: string
+
   prepare<Options extends MetaOutputOptions>(
     query: QuerySpecification,
     options?: Options,
