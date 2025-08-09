@@ -9,10 +9,10 @@ Type-safe Firestore collections and documents using [Zod](https://zod.dev/) sche
 
 ## Installation
 
-Peer dependencies: `@firebase/firestore` and `zod`.
+Peer dependencies: `firebase` and `zod`.
 
 ```bash
-npm install zod-firebase zod @firebase/firestore
+npm install zod-firebase zod firebase
 ```
 
 ## Usage
@@ -155,7 +155,7 @@ const allPosts = await collections.users.posts.group.findMany({
 })
 
 // Aggregate with the Firestore Web SDK (e.g. count)
-import { count } from '@firebase/firestore'
+import { count } from 'firebase/firestore'
 const totals = await collections.users.posts.comments.group.aggregateFromServer(
   { name: 'all-comments' },
   { total: count() },
@@ -181,7 +181,7 @@ const collections = collectionsBuilder(schema, {
 Handle Firebase-specific data types like Timestamps:
 
 ```typescript
-import { Timestamp } from '@firebase/firestore'
+import { Timestamp } from 'firebase/firestore'
 
 const collections = collectionsBuilder(schema, {
   snapshotDataConverter: (snapshot) => {
@@ -253,7 +253,7 @@ const recentPopularPosts = await collections.posts.findMany({
 })
 
 // Prepare once, execute with the Web SDK
-import { getDocs } from '@firebase/firestore'
+import { getDocs } from 'firebase/firestore'
 const popularPrepared = collections.posts.prepare({
   name: 'popular',
   where: [['likes', '>=', 100]],

@@ -1,4 +1,10 @@
+config:
+  MD013: false
+  MD024:
+    siblings_only: true
 ignores:
   - CHANGELOG.md
+  - GEMINI.md
   - packages/zod-firebase/CHANGELOG.md
   - packages/zod-firebase-admin/CHANGELOG.md
+  - packages/**/node_modules/**/*.md
