@@ -38,3 +38,6 @@ junit.xml
 !/src/
 /lib
 /dist/
+
+.nx/cache
+.nx/workspace-data

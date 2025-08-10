@@ -23,10 +23,10 @@
     "prettier": "prettier --check .",
     "lint:md": "markdownlint-cli2 \"**/*.md\" \"#node_modules\"",
     "prepare": "husky",
-    "build": "lerna run build",
-    "test": "lerna run test",
-    "type-check": "lerna run type-check",
-    "test:integration:ci": "lerna run --concurrency 1 test:integration:ci"
+    "build": "nx run-many -t build",
+    "test": "nx run-many -t test",
+    "type-check": "nx run-many -t type-check",
+    "test:integration:ci": "nx run-many -t test:integration:ci --parallel=false"
   },
   "devDependencies": {
     "@commitlint/cli": "^19.8.1",
@@ -50,10 +50,11 @@
     "ts-essentials": "^10.1.1",
     "ts-jest": "^29.4.0",
     "ts-node": "^10.9.2",
-    "typescript": "^5.8.3"
+    "typescript": "^5.8.3",
+    "nx": "^21.3.11"
   },
   "engines": {
     "node": ">= 22.0.0"
   },
-  "packageManager": "pnpm@10.14.0+sha512.ad27a79641b49c3e481a16a805baa71817a04bbe06a38d17e60e2eaee83f6a146c6a688125f5792e48dd5ba30e7da52a5cda4c3992b9ccf333f9ce223af84748"
+  "packageManager": "pnpm@10.14.0"
 }

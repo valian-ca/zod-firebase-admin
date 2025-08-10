@@ -1,0 +1,11 @@
+{
+  "editor.codeActionsOnSave": {
+    "source.fixAll": "always"
+  },
+  "editor.formatOnSave": true,
+  "eslint.enable": true,
+  "eslint.format.enable": true,
+  "eslint.useFlatConfig": true,
+  "prettier.enable": true,
+  "prettier.documentSelectors": ["**/*.ts", "**/*.tsx", "**/*.js"]
+}
