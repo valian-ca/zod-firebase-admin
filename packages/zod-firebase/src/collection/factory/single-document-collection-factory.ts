@@ -13,7 +13,7 @@ import {
   type SchemaWriteDocumentReference,
 } from '../../schema'
 
-import { multiDocumentCollectionFactory } from './multi-document-collection-factory'
+import { multiDocumentCollectionFactory, type SchemaFallbackValue } from './multi-document-collection-factory'
 
 export interface SingleDocumentCollectionFactory<TCollectionSchema extends CollectionSchema> {
   readonly singleDocumentKey: string
@@ -39,6 +39,11 @@ export interface SingleDocumentCollectionFactory<TCollectionSchema extends Colle
     options?: Options,
   ): Promise<SchemaDocumentOutput<TCollectionSchema, Options>>
 
+  findWithFallback(
+    this: void,
+    fallback: SchemaFallbackValue<TCollectionSchema>,
+  ): Promise<SchemaDocumentOutput<TCollectionSchema>>
+
   set(this: void, data: WithFieldValue<SchemaDocumentInput<TCollectionSchema>>): Promise<void>
 
   set(
@@ -54,6 +59,7 @@ export interface SingleDocumentCollectionFactory<TCollectionSchema extends Colle
 
 export const singleDocumentCollectionFactory = <TCollectionSchema extends CollectionSchema>(
   firestoreFactory: SchemaFirestoreFactory<TCollectionSchema>,
+  schema: TCollectionSchema,
   singleDocumentKey: string,
 ): SingleDocumentCollectionFactory<TCollectionSchema> => {
   const {
@@ -61,11 +67,12 @@ export const singleDocumentCollectionFactory = <TCollectionSchema extends Collec
     write,
     findById,
     findByIdOrThrow,
+    findByIdWithFallback,
     set,
     update,
     delete: deleteDocument,
     ...rest
-  } = multiDocumentCollectionFactory(firestoreFactory)
+  } = multiDocumentCollectionFactory(firestoreFactory, schema)
 
   return {
     ...rest,
@@ -76,6 +83,8 @@ export const singleDocumentCollectionFactory = <TCollectionSchema extends Collec
     },
     find: <Options extends MetaOutputOptions>(options?: Options) => findById(singleDocumentKey, options),
     findOrThrow: <Options extends MetaOutputOptions>(options?: Options) => findByIdOrThrow(singleDocumentKey, options),
+    findWithFallback: (fallback: SchemaFallbackValue<TCollectionSchema>) =>
+      findByIdWithFallback(singleDocumentKey, fallback),
     write: {
       ...write,
       doc: () => write.doc(singleDocumentKey),

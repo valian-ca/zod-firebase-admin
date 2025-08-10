@@ -44,7 +44,7 @@ describe('schemaFirestoreFactoryBuilder', () => {
     it('should invoke read, write and query factory', () => {
       schemaFirestoreFactoryBuilder('foo', { zod: TestDocumentZod }).build()
 
-      expect(schemaFirestoreQueryFactory).toHaveBeenCalledWith(mockedReadFactory.collection)
+      expect(schemaFirestoreQueryFactory).toHaveBeenCalledWith(mockedReadFactory.collection, 'foo')
       expect(mockedReadFactoryBuilder.build).toHaveBeenCalledWith(undefined)
       expect(mockedWriteFactoryBuilder.build).toHaveBeenCalledWith(undefined)
     })
@@ -54,7 +54,7 @@ describe('schemaFirestoreFactoryBuilder', () => {
     it('should invoke read, write and query factory', () => {
       schemaFirestoreFactoryBuilder('foo', { zod: TestDocumentZod }).build(['foo', 'ID'])
 
-      expect(schemaFirestoreQueryFactory).toHaveBeenCalledWith(mockedReadFactory.collection)
+      expect(schemaFirestoreQueryFactory).toHaveBeenCalledWith(mockedReadFactory.collection, 'foo')
       expect(mockedReadFactoryBuilder.build).toHaveBeenCalledWith(['foo', 'ID'])
       expect(mockedWriteFactoryBuilder.build).toHaveBeenCalledWith(['foo', 'ID'])
     })

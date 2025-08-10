@@ -28,15 +28,15 @@ export const collectionFactoryBuilder = <TCollectionName extends string, TCollec
     const firestoreFactory = firestoreFactoryBuilder.build(parentPath)
     const collection = (
       typeof schema.singleDocumentKey === 'string'
-        ? singleDocumentCollectionFactory(firestoreFactory, schema.singleDocumentKey)
-        : multiDocumentCollectionFactory(firestoreFactory)
+        ? singleDocumentCollectionFactory(firestoreFactory, schema, schema.singleDocumentKey)
+        : multiDocumentCollectionFactory(firestoreFactory, schema)
     ) as SingleOrMultiDocumentCollectionFactory<TCollectionSchema>
 
     return {
-      collectionName,
       collectionPath: parentPath ? firestoreCollectionPath([...parentPath, collectionName]) : collectionName,
       ...schema,
       ...collection,
+      collectionName,
     }
   }
   return {

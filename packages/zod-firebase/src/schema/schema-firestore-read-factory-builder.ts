@@ -51,6 +51,6 @@ export const schemaFirestoreReadFactoryBuilder = <TCollectionSchema extends Coll
   return {
     build,
     zodConverter: zodConverterFactory,
-    group: schemaFirestoreQueryFactory(collectionGroup),
+    group: schemaFirestoreQueryFactory(collectionGroup, collectionName),
   }
 }
