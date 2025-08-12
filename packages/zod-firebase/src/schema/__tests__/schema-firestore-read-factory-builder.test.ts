@@ -5,7 +5,8 @@ import {
   getFirestore,
   type Query,
 } from '@firebase/firestore'
-import { mock } from 'jest-mock-extended'
+import { describe, expect, it, vi } from 'vitest'
+import { mock } from 'vitest-mock-extended'
 import { z } from 'zod'
 
 import {
@@ -17,26 +18,27 @@ import {
 } from '../../base'
 import { schemaFirestoreReadFactoryBuilder } from '../schema-firestore-read-factory-builder'
 
-jest.mock('../../base')
+vi.mock('@firebase/firestore')
+vi.mock('../../base')
 
 const TestDocumentZod = z.object({
   name: z.string(),
 })
 
 const mockedDataConverter = mock<FirestoreDataConverter<DocumentOutput<typeof TestDocumentZod>>>()
-jest.mocked(firestoreZodDataConverter).mockReturnValue(mockedDataConverter)
+vi.mocked(firestoreZodDataConverter).mockReturnValue(mockedDataConverter)
 
 const collectionRef = mock<CollectionReference>()
 collectionRef.withConverter.mockReturnThis()
-jest.mocked(firestoreCollection).mockReturnValue(collectionRef)
+vi.mocked(firestoreCollection).mockReturnValue(collectionRef)
 
 const collectionGroupRef = mock<Query>()
 collectionGroupRef.withConverter.mockReturnThis()
-jest.mocked(firestoreCollectionGroup).mockReturnValue(collectionGroupRef)
+vi.mocked(firestoreCollectionGroup).mockReturnValue(collectionGroupRef)
 
 const documentRef = mock<DocumentReference>()
 documentRef.withConverter.mockReturnThis()
-jest.mocked(firestoreDocument).mockReturnValue(documentRef)
+vi.mocked(firestoreDocument).mockReturnValue(documentRef)
 
 describe('schemaFirestoreReadFactoryBuilder', () => {
   describe('builder', () => {
@@ -56,7 +58,7 @@ describe('schemaFirestoreReadFactoryBuilder', () => {
     })
 
     it('should build default converter with zodErrorHandler', () => {
-      const zodErrorHandler = jest.fn()
+      const zodErrorHandler = vi.fn()
       schemaFirestoreReadFactoryBuilder('foo', { zod: TestDocumentZod }, { zodErrorHandler })
       expect(firestoreZodDataConverter).toHaveBeenCalledWith(TestDocumentZod, undefined, {
         zodErrorHandler,
@@ -64,7 +66,7 @@ describe('schemaFirestoreReadFactoryBuilder', () => {
     })
 
     it('should build default converter with snapshotDataConverter', () => {
-      const snapshotDataConverter = jest.fn()
+      const snapshotDataConverter = vi.fn()
       schemaFirestoreReadFactoryBuilder('foo', { zod: TestDocumentZod }, { snapshotDataConverter })
       expect(firestoreZodDataConverter).toHaveBeenCalledWith(TestDocumentZod, undefined, {
         snapshotDataConverter,

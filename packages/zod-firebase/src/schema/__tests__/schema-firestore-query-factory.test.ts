@@ -8,26 +8,28 @@ import {
   type QueryDocumentSnapshot,
   type QuerySnapshot,
 } from '@firebase/firestore'
-import { mock } from 'jest-mock-extended'
 import { type DeepPartial } from 'ts-essentials'
+import { describe, expect, it, vi } from 'vitest'
+import { mock } from 'vitest-mock-extended'
 
 import { applyQuerySpecification } from '../../query'
 import { schemaFirestoreQueryFactory } from '../schema-firestore-query-factory'
 
-jest.mock('../../query')
+vi.mock('@firebase/firestore')
+vi.mock('../../query')
 
 function mockedQueryBuilder<T extends DocumentData = DocumentData>(querySnapshot?: DeepPartial<QuerySnapshot<T>>) {
   const firestoreQuerySnapshot = mock<QuerySnapshot<T>>(querySnapshot)
   const firestoreQuery = mock<Query<T>>()
-  jest.mocked(getDocs).mockResolvedValue(firestoreQuerySnapshot)
-  return jest.fn().mockReturnValue(firestoreQuery)
+  vi.mocked(getDocs).mockResolvedValue(firestoreQuerySnapshot)
+  return vi.fn().mockReturnValue(firestoreQuery)
 }
 
 describe('schemaFirestoreQueryFactory', () => {
   describe('prepare', () => {
     it('prepare a firebase query', () => {
       const firestoreQuery = mock<Query>()
-      const queryBuilder = jest.fn().mockReturnValue(firestoreQuery)
+      const queryBuilder = vi.fn().mockReturnValue(firestoreQuery)
 
       schemaFirestoreQueryFactory(queryBuilder, 'foo').prepare({ name: 'test' })
 
@@ -38,7 +40,7 @@ describe('schemaFirestoreQueryFactory', () => {
 
     it('prepare a firebase query with options', () => {
       const firestoreQuery = mock<Query>()
-      const queryBuilder = jest.fn().mockReturnValue(firestoreQuery)
+      const queryBuilder = vi.fn().mockReturnValue(firestoreQuery)
 
       schemaFirestoreQueryFactory(queryBuilder, 'foo').prepare({ name: 'test' }, { _id: false })
 
@@ -61,10 +63,10 @@ describe('schemaFirestoreQueryFactory', () => {
     it('returns the query snapshot', async () => {
       const aggregateSpec = { count: count() }
       const snapshot = mock<AggregateQuerySnapshot<typeof aggregateSpec>>()
-      jest.mocked(getAggregateFromServer).mockResolvedValue(snapshot)
+      vi.mocked(getAggregateFromServer).mockResolvedValue(snapshot)
 
       const firestoreQuery = mock<Query>()
-      const queryBuilder = jest.fn().mockReturnValue(firestoreQuery)
+      const queryBuilder = vi.fn().mockReturnValue(firestoreQuery)
 
       await schemaFirestoreQueryFactory(queryBuilder, 'foo').aggregateFromServer({ name: 'test' }, aggregateSpec)
 

@@ -1,5 +1,6 @@
 import { type QueryDocumentSnapshot, type SnapshotMetadata } from '@firebase/firestore'
-import { mock } from 'jest-mock-extended'
+import { describe, expect, it, vi } from 'vitest'
+import { mock } from 'vitest-mock-extended'
 import { z, ZodError } from 'zod'
 
 import { firestoreZodDataConverter } from '../firestore-zod-data-converter'
@@ -194,7 +195,7 @@ describe('firestoreZodDataConverter', () => {
 
   describe('snapshotDataConverter', () => {
     it('should return data', () => {
-      const snapshotDataConverter = jest.fn().mockImplementation((snapshot: QueryDocumentSnapshot) => snapshot.data())
+      const snapshotDataConverter = vi.fn().mockImplementation((snapshot: QueryDocumentSnapshot) => snapshot.data())
       const converter = firestoreZodDataConverter(
         TestDocumentZod,
         {},

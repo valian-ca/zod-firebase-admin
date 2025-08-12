@@ -58,8 +58,8 @@ This project uses `pnpm` as its package manager and `lerna` to manage the monore
 
 ### Testing
 
-- **Unit Tests:** Each package has its own Jest configuration for unit tests (`jest.config.cjs`).
-- **Integration Tests:** Each package also has a configuration for integration tests (`jest.integration.config.cjs`) that use the Firebase emulator.
+- **Unit Tests:** Each package has its own vitest configuration for unit tests (`vitest.config.mjs`).
+- **Integration Tests:** Each package also has a configuration for integration tests (`vitest.integration.config.mjs`) that use the Firebase emulator.
 
 ### Architecture
 

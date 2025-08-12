@@ -1,0 +1,7 @@
+{
+  "extends": "./tsconfig.json",
+  "include": ["src", "__tests__", "__integration-tests__", "__mocks__"],
+  "compilerOptions": {
+    "types": ["vitest"]
+  }
+}

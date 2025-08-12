@@ -1,16 +1,17 @@
-import { mock } from 'jest-mock-extended'
+import { describe, expect, it, vi } from 'vitest'
+import { mock } from 'vitest-mock-extended'
 import { z } from 'zod'
 
 import { firestoreZodDataConverter } from '../../base'
 import { schemaFirestoreZodDataConverterFactory } from '../schema-firestore-zod-data-converter-factory'
 
-jest.mock('../../base')
+vi.mock('../../base')
 
 const TestDocumentZod = z.object({
   name: z.string(),
 })
 
-jest.mocked(firestoreZodDataConverter).mockReturnValue(mock())
+vi.mocked(firestoreZodDataConverter).mockReturnValue(mock())
 
 describe('schemaFirestoreZodDataConverterFactory', () => {
   describe('factory options', () => {
@@ -30,7 +31,7 @@ describe('schemaFirestoreZodDataConverterFactory', () => {
     })
 
     it('should build default converter with zodErrorHandler', () => {
-      const zodErrorHandler = jest.fn()
+      const zodErrorHandler = vi.fn()
       schemaFirestoreZodDataConverterFactory({ zod: TestDocumentZod }, { zodErrorHandler })
       expect(firestoreZodDataConverter).toHaveBeenCalledWith(TestDocumentZod, undefined, {
         zodErrorHandler,
@@ -38,7 +39,7 @@ describe('schemaFirestoreZodDataConverterFactory', () => {
     })
 
     it('should build default converter with snapshotDataConverter', () => {
-      const snapshotDataConverter = jest.fn()
+      const snapshotDataConverter = vi.fn()
       schemaFirestoreZodDataConverterFactory({ zod: TestDocumentZod }, { snapshotDataConverter })
       expect(firestoreZodDataConverter).toHaveBeenCalledWith(TestDocumentZod, undefined, {
         snapshotDataConverter,
@@ -50,7 +51,7 @@ describe('schemaFirestoreZodDataConverterFactory', () => {
     it('should return the default converter', () => {
       const factory = schemaFirestoreZodDataConverterFactory({ zod: TestDocumentZod })
       expect(firestoreZodDataConverter).toHaveBeenCalled()
-      jest.mocked(firestoreZodDataConverter).mockClear()
+      vi.mocked(firestoreZodDataConverter).mockClear()
 
       factory()
       expect(firestoreZodDataConverter).not.toHaveBeenCalled()
@@ -61,11 +62,11 @@ describe('schemaFirestoreZodDataConverterFactory', () => {
     it('should return the a new converter', () => {
       const factory = schemaFirestoreZodDataConverterFactory({ zod: TestDocumentZod })
       expect(firestoreZodDataConverter).toHaveBeenCalled()
-      jest.mocked(firestoreZodDataConverter).mockClear()
+      vi.mocked(firestoreZodDataConverter).mockClear()
 
       factory({ _id: true })
       expect(firestoreZodDataConverter).toHaveBeenCalledWith(TestDocumentZod, { _id: true }, {})
-      jest.mocked(firestoreZodDataConverter).mockClear()
+      vi.mocked(firestoreZodDataConverter).mockClear()
 
       factory({ _id: true })
       expect(firestoreZodDataConverter).toHaveBeenCalledWith(TestDocumentZod, { _id: true }, {})
@@ -74,12 +75,12 @@ describe('schemaFirestoreZodDataConverterFactory', () => {
     it('should return the a new converter only if options is not cached', () => {
       const factory = schemaFirestoreZodDataConverterFactory({ zod: TestDocumentZod })
       expect(firestoreZodDataConverter).toHaveBeenCalled()
-      jest.mocked(firestoreZodDataConverter).mockClear()
+      vi.mocked(firestoreZodDataConverter).mockClear()
 
       const option = { _id: true } as const
       factory(option)
       expect(firestoreZodDataConverter).toHaveBeenCalledWith(TestDocumentZod, option, {})
-      jest.mocked(firestoreZodDataConverter).mockClear()
+      vi.mocked(firestoreZodDataConverter).mockClear()
 
       factory(option)
       expect(firestoreZodDataConverter).not.toHaveBeenCalled()

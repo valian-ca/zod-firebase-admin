@@ -5,16 +5,19 @@ import {
   type QueryDocumentSnapshot,
   type QuerySnapshot,
 } from '@firebase/firestore'
-import { mock } from 'jest-mock-extended'
 import { type DeepPartial } from 'ts-essentials'
+import { describe, expect, it, vi } from 'vitest'
+import { mock } from 'vitest-mock-extended'
 
 import { queryHelper } from '../query-helper'
+
+vi.mock('@firebase/firestore')
 
 function mockedQueryFactory<T extends DocumentData = DocumentData>(querySnapshot?: DeepPartial<QuerySnapshot<T>>) {
   const firestoreQuerySnapshot = mock<QuerySnapshot<T>>(querySnapshot)
   const firestoreQuery = mock<Query<T>>()
-  jest.mocked(getDocs).mockResolvedValue(firestoreQuerySnapshot)
-  return jest.fn<Query<T>, []>().mockReturnValue(firestoreQuery)
+  vi.mocked(getDocs).mockResolvedValue(firestoreQuerySnapshot)
+  return vi.fn<() => Query<T>>().mockReturnValue(firestoreQuery)
 }
 
 describe('queryHelper', () => {

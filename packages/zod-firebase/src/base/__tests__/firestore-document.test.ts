@@ -1,6 +1,9 @@
 import { doc, getFirestore } from '@firebase/firestore'
+import { describe, expect, it, vi } from 'vitest'
 
 import { firestoreDocument } from '../firestore-document'
+
+vi.mock('@firebase/firestore')
 
 describe('firestoreDocument', () => {
   it('should invoke doc(getFirestore(), id)', () => {
