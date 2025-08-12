@@ -1,4 +1,5 @@
-import { mock } from 'jest-mock-extended'
+import { describe, expect, it, vi } from 'vitest'
+import { mock } from 'vitest-mock-extended'
 import { z } from 'zod'
 
 import { schemaFirestoreFactoryBuilder } from '../schema-firestore-factory-builder'
@@ -13,9 +14,9 @@ import {
 } from '../schema-firestore-write-factory-builder'
 import { type SchemaFirestoreQueryFactory, type SchemaFirestoreReadFactory } from '../types'
 
-jest.mock('../schema-firestore-query-factory')
-jest.mock('../schema-firestore-read-factory-builder')
-jest.mock('../schema-firestore-write-factory-builder')
+vi.mock('../schema-firestore-query-factory')
+vi.mock('../schema-firestore-read-factory-builder')
+vi.mock('../schema-firestore-write-factory-builder')
 
 const TestDocumentZod = z.object({
   name: z.string(),
@@ -28,9 +29,9 @@ const mockedWriteFactoryBuilder = mock<SchemaFirestoreWriteFactoryBuilder<{ zod:
 
 mockedReadFactoryBuilder.build.mockReturnValue(mockedReadFactory)
 
-jest.mocked(schemaFirestoreQueryFactory).mockReturnValue(mockedQueryFactory)
-jest.mocked(schemaFirestoreReadFactoryBuilder).mockReturnValue(mockedReadFactoryBuilder)
-jest.mocked(schemaFirestoreWriteFactoryBuilder).mockReturnValue(mockedWriteFactoryBuilder)
+vi.mocked(schemaFirestoreQueryFactory).mockReturnValue(mockedQueryFactory)
+vi.mocked(schemaFirestoreReadFactoryBuilder).mockReturnValue(mockedReadFactoryBuilder)
+vi.mocked(schemaFirestoreWriteFactoryBuilder).mockReturnValue(mockedWriteFactoryBuilder)
 
 describe('schemaFirestoreFactoryBuilder', () => {
   it('should invoke read and write builder', () => {

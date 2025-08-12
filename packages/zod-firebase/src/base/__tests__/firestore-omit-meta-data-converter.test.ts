@@ -1,5 +1,6 @@
 import { type QueryDocumentSnapshot, type SnapshotMetadata } from '@firebase/firestore'
-import { mock } from 'jest-mock-extended'
+import { describe, expect, it } from 'vitest'
+import { mock } from 'vitest-mock-extended'
 
 import { firestoreOmitMetaDataConverter } from '../firestore-omit-meta-data-converter'
 

@@ -1,9 +1,10 @@
 import { getFirestore } from 'firebase-admin/firestore'
+import { beforeEach, describe, expect, it, vi } from 'vitest'
 import { z } from 'zod'
 
 import { collectionsBuilder } from '../collection-builder'
 
-// jest.mock('../factories/collection-factory')
+vi.mock('firebase-admin/firestore')
 
 const TestDocumentZod = z.object({
   name: z.string(),
@@ -69,7 +70,7 @@ describe('collectionsBuilder', () => {
   })
 
   describe('with specified firestore factory', () => {
-    const firestoreWrapper = jest.fn().mockImplementation(getFirestore)
+    const firestoreWrapper = vi.fn().mockImplementation(getFirestore)
     const collectionWithSpecifyFirestore = collectionsBuilder(schema, {
       getFirestore: firestoreWrapper,
     })

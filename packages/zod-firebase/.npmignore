@@ -4,7 +4,7 @@
 /tsconfig.json
 /tsconfig.*.json
 tsconfig.tsbuildinfo
-jest.*.cjs
+vitest.*
 rollup.config.js
 eslint.config.mjs
 .gitignore

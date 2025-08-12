@@ -1,7 +1,10 @@
 import { getFirestore } from 'firebase-admin/firestore'
+import { describe, expect, it, vi } from 'vitest'
 import { z } from 'zod'
 
 import { collectionFactoryBuilder } from '../collection-factory-builder'
+
+vi.mock('firebase-admin/firestore')
 
 const TestDocumentZod = z.object({
   name: z.string(),

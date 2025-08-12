@@ -30,7 +30,7 @@
     },
     {
       groupName: 'Tests',
-      matchPackageNames: ['/jest/'],
+      matchPackageNames: ['/vitest/'],
     },
     {
       groupName: 'Linters',

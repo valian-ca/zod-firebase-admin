@@ -11,11 +11,12 @@ import {
 import { initializeApp } from 'firebase/app'
 import functionsTest from 'firebase-functions-test'
 import { nanoid } from 'nanoid'
+import { afterAll, afterEach, beforeAll, beforeEach, describe, expect, it, vi } from 'vitest'
 import { z, ZodError } from 'zod'
 
 import { type Collections, collectionsBuilder } from '../src'
 
-jest.unmock('@firebase/firestore')
+vi.unmock('@firebase/firestore')
 
 const TestDocumentZod = z.object({
   name: z.string(),

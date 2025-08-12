@@ -5,16 +5,19 @@ import {
   type QueryDocumentSnapshot,
   type QuerySnapshot,
 } from 'firebase-admin/firestore'
-import { mock } from 'jest-mock-extended'
 import { type DeepPartial } from 'ts-essentials'
+import { describe, expect, it, vi } from 'vitest'
+import { mock } from 'vitest-mock-extended'
 
 import { queryHelper } from '../query-helper'
+
+vi.mock('firebase-admin/firestore')
 
 function mockedQueryFactory<T extends DocumentData = DocumentData>(querySnapshot?: DeepPartial<QuerySnapshot<T>>) {
   const firestoreQuerySnapshot = mock<QuerySnapshot<T>>(querySnapshot)
   const firestoreQuery = mock<Query<T>>()
   firestoreQuery.get.mockResolvedValue(firestoreQuerySnapshot)
-  return jest.fn<Query<T>, []>().mockReturnValue(firestoreQuery)
+  return vi.fn<() => Query<T>>().mockReturnValue(firestoreQuery)
 }
 
 describe('queryHelper', () => {
@@ -44,11 +47,11 @@ describe('queryHelper', () => {
       const firestoreQuery = mock<Query>()
       const firestoreAggregateQuery = mock<ReturnType<(typeof firestoreQuery)['count']>>()
       const firestoreAggregateQuerySnapshot = mock<Awaited<ReturnType<(typeof firestoreAggregateQuery)['get']>>>({
-        data: jest.fn().mockReturnValue({ count: 1 }),
+        data: vi.fn().mockReturnValue({ count: 1 }),
       })
       firestoreAggregateQuery.get.mockResolvedValue(firestoreAggregateQuerySnapshot)
       firestoreQuery.count.mockReturnValue(firestoreAggregateQuery)
-      const queryFactory = jest.fn<Query, []>().mockReturnValue(firestoreQuery)
+      const queryFactory = vi.fn<() => Query>().mockReturnValue(firestoreQuery)
       await expect(queryHelper(queryFactory).count({ name: 'test' })).resolves.toBe(1)
     })
   })

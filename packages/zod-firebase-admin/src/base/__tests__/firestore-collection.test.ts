@@ -1,6 +1,9 @@
 import { getFirestore } from 'firebase-admin/firestore'
+import { describe, expect, it, vi } from 'vitest'
 
 import { firestoreCollection } from '../firestore-collection'
+
+vi.mock('firebase-admin/firestore')
 
 describe('firestoreCollection', () => {
   it('should invoke getFirestore().collection', () => {

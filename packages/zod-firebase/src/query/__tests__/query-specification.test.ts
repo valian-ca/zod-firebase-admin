@@ -1,7 +1,10 @@
 import { limit, orderBy, type Query, where } from '@firebase/firestore'
-import { mock } from 'jest-mock-extended'
+import { describe, expect, it, vi } from 'vitest'
+import { mock } from 'vitest-mock-extended'
 
 import { applyQuerySpecification } from '../query-specification'
+
+vi.mock('@firebase/firestore')
 
 describe('applyQuerySpecification', () => {
   describe('where', () => {

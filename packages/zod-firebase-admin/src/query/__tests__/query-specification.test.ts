@@ -1,5 +1,6 @@
 import { Filter, type Query } from 'firebase-admin/firestore'
-import { mock } from 'jest-mock-extended'
+import { describe, expect, it } from 'vitest'
+import { mock } from 'vitest-mock-extended'
 
 import { applyQuerySpecification } from '../query-specification'
 

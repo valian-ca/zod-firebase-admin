@@ -6,12 +6,13 @@ import {
   type Firestore,
   type QuerySnapshot,
 } from 'firebase-admin/firestore'
-import { mock } from 'jest-mock-extended'
+import { vi } from 'vitest'
+import { mock } from 'vitest-mock-extended'
 
-export const { Filter, Timestamp } = jest.requireActual('firebase-admin/firestore')
+export const { Filter, Timestamp } = await vi.importActual('firebase-admin/firestore')
 
 const mockFirestore = mock<Firestore>()
-export const getFirestore = jest.fn().mockReturnValue(mockFirestore)
+export const getFirestore = vi.fn().mockReturnValue(mockFirestore)
 
 const mockCollection = mock<CollectionReference>()
 mockCollection.withConverter.mockReturnThis()

@@ -1,5 +1,6 @@
 import { type QueryDocumentSnapshot, Timestamp } from 'firebase-admin/firestore'
-import { mock } from 'jest-mock-extended'
+import { describe, expect, it } from 'vitest'
+import { mock } from 'vitest-mock-extended'
 
 import { firestoreOmitMetaDataConverter } from '../firestore-omit-meta-data-converter'
 

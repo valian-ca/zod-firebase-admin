@@ -1,11 +1,10 @@
 import { initializeApp } from 'firebase-admin/app'
 import { type DocumentData, FieldValue, getFirestore, Timestamp } from 'firebase-admin/firestore'
 import functionsTest from 'firebase-functions-test'
+import { afterAll, afterEach, beforeAll, beforeEach, describe, expect, it } from 'vitest'
 import { z, ZodError } from 'zod'
 
 import { collectionsBuilder } from '../src'
-
-jest.unmock('firebase-admin/firestore')
 
 const TestDocumentZod = z.object({
   name: z.string(),
@@ -75,10 +74,10 @@ const testHelper = functionsTest()
 
 describe('collectionsBuilder', () => {
   beforeAll(() => {
-    initializeApp({ projectId: 'demo-firebase-admin-zod' })
+    initializeApp({ projectId: 'demo-zod-firebase-admin' })
   })
 
-  afterEach(() => testHelper.firestore.clearFirestoreData({ projectId: 'demo-firebase-admin-zod' }))
+  afterEach(() => testHelper.firestore.clearFirestoreData({ projectId: 'demo-zod-firebase-admin' }))
 
   afterAll(() => {
     testHelper.cleanup()

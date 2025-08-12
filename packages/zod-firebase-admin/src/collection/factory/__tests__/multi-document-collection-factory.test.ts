@@ -1,5 +1,6 @@
 import { type CollectionReference, type DocumentReference, getFirestore, Timestamp } from 'firebase-admin/firestore'
-import { mock } from 'jest-mock-extended'
+import { describe, expect, it, vi } from 'vitest'
+import { mock } from 'vitest-mock-extended'
 import { z } from 'zod'
 
 import {
@@ -14,7 +15,8 @@ import {
 import { schemaFirestoreFactoryBuilder } from '../../../schema/schema-firestore-factory-builder'
 import { multiDocumentCollectionFactory } from '../multi-document-collection-factory'
 
-jest.mock('../../../base')
+vi.mock('firebase-admin/firestore')
+vi.mock('../../../base')
 
 const TestDocumentZod = z.object({
   name: z.string(),
@@ -37,7 +39,7 @@ describe('multiDocumentCollectionFactory', () => {
       documentRef.withConverter.mockReturnThis()
       const snapshot = mock<TestDocumentSnapshot>({ exists: false })
       documentRef.get.mockResolvedValue(snapshot)
-      jest.mocked(firestoreDocument).mockReturnValue(documentRef)
+      vi.mocked(firestoreDocument).mockReturnValue(documentRef)
 
       await expect(collection.findById('id', { _id: false })).resolves.toBeUndefined()
     })
@@ -55,7 +57,7 @@ describe('multiDocumentCollectionFactory', () => {
         name: 'bar',
       }
       snapshot.data.mockReturnValue(parsedDocumentValue)
-      jest.mocked(firestoreDocument).mockReturnValue(documentRef)
+      vi.mocked(firestoreDocument).mockReturnValue(documentRef)
 
       await expect(collection.findById('id', { _id: false })).resolves.toEqual(parsedDocumentValue)
 
@@ -70,7 +72,7 @@ describe('multiDocumentCollectionFactory', () => {
       documentRef.withConverter.mockReturnThis()
       const snapshot = mock<TestDocumentSnapshot>({ exists: false })
       documentRef.get.mockResolvedValue(snapshot)
-      jest.mocked(firestoreDocument).mockReturnValue(documentRef)
+      vi.mocked(firestoreDocument).mockReturnValue(documentRef)
 
       await expect(collection.findByIdOrThrow('id', { _id: false })).rejects.toThrow()
     })
@@ -88,7 +90,7 @@ describe('multiDocumentCollectionFactory', () => {
         name: 'bar',
       }
       snapshot.data.mockReturnValue(parsedDocumentValue)
-      jest.mocked(firestoreDocument).mockReturnValue(documentRef)
+      vi.mocked(firestoreDocument).mockReturnValue(documentRef)
 
       await expect(collection.findByIdOrThrow('id', { _id: false })).resolves.toEqual(parsedDocumentValue)
 
@@ -111,7 +113,7 @@ describe('multiDocumentCollectionFactory', () => {
         name: 'bar',
       }
       snapshot.data.mockReturnValue(parsedDocumentValue)
-      jest.mocked(firestoreDocument).mockReturnValue(documentRef)
+      vi.mocked(firestoreDocument).mockReturnValue(documentRef)
 
       await expect(collection.findByIdWithFallback('id', { name: 'fallback' })).resolves.toEqual(parsedDocumentValue)
 
@@ -123,7 +125,7 @@ describe('multiDocumentCollectionFactory', () => {
       documentRef.withConverter.mockReturnThis()
       const snapshot = mock<TestDocumentSnapshot>({ exists: false })
       documentRef.get.mockResolvedValue(snapshot)
-      jest.mocked(firestoreDocument).mockReturnValue(documentRef)
+      vi.mocked(firestoreDocument).mockReturnValue(documentRef)
 
       await expect(collection.findByIdWithFallback('id', { name: 'fallback' })).resolves.toEqual({
         _id: 'id',
@@ -151,7 +153,7 @@ describe('multiDocumentCollectionFactory', () => {
       documentRef.withConverter.mockReturnThis()
       const snapshot = mock<TestDocumentSnapshotWithId>({ exists: false })
       documentRef.get.mockResolvedValue(snapshot)
-      jest.mocked(firestoreDocument).mockReturnValue(documentRef as unknown as TestDocumentReference)
+      vi.mocked(firestoreDocument).mockReturnValue(documentRef as unknown as TestDocumentReference)
 
       await expect(collectionWithId.findByIdWithFallback('string', { value: 'fallback' })).resolves.toEqual({
         _id: 'string',
@@ -173,7 +175,7 @@ describe('multiDocumentCollectionFactory', () => {
       collectionRef.withConverter.mockReturnThis()
       const snapshot = mock<TestQuerySnapshot>({ empty: true })
       collectionRef.get.mockResolvedValue(snapshot)
-      jest.mocked(firestoreCollection).mockReturnValue(collectionRef)
+      vi.mocked(firestoreCollection).mockReturnValue(collectionRef)
 
       await collection.query({ name: 'test' }, { _id: false })
 
@@ -186,7 +188,7 @@ describe('multiDocumentCollectionFactory', () => {
     it('should invoke add on firestoreCollection', async () => {
       const collectionRef = mock<CollectionReference>()
       collectionRef.withConverter.mockReturnThis()
-      jest.mocked(firestoreCollection).mockReturnValue(collectionRef)
+      vi.mocked(firestoreCollection).mockReturnValue(collectionRef)
 
       await collection.add({ name: 'test' })
 
@@ -198,7 +200,7 @@ describe('multiDocumentCollectionFactory', () => {
     it('should invoke create on firestoreDocument', async () => {
       const docRef = mock<DocumentReference>()
       docRef.withConverter.mockReturnThis()
-      jest.mocked(firestoreDocument).mockReturnValue(docRef)
+      vi.mocked(firestoreDocument).mockReturnValue(docRef)
 
       await collection.create('bar', { name: 'test' })
 
@@ -211,7 +213,7 @@ describe('multiDocumentCollectionFactory', () => {
     it('should invoke set on firestoreDocument with options', async () => {
       const docRef = mock<DocumentReference>()
       docRef.withConverter.mockReturnThis()
-      jest.mocked(firestoreDocument).mockReturnValue(docRef)
+      vi.mocked(firestoreDocument).mockReturnValue(docRef)
 
       await collection.set('bar', { name: 'test' }, { merge: true })
 
@@ -222,7 +224,7 @@ describe('multiDocumentCollectionFactory', () => {
     it('should invoke set on firestoreDocument without options', async () => {
       const docRef = mock<DocumentReference>()
       docRef.withConverter.mockReturnThis()
-      jest.mocked(firestoreDocument).mockReturnValue(docRef)
+      vi.mocked(firestoreDocument).mockReturnValue(docRef)
 
       await collection.set('bar', { name: 'test' })
 
@@ -235,7 +237,7 @@ describe('multiDocumentCollectionFactory', () => {
     it('should invoke update on firestoreDocument', async () => {
       const docRef = mock<DocumentReference>()
       docRef.withConverter.mockReturnThis()
-      jest.mocked(firestoreDocument).mockReturnValue(docRef)
+      vi.mocked(firestoreDocument).mockReturnValue(docRef)
 
       await collection.update('bar', { name: 'test' })
 
@@ -246,7 +248,7 @@ describe('multiDocumentCollectionFactory', () => {
     it('should invoke update on firestoreDocument with precondition', async () => {
       const docRef = mock<DocumentReference>()
       docRef.withConverter.mockReturnThis()
-      jest.mocked(firestoreDocument).mockReturnValue(docRef)
+      vi.mocked(firestoreDocument).mockReturnValue(docRef)
 
       await collection.update('bar', { name: 'test' }, { exists: true })
 
@@ -259,7 +261,7 @@ describe('multiDocumentCollectionFactory', () => {
     it('should invoke delete on firestoreDocument', async () => {
       const docRef = mock<DocumentReference>()
       docRef.withConverter.mockReturnThis()
-      jest.mocked(firestoreDocument).mockReturnValue(docRef)
+      vi.mocked(firestoreDocument).mockReturnValue(docRef)
 
       await collection.delete('bar')
 
@@ -270,7 +272,7 @@ describe('multiDocumentCollectionFactory', () => {
     it('should invoke delete on firestoreDocument with precondition', async () => {
       const docRef = mock<DocumentReference>()
       docRef.withConverter.mockReturnThis()
-      jest.mocked(firestoreDocument).mockReturnValue(docRef)
+      vi.mocked(firestoreDocument).mockReturnValue(docRef)
 
       await collection.delete('bar', { exists: true })
 

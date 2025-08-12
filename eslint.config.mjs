@@ -1,10 +1,11 @@
 import { config } from '@valian/eslint-config'
+// eslint-disable-next-line import-x/no-rename-default
+import vitest from '@vitest/eslint-plugin'
 
 export default [
   ...config.base,
   ...config.typescript,
   ...config.importSort,
-  ...config.jest,
   {
     ignores: ['**/dist/', '**/lib', '**/coverage/'],
   },
@@ -23,5 +24,19 @@ export default [
     rules: {
       '@typescript-eslint/consistent-type-definitions': ['error', 'interface'],
     },
+  },
+  {
+    settings: {
+      'import-x/resolver': {
+        typescript: {
+          project: ['packages/*/tsconfig.json', 'tsconfig.json'],
+          noWarnOnMultipleProjects: true,
+        },
+      },
+    },
+  },
+  {
+    files: ['**/*.test.ts'],
+    ...vitest.configs.recommended,
   },
 ]

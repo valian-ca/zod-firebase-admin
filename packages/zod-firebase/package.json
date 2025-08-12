@@ -30,8 +30,8 @@
   "devDependencies": {
     "firebase": "^12.1.0",
     "firebase-functions-test": "^3.4.1",
-    "jest-mock-extended": "^4.0.0",
-    "nanoid": "^3.3.11"
+    "nanoid": "^3.3.11",
+    "vitest-mock-extended": "^3.1.0"
   },
   "peerDependencies": {
     "@firebase/firestore": "^4.7.0",
@@ -59,9 +59,9 @@
     "build": "rm -rf ./lib && rollup -c",
     "prepack": "npm run build",
     "serve": "firebase emulators:start --only firestore --project demo-zod-firebase",
-    "test": "jest --coverage",
-    "test:integration": "npm exec jest -- --config=jest.integration.config.cjs --coverage",
-    "test:integration:ci": "firebase emulators:exec --only firestore --project demo-zod-firebase 'npm exec jest -- --config=jest.integration.config.cjs --coverage'",
+    "test": "vitest run --coverage --reporter=dot",
+    "test:integration": "vitest run --config=vitest.integration.config.mjs --coverage --reporter=dot",
+    "test:integration:ci": "firebase emulators:exec --only firestore --project demo-zod-firebase 'vitest run --config=vitest.integration.config.mjs --coverage --reporter=dot'",
     "type-check": "tsc"
   }
 }
