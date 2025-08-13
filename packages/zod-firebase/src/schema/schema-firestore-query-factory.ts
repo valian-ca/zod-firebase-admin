@@ -3,16 +3,26 @@ import { type AggregateSpec, getAggregateFromServer, getDocs } from '@firebase/f
 import { type MetaOutputOptions } from '../base'
 import { applyQuerySpecification, type QuerySpecification } from '../query'
 
-import { type CollectionSchema, type SchemaFirestoreQueryFactory, type SchemaQuery } from './types'
+import {
+  type CollectionSchema,
+  type SchemaFirestoreQueryFactory,
+  type SchemaQuery,
+  type SchemaQuerySpecification,
+} from './types'
 
 export const schemaFirestoreQueryFactory = <TCollectionSchema extends CollectionSchema>(
-  queryBuilder: <Options extends MetaOutputOptions>(options?: Options) => SchemaQuery<TCollectionSchema, Options>,
+  queryBuilder: <TOptions extends MetaOutputOptions>(options?: TOptions) => SchemaQuery<TCollectionSchema, TOptions>,
   collectionName: string,
 ): SchemaFirestoreQueryFactory<TCollectionSchema> => ({
   collectionName,
-  prepare: (query, options) => applyQuerySpecification(queryBuilder(options), query),
-  query: <Options extends MetaOutputOptions>(query: QuerySpecification, options?: Options) =>
-    getDocs(applyQuerySpecification(queryBuilder(options), query)),
+  prepare: <TOptions extends MetaOutputOptions>(
+    query: SchemaQuerySpecification<TCollectionSchema, TOptions>,
+    options?: TOptions,
+  ) => applyQuerySpecification(queryBuilder(options), query),
+  query: <TOptions extends MetaOutputOptions>(
+    query: SchemaQuerySpecification<TCollectionSchema, TOptions>,
+    options?: TOptions,
+  ) => getDocs(applyQuerySpecification(queryBuilder(options), query)),
   aggregateFromServer: async <AggregateSpecType extends AggregateSpec>(
     query: QuerySpecification,
     aggregateSpec: AggregateSpecType,
@@ -20,11 +30,17 @@ export const schemaFirestoreQueryFactory = <TCollectionSchema extends Collection
     const snapshot = await getAggregateFromServer(queryBuilder(), aggregateSpec)
     return snapshot.data()
   },
-  findMany: async <Options extends MetaOutputOptions>(query: QuerySpecification, options?: Options) => {
+  findMany: async <TOptions extends MetaOutputOptions>(
+    query: SchemaQuerySpecification<TCollectionSchema, TOptions>,
+    options?: TOptions,
+  ) => {
     const snapshot = await getDocs(applyQuerySpecification(queryBuilder(options), query))
     return snapshot.docs.map((doc) => doc.data())
   },
-  findUnique: async <Options extends MetaOutputOptions>(query: QuerySpecification, options?: Options) => {
+  findUnique: async <TOptions extends MetaOutputOptions>(
+    query: SchemaQuerySpecification<TCollectionSchema, TOptions>,
+    options?: TOptions,
+  ) => {
     const snapshot = await getDocs(applyQuerySpecification(queryBuilder(options), query))
     if (snapshot.size > 1) {
       throw new Error(`Query ${query.name} returned more than one document`)
@@ -34,7 +50,10 @@ export const schemaFirestoreQueryFactory = <TCollectionSchema extends Collection
     }
     return snapshot.docs[0].data()
   },
-  findUniqueOrThrow: async <Options extends MetaOutputOptions>(query: QuerySpecification, options?: Options) => {
+  findUniqueOrThrow: async <TOptions extends MetaOutputOptions>(
+    query: SchemaQuerySpecification<TCollectionSchema, TOptions>,
+    options?: TOptions,
+  ) => {
     const snapshot = await getDocs(applyQuerySpecification(queryBuilder(options), query))
     if (snapshot.size > 1) {
       throw new Error(`Query ${query.name} returned more than one document`)
@@ -44,14 +63,20 @@ export const schemaFirestoreQueryFactory = <TCollectionSchema extends Collection
     }
     return snapshot.docs[0].data()
   },
-  findFirst: async <Options extends MetaOutputOptions>(query: QuerySpecification, options?: Options) => {
+  findFirst: async <TOptions extends MetaOutputOptions>(
+    query: SchemaQuerySpecification<TCollectionSchema, TOptions>,
+    options?: TOptions,
+  ) => {
     const snapshot = await getDocs(applyQuerySpecification(queryBuilder(options), query))
     if (snapshot.size === 0) {
       return null
     }
     return snapshot.docs[0].data()
   },
-  findFirstOrThrow: async <Options extends MetaOutputOptions>(query: QuerySpecification, options?: Options) => {
+  findFirstOrThrow: async <TOptions extends MetaOutputOptions>(
+    query: SchemaQuerySpecification<TCollectionSchema, TOptions>,
+    options?: TOptions,
+  ) => {
     const snapshot = await getDocs(applyQuerySpecification(queryBuilder(options), query))
     if (snapshot.size === 0) {
       throw new Error(`Query ${query.name} returned no documents`)

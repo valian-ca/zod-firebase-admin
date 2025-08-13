@@ -371,6 +371,31 @@ const snapshot = await popularPrepared.get()
 const results = snapshot.docs.map((d) => d.data())
 ```
 
+#### QuerySpecification
+
+The `QuerySpecification` accepted by `prepare`, `query`, `find*`, and `count` supports:
+
+- **name**: A label for your query, used in error messages
+- **where?**: Either an array of tuples `[field, op, value]` or an Admin `Filter`
+  - Tuples: [Simple queries](https://firebase.google.com/docs/firestore/query-data/queries)
+  - Filters: [Admin Filter API](https://cloud.google.com/nodejs/docs/reference/firestore/latest/Filter)
+- **orderBy?**: Array of tuples `[field]` or `[field, 'asc' | 'desc']`
+  - Docs: [Order and limit data](https://firebase.google.com/docs/firestore/query-data/order-limit-data)
+- **limit?**: Maximum number of results
+  - Docs: [Order and limit data](https://firebase.google.com/docs/firestore/query-data/order-limit-data)
+- **limitToLast?**: Returns the last N results; requires a matching `orderBy`
+  - Docs: [Order and limit data](https://firebase.google.com/docs/firestore/query-data/order-limit-data)
+- **offset?**: Skip the first N results
+  - Docs: [Pagination with offset](https://cloud.google.com/nodejs/docs/reference/firestore/latest/Query#offset)
+- **startAt?** | **startAfter?** | **endAt?** | **endBefore?**: Cursor boundaries, each can be a document snapshot or an array of field values
+  - Arrays are forwarded as individual arguments (e.g. `startAt(...values)`). Ensure the order matches your `orderBy`
+  - Docs: [Query cursors](https://firebase.google.com/docs/firestore/query-data/query-cursors)
+
+Related:
+
+- Collection group queries: [Guide](https://firebase.google.com/docs/firestore/query-data/queries#collection-group-query)
+- Aggregations via Admin SDK `count()`: [Admin Query.count](https://cloud.google.com/nodejs/docs/reference/firestore/latest/Query#count)
+
 #### Metadata Access
 
 Access Firestore metadata when needed:
