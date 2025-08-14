@@ -27,7 +27,7 @@ export const schemaFirestoreQueryFactory = <TCollectionSchema extends Collection
     query: QuerySpecification,
     aggregateSpec: AggregateSpecType,
   ) => {
-    const snapshot = await getAggregateFromServer(queryBuilder(), aggregateSpec)
+    const snapshot = await getAggregateFromServer(applyQuerySpecification(queryBuilder(), query), aggregateSpec)
     return snapshot.data()
   },
   findMany: async <TOptions extends MetaOutputOptions>(
