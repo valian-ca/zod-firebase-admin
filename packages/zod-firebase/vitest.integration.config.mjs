@@ -5,6 +5,18 @@ export default defineConfig({
     globals: false,
     environment: 'node',
     include: ['__integration-tests__/**/*.test.ts'],
+    testTimeout: 20_000,
+    hookTimeout: 20_000,
+    // Avoid cross-file interference with the shared Firestore emulator
+    poolOptions: {
+      threads: {
+        singleThread: true,
+        minThreads: 1,
+        maxThreads: 1,
+      },
+    },
+    fileParallelism: false,
+    sequence: { concurrent: false },
     typecheck: {
       tsconfig: './tsconfig.test.json',
     },

@@ -33,46 +33,51 @@ export type SchemaQueryDocumentSnapshot<
   Options extends MetaOutputOptions = MetaOutputOptions,
 > = QueryDocumentSnapshot<SchemaDocumentOutput<TCollectionSchema, Options>, SchemaDocumentInput<TCollectionSchema>>
 
+export type SchemaQuerySpecification<
+  TCollectionSchema extends CollectionSchema,
+  TOptions extends MetaOutputOptions = MetaOutputOptions,
+> = QuerySpecification<SchemaDocumentOutput<TCollectionSchema, TOptions>, SchemaDocumentInput<TCollectionSchema>>
+
 export interface SchemaFirestoreQueryFactory<TCollectionSchema extends CollectionSchema> {
   readonly collectionName: string
 
-  prepare<Options extends MetaOutputOptions>(
-    query: QuerySpecification,
-    options?: Options,
-  ): SchemaQuery<TCollectionSchema, Options>
+  prepare<TOptions extends MetaOutputOptions>(
+    query: SchemaQuerySpecification<TCollectionSchema, TOptions>,
+    options?: TOptions,
+  ): SchemaQuery<TCollectionSchema, TOptions>
 
-  query<Options extends MetaOutputOptions>(
-    query: QuerySpecification,
-    options?: Options,
-  ): Promise<SchemaQuerySnapshot<TCollectionSchema, Options>>
+  query<TOptions extends MetaOutputOptions>(
+    query: SchemaQuerySpecification<TCollectionSchema, TOptions>,
+    options?: TOptions,
+  ): Promise<SchemaQuerySnapshot<TCollectionSchema, TOptions>>
 
   aggregateFromServer<AggregateSpecType extends AggregateSpec>(
     query: QuerySpecification,
     aggregateSpec: AggregateSpecType,
   ): Promise<AggregateSpecData<AggregateSpecType>>
 
-  findMany<Options extends MetaOutputOptions>(
-    query: QuerySpecification,
-    options?: Options,
-  ): Promise<Array<SchemaDocumentOutput<TCollectionSchema, Options>>>
+  findMany<TOptions extends MetaOutputOptions>(
+    query: SchemaQuerySpecification<TCollectionSchema, TOptions>,
+    options?: TOptions,
+  ): Promise<Array<SchemaDocumentOutput<TCollectionSchema, TOptions>>>
 
-  findUnique<Options extends MetaOutputOptions>(
-    query: QuerySpecification,
-    options?: Options,
-  ): Promise<SchemaDocumentOutput<TCollectionSchema, Options> | null>
+  findUnique<TOptions extends MetaOutputOptions>(
+    query: SchemaQuerySpecification<TCollectionSchema, TOptions>,
+    options?: TOptions,
+  ): Promise<SchemaDocumentOutput<TCollectionSchema, TOptions> | null>
 
-  findUniqueOrThrow<Options extends MetaOutputOptions>(
-    query: QuerySpecification,
-    options?: Options,
-  ): Promise<SchemaDocumentOutput<TCollectionSchema, Options>>
+  findUniqueOrThrow<TOptions extends MetaOutputOptions>(
+    query: SchemaQuerySpecification<TCollectionSchema, TOptions>,
+    options?: TOptions,
+  ): Promise<SchemaDocumentOutput<TCollectionSchema, TOptions>>
 
-  findFirst<Options extends MetaOutputOptions>(
-    query: QuerySpecification,
-    options?: Options,
-  ): Promise<SchemaDocumentOutput<TCollectionSchema, Options> | null>
+  findFirst<TOptions extends MetaOutputOptions>(
+    query: SchemaQuerySpecification<TCollectionSchema, TOptions>,
+    options?: TOptions,
+  ): Promise<SchemaDocumentOutput<TCollectionSchema, TOptions> | null>
 
-  findFirstOrThrow<Options extends MetaOutputOptions>(
-    query: QuerySpecification,
-    options?: Options,
-  ): Promise<SchemaDocumentOutput<TCollectionSchema, Options>>
+  findFirstOrThrow<TOptions extends MetaOutputOptions>(
+    query: SchemaQuerySpecification<TCollectionSchema, TOptions>,
+    options?: TOptions,
+  ): Promise<SchemaDocumentOutput<TCollectionSchema, TOptions>>
 }
