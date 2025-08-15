@@ -360,6 +360,51 @@ console.log(userWithMeta._metadata?.hasPendingWrites)
 
 ## API Reference
 
+### Types
+
+- `DocumentInput<Z>`: Input type inferred with `z.input<Z>` from your Zod schema `Z` (data you write). See [Zod’s input/output docs](https://zod.dev/?id=input-vs-output)
+- `DocumentOutput<Z, Options>`: Output type inferred from your Zod schema `Z` using `z.output<Z>`, optionally augmented with metadata depending on `Options`:
+  - `_id` (string) included by default unless `{ _id: false }`
+  - `_metadata` (Firestore `SnapshotMetadata`) when `{ _metadata: true }`
+  - When `{ readonly: true }`, the data portion is deeply readonly
+- `SchemaDocumentInput<TCollectionSchema>`: Input type for a collection built from a Zod schema; accepts either the input type or a deeply readonly version of it
+- `SchemaDocumentOutput<TCollectionSchema, Options>`: Output type for a collection built from a Zod schema, mirroring `DocumentOutput` behavior and honoring `readonlyDocuments` in the collection schema
+
+Examples:
+
+```ts
+import { z } from 'zod'
+
+const User = z.object({
+  name: z.string(),
+  age: z.number().optional(),
+})
+
+type UserInput = DocumentInput<typeof User> // { name: string; age?: number }
+type UserOutput = DocumentOutput<typeof User> // { _id: string; name: string; age?: number }
+type UserOutputWithMeta = DocumentOutput<typeof User, { _metadata: true }>
+// { _id: string; _metadata: SnapshotMetadata; name: string; age?: number }
+
+// With collectionsBuilder
+const schema = {
+  users: { zod: User },
+} as const
+
+type UsersInput = SchemaDocumentInput<typeof schema.users>
+// { name: string; age?: number } | ReadonlyDeep<{ name: string; age?: number }>
+
+type UsersOutput = SchemaDocumentOutput<typeof schema.users>
+// { _id: string; name: string; age?: number }
+
+// If the collection is marked as readonly:
+const readonlySchema = {
+  users: { zod: User, readonlyDocuments: true },
+} as const
+
+type ReadonlyUsersOutput = SchemaDocumentOutput<typeof readonlySchema.users>
+// ReadonlyDeep<{ name: string; age?: number }> & { _id: string }
+```
+
 ### Collection Methods
 
 - `add(data)` - Add a new document
