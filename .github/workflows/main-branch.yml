@@ -1,0 +1,9 @@
+name: main
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  tests:
+    uses: ./.github/workflows/tests.yml
