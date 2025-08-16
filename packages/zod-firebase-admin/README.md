@@ -412,6 +412,54 @@ console.log(userWithMeta._createTime, userWithMeta._updateTime)
 
 ## API Reference
 
+### Types
+
+- `DocumentInput<Z>`: Input type inferred with `z.input<Z>` from your Zod schema `Z` (data you write). See [Zod’s input/output docs](https://zod.dev/?id=input-vs-output)
+- `DocumentOutput<Z, Options>`: Output type inferred with `z.output<Z>` from your Zod schema `Z`, plus optional metadata based on `Options`:
+  - `_id` (string) included by default unless `{ _id: false }`
+  - `_createTime` / `_updateTime` available via operation options when reading, `_metadata` for web parity is not used here
+  - When `{ readonly: true }`, the data portion is deeply readonly
+- `SchemaDocumentInput<TCollectionSchema>`: Input type for a collection built from a Zod schema; accepts either the input type or a deeply readonly version of it
+- `SchemaDocumentOutput<TCollectionSchema, Options>`: Output type for a collection built from a Zod schema, mirroring `DocumentOutput` behavior and honoring `readonlyDocuments` in the collection schema
+
+Examples:
+
+```ts
+import { z } from 'zod'
+
+const User = z.object({
+  name: z.string(),
+  admin: z.boolean().default(false),
+})
+
+type UserInput = DocumentInput<typeof User>
+type UserOutput = DocumentOutput<typeof User>
+type ReadonlyUserOutput = DocumentOutput<typeof User, { readonly: true }>
+
+// With collectionsBuilder
+const schema = {
+  users: { zod: User },
+} as const
+
+type UsersInput = SchemaDocumentInput<typeof schema.users>
+// { name: string; admin?: boolean } | ReadonlyDeep<{ name: string; admin?: boolean }>
+
+type UsersOutput = SchemaDocumentOutput<typeof schema.users>
+// { _id: string; name: string; admin: boolean }
+
+// Include Admin metadata in outputs
+type UsersOutputWithTimes = SchemaDocumentOutput<typeof schema.users, { _createTime: true; _updateTime: true }>
+// { _id: string; _createTime: Timestamp; _updateTime: Timestamp; name: string; admin: boolean }
+
+// Readonly collection
+const readonlySchema = {
+  users: { zod: User, readonlyDocuments: true },
+} as const
+
+type ReadonlyUsersOutput = SchemaDocumentOutput<typeof readonlySchema.users>
+// ReadonlyDeep<{ name: string; admin: boolean }> & { _id: string }
+```
+
 ### Collection Methods
 
 - `add(data)` - Add a new document with auto-generated ID
