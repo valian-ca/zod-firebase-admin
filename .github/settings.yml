@@ -54,10 +54,10 @@ branches:
           - 'type check (zod@^3, firebase@^12, firebase-admin@^13)'
           - 'type check (zod@^4, firebase@^11, firebase-admin@^12)'
           - 'type check (zod@^4, firebase@^12, firebase-admin@^13)'
-          - 'tests (zod@^3, firebase@^11, firebase-admin@^12)'
-          - 'tests (zod@^3, firebase@^12, firebase-admin@^13)'
-          - 'tests (zod@^4, firebase@^11, firebase-admin@^12)'
-          - 'tests (zod@^4, firebase@^12, firebase-admin@^13)'
+          - 'tests / tests (zod@^3, firebase@^11, firebase-admin@^12)'
+          - 'tests / tests (zod@^3, firebase@^12, firebase-admin@^13)'
+          - 'tests / tests (zod@^4, firebase@^11, firebase-admin@^12)'
+          - 'tests / tests (zod@^4, firebase@^12, firebase-admin@^13)'
           - markdown lint
           - commitlint
       enforce_admins: true

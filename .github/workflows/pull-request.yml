@@ -54,6 +54,7 @@ jobs:
 
   tests:
     uses: ./.github/workflows/tests.yml
+    secrets: inherit
 
   markdown:
     name: markdown lint
