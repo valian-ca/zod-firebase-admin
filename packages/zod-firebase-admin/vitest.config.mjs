@@ -5,6 +5,10 @@ export default defineConfig({
     globals: false,
     environment: 'node',
     clearMocks: true,
+    reporters: ['dot', 'junit'],
+    outputFile: {
+      junit: 'test-results/test-results.xml',
+    },
     exclude: ['__integration-tests__/**', '**/node_modules/**', '**/lib/**'],
     typecheck: {
       tsconfig: './tsconfig.test.json',
