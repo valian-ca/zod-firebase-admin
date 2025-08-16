@@ -13,7 +13,11 @@ import {
   type SchemaWriteDocumentReference,
 } from '../../schema'
 
-import { multiDocumentCollectionFactory, type SchemaFallbackValue } from './multi-document-collection-factory'
+import {
+  multiDocumentCollectionFactory,
+  type SchemaFallbackOutputDocument,
+  type SchemaFallbackValue,
+} from './multi-document-collection-factory'
 
 export interface SingleDocumentCollectionFactory<TCollectionSchema extends CollectionSchema> {
   readonly singleDocumentKey: string
@@ -42,7 +46,7 @@ export interface SingleDocumentCollectionFactory<TCollectionSchema extends Colle
   findWithFallback(
     this: void,
     fallback: SchemaFallbackValue<TCollectionSchema>,
-  ): Promise<SchemaDocumentOutput<TCollectionSchema>>
+  ): Promise<SchemaFallbackOutputDocument<TCollectionSchema>>
 
   set(this: void, data: WithFieldValue<SchemaDocumentInput<TCollectionSchema>>): Promise<void>
 
@@ -83,8 +87,7 @@ export const singleDocumentCollectionFactory = <TCollectionSchema extends Collec
     },
     find: <Options extends MetaOutputOptions>(options?: Options) => findById(singleDocumentKey, options),
     findOrThrow: <Options extends MetaOutputOptions>(options?: Options) => findByIdOrThrow(singleDocumentKey, options),
-    findWithFallback: (fallback: SchemaFallbackValue<TCollectionSchema>) =>
-      findByIdWithFallback(singleDocumentKey, fallback),
+    findWithFallback: (fallback) => findByIdWithFallback(singleDocumentKey, fallback),
     write: {
       ...write,
       doc: () => write.doc(singleDocumentKey),

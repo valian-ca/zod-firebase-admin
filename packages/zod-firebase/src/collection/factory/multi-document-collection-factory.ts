@@ -28,6 +28,13 @@ export type SchemaFallbackValue<
   ? Except<Extract<SchemaDocumentInput<TCollectionSchema>, { _id: TDocumentId }>, '_id'>
   : SchemaDocumentInput<TCollectionSchema>
 
+export type SchemaFallbackOutputDocument<
+  TCollectionSchema extends CollectionSchema,
+  TDocumentId extends string = string,
+> = TCollectionSchema extends { includeDocumentIdForZod: true }
+  ? Except<Extract<SchemaDocumentOutput<TCollectionSchema>, { _id: TDocumentId }>, '_id'>
+  : SchemaDocumentOutput<TCollectionSchema>
+
 export interface MultiDocumentCollectionFactory<TCollectionSchema extends CollectionSchema>
   extends SchemaFirestoreFactory<TCollectionSchema> {
   findById<Options extends MetaOutputOptions>(
@@ -46,7 +53,7 @@ export interface MultiDocumentCollectionFactory<TCollectionSchema extends Collec
     this: void,
     id: TDocumentId,
     fallback: SchemaFallbackValue<TCollectionSchema, TDocumentId>,
-  ): Promise<SchemaDocumentOutput<TCollectionSchema>>
+  ): Promise<SchemaFallbackOutputDocument<TCollectionSchema>>
 
   add(
     this: void,
@@ -90,18 +97,18 @@ export const multiDocumentCollectionFactory = <TCollectionSchema extends Collect
   ) => {
     const doc = await getDoc(firestoreFactory.read.doc(id))
     if (doc.exists()) {
-      return doc.data()
+      return doc.data() as SchemaFallbackOutputDocument<TCollectionSchema, TDocumentId>
     }
     if (schema.includeDocumentIdForZod) {
       return schema.zod.parse({
         _id: id,
         ...(fallback as DocumentData),
-      }) as SchemaDocumentOutput<TCollectionSchema>
+      }) as SchemaFallbackOutputDocument<TCollectionSchema, TDocumentId>
     }
     return {
       _id: id,
       ...schema.zod.parse(fallback),
-    } as SchemaDocumentOutput<TCollectionSchema>
+    } as SchemaFallbackOutputDocument<TCollectionSchema, TDocumentId>
   },
   add: async (data) => addDoc(firestoreFactory.write.collection(), data),
   set: async (
