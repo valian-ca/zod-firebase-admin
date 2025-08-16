@@ -9,7 +9,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/valian-ca/zod-firebase-admin.git"
+    "url": "git+https://github.com/valian-ca/zod-firebase-schema.git"
   },
   "keywords": [
     "zod",

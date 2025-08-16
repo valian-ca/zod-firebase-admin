@@ -4,7 +4,7 @@
   "version": "2.0.2",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/valian-ca/zod-firebase-admin.git"
+    "url": "git+https://github.com/valian-ca/zod-firebase-schema.git"
   },
   "author": {
     "name": "Valian",
