@@ -50,7 +50,7 @@ export interface MultiDocumentCollectionFactory<TCollectionSchema extends Collec
     this: void,
     id: TDocumentId,
     fallback: SchemaFallbackValue<TCollectionSchema, TDocumentId>,
-  ): Promise<SchemaFallbackOutputDocument<TCollectionSchema>>
+  ): Promise<SchemaFallbackOutputDocument<TCollectionSchema, TDocumentId>>
 
   add(
     this: void,
