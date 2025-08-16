@@ -1,3 +1,13 @@
+## 2.0.1 (2025-08-16)
+
+### 🩹 Fixes
+
+- findWithFallback result types ([#332](https://github.com/valian-ca/zod-firebase-admin/pull/332))
+
+### ❤️ Thank You
+
+- Julien Marcil
+
 # Changelog
 
 ## [1.4.0](https://github.com/valian-ca/zod-firebase-admin/compare/zod-firebase-admin-v1.3.0...zod-firebase-admin-v1.4.0) (2024-04-16)
