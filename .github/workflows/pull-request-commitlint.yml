@@ -1,4 +1,4 @@
-name: pull-request-commitlint
+name: Commitlint
 on:
   pull_request_target:
     types:

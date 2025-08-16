@@ -1,7 +1,14 @@
 {
   "$schema": "./node_modules/nx/schemas/nx-schema.json",
   "release": {
-    "projects": ["packages/*"]
+    "projects": ["packages/*"],
+    "changelog": {
+      "projectChangelogs": true,
+      "workspaceChangelog": {
+        "file": false,
+        "createRelease": "github"
+      }
+    }
   },
   "plugins": [
     {

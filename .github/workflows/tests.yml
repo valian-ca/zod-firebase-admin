@@ -1,28 +1,11 @@
-name: Pull Request
+name: Tests
+
 on:
-  pull_request:
+  workflow_call:
 
 jobs:
-  lint:
-    name: lint
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - name: setup pnpm
-        uses: valian-ca/github-workflows/.github/actions/setup-pnpm@main
-      - name: eslint
-        run: pnpm eslint
-      - name: prettier
-        run: pnpm prettier
-      - name: build (for publint)
-        run: pnpm build
-      - name: publint zod-firebase
-        run: pnpm publint ./packages/zod-firebase
-      - name: publint zod-firebase-admin
-        run: pnpm publint ./packages/zod-firebase-admin
-
-  type-check:
-    name: type check
+  tests:
+    name: tests
     runs-on: ubuntu-latest
     env:
       PNPM_CONFIG_FROZEN_LOCKFILE: false
@@ -39,6 +22,12 @@ jobs:
             firebase_admin: 'firebase-admin@^12'
     steps:
       - uses: actions/checkout@v4
+      - name: cache firebase emulator
+        uses: actions/cache@v4
+        with:
+          path: .cache/firebase
+          key: ${{ runner.os }}-firebase-emulator
+
       - name: setup pnpm
         uses: valian-ca/github-workflows/.github/actions/setup-pnpm@main
       - name: Install Zod ${{ matrix.zod }} at workspace root
@@ -49,18 +38,22 @@ jobs:
         run: pnpm -C packages/zod-firebase-admin add -D ${{ matrix.firebase_admin }}
       - name: dedupe
         run: pnpm dedupe
-      - name: type-check
-        run: pnpm run type-check
+      - name: tests
+        run: pnpm test
 
-  tests:
-    uses: ./.github/workflows/tests.yml
-    secrets: inherit
-
-  markdown:
-    name: markdown lint
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: DavidAnson/markdownlint-cli2-action@v20
+      - name: Upload zod-firebase coverage to Codecov
+        uses: codecov/codecov-action@v5
         with:
-          globs: '**/*.md'
+          directory: ./packages/zod-firebase/coverage
+          flags: firebase-${{ matrix.zod }}-${{ matrix.firebase }}
+          token: ${{ secrets.CODECOV_TOKEN }}
+
+      - name: Upload zod-firebase-admin coverage to Codecov
+        uses: codecov/codecov-action@v5
+        with:
+          directory: ./packages/zod-firebase-admin/coverage
+          flags: firebase-admin-${{ matrix.zod }}-${{ matrix.firebase_admin }}
+          token: ${{ secrets.CODECOV_TOKEN }}
+
+      - name: integration tests
+        run: npm run test:integration:ci
