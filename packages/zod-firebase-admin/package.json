@@ -58,9 +58,9 @@
     "build": "rm -rf ./lib && rollup -c",
     "prepack": "npm run build",
     "serve": "firebase emulators:start --only firestore --project demo-zod-firebase-admin",
-    "test": "vitest run --coverage  --reporter=dot",
-    "test:integration": "vitest run --config=vitest.integration.config.mjs --coverage --reporter=dot",
-    "test:integration:ci": "firebase emulators:exec --only firestore --project demo-zod-firebase-admin 'vitest run --config=vitest.integration.config.mjs --coverage --reporter=dot'",
+    "test": "vitest run --coverage",
+    "test:integration": "vitest run --config=vitest.integration.config.mjs --coverage",
+    "test:integration:ci": "firebase emulators:exec --only firestore --project demo-zod-firebase-admin 'vitest run --config=vitest.integration.config.mjs --coverage'",
     "type-check": "tsc"
   }
 }
