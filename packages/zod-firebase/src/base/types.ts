@@ -10,10 +10,16 @@ import {
 import { type EmptyObject, type ReadonlyDeep } from 'type-fest'
 import { type z } from 'zod'
 
-export type ZodTypeDocumentData<
-  Output extends DocumentData = DocumentData,
-  Input extends DocumentData = Output,
-> = z.ZodType<Output, Input>
+type ZodSimpleDocumentData<Output extends DocumentData = DocumentData, Input extends DocumentData = Output> = z.ZodType<
+  Output,
+  Input
+>
+
+type ZodUnionDocumentData<T extends ReadonlyArray<ZodSimpleDocumentData>> = z.ZodUnion<T>
+
+export type ZodTypeDocumentData<Output extends DocumentData = DocumentData, Input extends DocumentData = Output> =
+  | ZodSimpleDocumentData<Output, Input>
+  | ZodUnionDocumentData<[ZodSimpleDocumentData<Output, Input>]>
 
 export type DocumentInput<Z extends ZodTypeDocumentData = ZodTypeDocumentData> = z.input<Z>
 
