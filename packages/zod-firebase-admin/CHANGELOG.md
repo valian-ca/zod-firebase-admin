@@ -1,3 +1,13 @@
+## 2.0.4 (2025-08-18)
+
+### 🩹 Fixes
+
+- firebase DocumentData zod base type must support union ([6404c4e3](https://github.com/valian-ca/zod-firebase-admin/commit/6404c4e3))
+
+### ❤️ Thank You
+
+- Julien Marcil
+
 ## 2.0.3 (2025-08-16)
 
 This was a version bump only for zod-firebase-admin to align it with other projects, there were no code changes.
